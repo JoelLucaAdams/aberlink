@@ -1,4 +1,4 @@
-## Spike work for PostgreSQL database
+# Spike work for PostgreSQL database
 
 After a discussion with CS-Support we came to the conclusion that there were two options for hosting PostgreSQL. The first being that it would be hosted directly in my container and the second being that it would be hosted remotely on db.dcs.aber.ac.uk. I've decided in the end to use the second option as keeping the database separate from my container makes it a lot less prone to attacks as it is located elsewhere. It also means that I no longer have to setup my own database each time. The details to access the container are as follows: 
 

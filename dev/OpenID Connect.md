@@ -1,4 +1,4 @@
-## Using OpenID Connect on uni servers
+# Using OpenID Connect on uni servers
 
 The OpenID Connect service will be responsible for logging students in using their university credentials. Currently the `usertype` variable seems to be missing and needs fixing later down the line. 
 

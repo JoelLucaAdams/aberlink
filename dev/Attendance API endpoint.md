@@ -1,4 +1,4 @@
-## Attendance API endpoint
+# Attendance API endpoint
 
 Currently waiting for the API to be setup for sending a request to update a students attendance. Will leave for a few weeks and then contact Leslie Johns [lej] if there is no response.
 

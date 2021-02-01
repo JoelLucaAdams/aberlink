@@ -1,4 +1,4 @@
-## Container for website and hosting
+# Container for website and hosting
 
 The container is responsible for hosting the website and back-end of the code for the project. 
 
