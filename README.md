@@ -12,4 +12,8 @@ This project will also contain a front-end Discord bot to verify users and monit
 relevant directories corresponding to their position in the package hierarchy or in other language
 defined arrangements.
 
-* **config** - Contains minutes from meetings and a **journal** folder to keep notes on what has occurred each week.
+* **config** - Contains minutes from meetings.
+
+* **dev** - Contains spike work and information on connecting to databases.
+
+* **Blog** - The blog can be found on this website here and is updated on the Monday of each week: https://cs39440blog.wordpress.com/ 
