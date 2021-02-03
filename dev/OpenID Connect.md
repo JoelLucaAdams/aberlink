@@ -4,7 +4,7 @@ The OpenID Connect service will be responsible for logging students in using the
 
 Here are some example Apache settings for libapache2-mod-auth-openidc:
 
-OIDCProviderMetadataURL https://openidc.dcs.aber.ac.uk/auth/realms/MMP-IMPACS/.well-known/openid-configuration \
+OIDCProviderMetadataURL <https://openidc.dcs.aber.ac.uk/auth/realms/MMP-IMPACS/.well-known/openid-configuration> \
 OIDCClientID `MMP-IMPACS` \
 OIDCRedirectURI `/oauth2callback` \
 OIDCCryptoPassphrase `some-random-string-for-encrypting-cookies` \
@@ -16,4 +16,4 @@ Can replace `MMP-IMPACS` which is just for dcs with `MMP-Aber` for all aber stud
 
 Thank you to Alun Jones [auj] for setting this up.  
 
-There are a useful library for using this in Django found here: https://github.com/juanifioren/django-oidc-provider
+There are a useful library for using this in Django found here: <https://github.com/juanifioren/django-oidc-provider>
