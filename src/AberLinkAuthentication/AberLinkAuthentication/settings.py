@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Change this host here to the website url e.g. "mmp-joa38.dcs.aber.ac.uk"
 ALLOWED_HOSTS = ["mmp-joa38.dcs.aber.ac.uk"]
