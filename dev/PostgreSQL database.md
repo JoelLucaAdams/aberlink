@@ -10,3 +10,11 @@ Password: `Stored on Lasspass` (reset: <https://impacs-inter.dcs.aber.ac.uk/mypg
 link to connect from command line: `psql -h db.dcs.aber.ac.uk -U joa38 -d cs39440_20_21_joa38`
 
 Thank you to Sandy Spence [axs] for setting up access the database.
+
+## Error `django.db.migrations.exceptions.InconsistentMigrationHistory`
+
+This error usually pops up when the database has to be updated and the tables need to be rewritten. Currently my workaround is to delete and recreate the daatabse to fix any issues using the following commands: \
+`psql -h db.dcs.aber.ac.uk -U joa38 -d cs39440_20_21_joa38` \
+`DROP SCHEMA joa38 CASCADE;` \
+`CREATE SCHEMA joa38;` \
+`python3 manage.py migrate`
