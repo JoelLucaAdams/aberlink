@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # Change this host here to the website url e.g. "mmp-joa38.dcs.aber.ac.uk"
 ALLOWED_HOSTS = ["mmp-joa38.dcs.aber.ac.uk"]
@@ -42,7 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'userdata',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'login',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,3 +136,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+# Redirection URL
+LOGIN_URL = '/account/login/'
+AUTH_USER_MODEL = 'userdata.UserData'
+LOGIN_REDIRECT_URL = '/'
+
+# For email
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
