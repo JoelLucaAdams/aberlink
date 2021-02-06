@@ -20,4 +20,6 @@ import login.views
 urlpatterns = [
     path('', login.views.pancakes),
     path('admin/', admin.site.urls),
+    path('oauth2/login', login.views.discord_oauth2),
+    path('oauth2/login/redirect', login.views.discord_oauth2_redirect),
 ]
