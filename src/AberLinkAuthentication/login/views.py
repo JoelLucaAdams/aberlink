@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 import requests
 import json
 
-def pancakes(request):
+def openidc_response(request):
     return HttpResponse(str(request.META))
     ''' # example of Json response usage
     metadata = request.META
