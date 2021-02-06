@@ -9,7 +9,7 @@ asgiref = "*"
 pytz = "*"
 sqlparse = "*"
 Django = "*"
-django-allauth= "*"
+requests = "*"
 
 [dev-packages]
 
