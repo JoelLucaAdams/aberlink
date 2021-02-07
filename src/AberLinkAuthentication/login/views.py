@@ -6,15 +6,33 @@ import requests
 import json
 
 def openidc_response(request):
+    # Prints to terminal for debugging
+    # TODO: Should probably change to loggin
+    print(str(request.META))
+    '''
     return HttpResponse(str(request.META))
     ''' # example of Json response usage
     metadata = request.META
     return JsonResponse({
-        'username': metadata['OIDC_CLAIM_preferred_username'],
-        'name': metadata['OIDC_CLAIM_name'],
-        'family name': metadata['OIDC_CLAIM_family_name'],\
+        'OIDC_CLAIM_preferred_username': metadata['OIDC_CLAIM_preferred_username'],
+        'OIDC_CLAIM_name': metadata['OIDC_CLAIM_name'],
+        'OIDC_CLAIM_family_name': metadata['OIDC_CLAIM_family_name'],
+        'OIDC_CLAIM_email': metadata['OIDC_CLAIM_email'],
+        'OIDC_CLAIM_usertype': metadata['OIDC_CLAIM_usertype'],
+        'OIDC_CLAIM_aud': metadata['OIDC_CLAIM_aud'],
+        'OIDC_access_token': metadata['OIDC_access_token'],
+        'OIDC_CLAIM_iat': metadata['OIDC_CLAIM_iat'],
+        'OIDC_CLAIM_exp': metadata['OIDC_CLAIM_exp'],
+        'HTTP_HOST': metadata['HTTP_HOST'],
+        'REQUEST_URI': metadata['REQUEST_URI'],
+        'DOCUMENT_ROOT': metadata['DOCUMENT_ROOT'],
+        'REQUEST_SCHEME': metadata['REQUEST_SCHEME'],
+        'SERVER_ADDR': metadata['SERVER_ADDR'],
+        'SERVER_PORT': metadata['SERVER_PORT'],
+        'REMOTE_ADDR': metadata['REMOTE_ADDR'],
+        'SERVER_PROTOCOL': metadata['SERVER_PROTOCOL'],
+        'REQUEST_METHOD': metadata['REQUEST_METHOD'],
     })
-    '''
 
 def discord_oauth2(request):
     return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
@@ -22,6 +40,9 @@ def discord_oauth2(request):
 def discord_oauth2_redirect(request):
     discord_code = request.GET.get('code')
     user = exchange_code(discord_code)
+    # Prints to terminal for debugging
+    # TODO: Should probably change to loggin
+    print(user)
     return JsonResponse(user)
 
 def exchange_code(code: str):
