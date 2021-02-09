@@ -19,8 +19,10 @@ from login import views
 
 urlpatterns = [
     path('', views.openidc_response, name='OpenID-Connect-response'),
-    path('auth/user', views.get_authenticated_user, name='get_authenticated_user'),
+    # Discord redirect
+    path('auth/user', views.get_authenticated_user, name='logged-in'),
     path('admin/', admin.site.urls, name='Admin'),  
+    # Responsible for discord login
     path('oauth2/login', views.discord_oauth2, name='Discord-login'),
     path('oauth2/login/redirect', views.discord_oauth2_redirect, name='Discord-response-JSON'),
 ]
