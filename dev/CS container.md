@@ -19,3 +19,10 @@ This proved to be harder than originally expected but the website is now hosted 
 
 * YouTube video - <https://www.youtube.com/watch?v=boHX307pyQ4&ab_channel=ProfessionalCipher>
 * Article version - <https://studygyaan.com/django/how-to-setup-django-applications-with-apache-and-mod-wsgi-on-ubuntu>
+
+## SSL (HTTPS)
+
+These files are needed for getting a SSL certificate. The files contain a LetsEncrypt certificate and key, and will be updated by a cron job when necessary. So don't copy them to another location, otherwise you'll end up with an expired certificate at some point.
+
+`SSLCertificateFile /etc/letsencrypt/live/mmp-joa38.dcs.aber.ac.uk/fullchain.pem` \
+`SSLCertificateKeyFile /etc/letsencrypt/live/mmp-joa38.dcs.aber.ac.uk/privkey.pem`
