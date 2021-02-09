@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 import requests
 import json
 from AberLinkAuthentication.settings import config
@@ -38,17 +40,25 @@ def openidc_response(request):
 def discord_oauth2(request):
     return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
 
+@login_required(login_url="/oauth2/login")
+def get_authenticated_user(request):
+    user = request.user
+    return JsonResponse({
+        "id": user.id,
+        "username": user.username
+    })
+
 def discord_oauth2_redirect(request):
     discord_code = request.GET.get('code')
     user = exchange_code(discord_code)
-    # Prints to terminal for debugging
-    # TODO: Should probably change to loggin
+    discord_user = authenticate(request, user=user)
+    discord_user = list(discord_user).pop()
+    login(request, discord_user)
+    # TODO: Should probably change to logging
     print(user)
-    return JsonResponse(user)
+    return redirect('/auth/user')
 
 def exchange_code(code: str):
-    # For information on docs see here https://discord.com/developers/docs/topics/oauth2
-
     # Send request code to get access token https://discord.com/developers/docs/topics/oauth2#authorization-code-grant-redirect-url-example
     data = {
         'client_id': '807609453972422676',

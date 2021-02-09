@@ -15,11 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-import login.views
+from login import views
 
 urlpatterns = [
-    path('', login.views.openidc_response, name='OpenID-Connect-response'),
-    path('admin/', admin.site.urls, name='Admin'),
-    path('oauth2/login', login.views.discord_oauth2),
-    path('oauth2/login/redirect', login.views.discord_oauth2_redirect, name='Discord-response-JSON'),
+    path('', views.openidc_response, name='OpenID-Connect-response'),
+    path('auth/user', views.get_authenticated_user, name='get_authenticated_user'),
+    path('admin/', admin.site.urls, name='Admin'),  
+    path('oauth2/login', views.discord_oauth2, name='Discord-login'),
+    path('oauth2/login/redirect', views.discord_oauth2_redirect, name='Discord-response-JSON'),
 ]

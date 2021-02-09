@@ -35,6 +35,10 @@ ALLOWED_HOSTS = ["mmp-joa38.dcs.aber.ac.uk"]
 
 # Application definition
 
+AUTHENTICATION_BACKENDS = [
+    'login.auth.DiscordAuthenticationBackend'
+]
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -42,8 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'userdata',
-    'login',
+    'login.apps.LoginConfig'
 ]
 
 MIDDLEWARE = [
@@ -130,4 +133,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-AUTH_USER_MODEL = 'userdata.UserData'
+#AUTH_USER_MODEL = 'userdata.UserData'
