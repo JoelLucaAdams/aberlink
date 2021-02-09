@@ -11,6 +11,14 @@ link to connect from command line: `psql -h db.dcs.aber.ac.uk -U joa38 -d cs3944
 
 Thank you to Sandy Spence [axs] for setting up access the database.
 
+## migrating database
+
+`python3 manage.py makemigrations <app>` \
+`python3 manage.py sqlmigrate <app> <migration_id>` \
+`python3 manage.py migrate`
+
+Use `python3 manage.py migrate --fake-initial` if it breaks.
+
 ## Error `django.db.migrations.exceptions.InconsistentMigrationHistory`
 
 This error usually pops up when the database has to be updated and the tables need to be rewritten. Currently my workaround is to delete and recreate the daatabse to fix any issues using the following commands: \
