@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 import requests
 import json
+from AberLinkAuthentication.settings import config
 
 def openidc_response(request):
     # Prints to terminal for debugging
@@ -51,7 +52,7 @@ def exchange_code(code: str):
     # Send request code to get access token https://discord.com/developers/docs/topics/oauth2#authorization-code-grant-redirect-url-example
     data = {
         'client_id': '807609453972422676',
-        'client_secret': 'LF7HoTviVqlwaKv2ndTUe5qQnafSH4Ag',
+        'client_secret': config['DISCORD_CLIENT_SECRET'],
         'grant_type': 'authorization_code',
         'code': code,
         'redirect_uri': 'https://mmp-joa38.dcs.aber.ac.uk/oauth2/login/redirect',
