@@ -36,7 +36,8 @@ ALLOWED_HOSTS = ["mmp-joa38.dcs.aber.ac.uk"]
 # Application definition
 
 AUTHENTICATION_BACKENDS = [
-    'login.auth.DiscordAuthenticationBackend'
+    'login.auth.DiscordAuthenticationBackend',
+    #'login.auth.DiscordAuthenticationBackend',
 ]
 
 INSTALLED_APPS = [
