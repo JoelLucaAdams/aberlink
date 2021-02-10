@@ -19,6 +19,8 @@ Thank you to Sandy Spence [axs] for setting up access the database.
 
 Use `python3 manage.py migrate --fake-initial` if it breaks.
 
+To rollback to a previous migration use `python3 manage.py migrate <app> <migration_id>`
+
 ## Error `django.db.migrations.exceptions.InconsistentMigrationHistory`
 
 This error usually pops up when the database has to be updated and the tables need to be rewritten. Currently my workaround is to delete and recreate the daatabse to fix any issues using the following commands: \
