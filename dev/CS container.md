@@ -26,3 +26,7 @@ These files are needed for getting a SSL certificate. The files contain a LetsEn
 
 `SSLCertificateFile /etc/letsencrypt/live/mmp-joa38.dcs.aber.ac.uk/fullchain.pem` \
 `SSLCertificateKeyFile /etc/letsencrypt/live/mmp-joa38.dcs.aber.ac.uk/privkey.pem`
+
+## Useful Apache 2.0 commands
+
+`sudo systemctl restart apache2`
