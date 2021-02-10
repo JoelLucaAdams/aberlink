@@ -2,18 +2,28 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
 import requests
 import json
 from AberLinkAuthentication.settings import config
+from .auth import DiscordAuthenticationBackend, OpenIDCAuthenticationBackend
 
 def openidc_response(request):
     # Prints to terminal for debugging
+    metadata = request.META
+    openidc_user = OpenIDCAuthenticationBackend.authenticate(OpenIDCAuthenticationBackend, request, user=metadata)
+    openidc_user = list(openidc_user).pop()
+    login(request, openidc_user, backend='login.auth.OpenIDCAuthenticationBackend')
+    return JsonResponse({
+        'id': openidc_user.id,
+        'username': openidc_user.username,
+        'name': openidc_user.name,
+        'email': openidc_user.email,
+        'usertype': openidc_user.usertype,
+        'last_login': openidc_user.last_login
+        })
     # TODO: Should probably change to loggin
-    print(str(request.META))
-    '''
-    return HttpResponse(str(request.META))
     ''' # example of Json response usage
     metadata = request.META
     return JsonResponse({
@@ -35,7 +45,7 @@ def openidc_response(request):
         'REMOTE_ADDR': metadata['REMOTE_ADDR'],
         'SERVER_PROTOCOL': metadata['SERVER_PROTOCOL'],
         'REQUEST_METHOD': metadata['REQUEST_METHOD'],
-    })
+    })'''
 
 def discord_oauth2(request):
     return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
@@ -51,9 +61,9 @@ def get_authenticated_user(request):
 def discord_oauth2_redirect(request):
     discord_code = request.GET.get('code')
     user = exchange_code(discord_code)
-    discord_user = authenticate(request, user=user)
+    discord_user = DiscordAuthenticationBackend.authenticate(DiscordAuthenticationBackend, request, user=user)
     discord_user = list(discord_user).pop()
-    login(request, discord_user)
+    login(request, discord_user, backend='login.auth.DiscordAuthenticationBackend')
     # TODO: Should probably change to logging
     print(user)
     return redirect('/auth/user')

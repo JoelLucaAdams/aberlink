@@ -9,4 +9,15 @@ class DiscordUserOAuth2Manager(models.UserManager):
             username=discord_username
         )
         return new_user
+
+class OpenIDCUserManager(models.UserManager):
+
+    def create_new_openidc_user(self, user):
+        new_user = self.create(
+            username = user['OIDC_CLAIM_preferred_username'],
+            name = user['OIDC_CLAIM_name'],
+            email = user['OIDC_CLAIM_email'],
+            usertype = user['OIDC_CLAIM_usertype']
+        )
+        return new_user
         
