@@ -9,3 +9,9 @@ A series of videos on using Django in Python:
 * 4hr Django crash course tutorial - <https://www.youtube.com/watch?v=F5mRW0jo-U4&ab_channel=freeCodeCamp.org>
 * Using multiple signin methods in Django - <https://www.youtube.com/watch?v=eXyTlHhHb3U&ab_channel=DevDungeon>
 * Using Discord OAuth2 with Django Ep. 1 - <https://www.youtube.com/watch?v=Cr-jxZ1TsuE&ab_channel=AnsontheDeveloper>
+
+## Django deleting old sessions
+
+`$ python3 manage.py shell` \
+`>>> from django.contrib.sessions.models import Session` \
+`>>> Session.objects.all().delete()`
