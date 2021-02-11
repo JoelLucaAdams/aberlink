@@ -8,60 +8,47 @@ import requests
 import json
 from AberLinkAuthentication.settings import config
 from .auth import DiscordAuthenticationBackend, OpenIDCAuthenticationBackend
+from .models import OpenIDCUser, DiscordUser
 
 def openidc_response(request):
-    # Prints to terminal for debugging
     metadata = request.META
     openidc_user = OpenIDCAuthenticationBackend.authenticate(OpenIDCAuthenticationBackend, request, user=metadata)
     openidc_user = list(openidc_user).pop()
     login(request, openidc_user, backend='login.auth.OpenIDCAuthenticationBackend')
-    return JsonResponse({
-        'id': openidc_user.id,
-        'username': openidc_user.username,
-        'name': openidc_user.name,
-        'email': openidc_user.email,
-        'usertype': openidc_user.usertype,
-        'last_login': openidc_user.last_login
-        })
-    # TODO: Should probably change to loggin
-    ''' # example of Json response usage
-    metadata = request.META
-    return JsonResponse({
-        'OIDC_CLAIM_preferred_username': metadata['OIDC_CLAIM_preferred_username'],
-        'OIDC_CLAIM_name': metadata['OIDC_CLAIM_name'],
-        'OIDC_CLAIM_family_name': metadata['OIDC_CLAIM_family_name'],
-        'OIDC_CLAIM_email': metadata['OIDC_CLAIM_email'],
-        'OIDC_CLAIM_usertype': metadata['OIDC_CLAIM_usertype'],
-        'OIDC_CLAIM_aud': metadata['OIDC_CLAIM_aud'],
-        'OIDC_access_token': metadata['OIDC_access_token'],
-        'OIDC_CLAIM_iat': metadata['OIDC_CLAIM_iat'],
-        'OIDC_CLAIM_exp': metadata['OIDC_CLAIM_exp'],
-        'HTTP_HOST': metadata['HTTP_HOST'],
-        'REQUEST_URI': metadata['REQUEST_URI'],
-        'DOCUMENT_ROOT': metadata['DOCUMENT_ROOT'],
-        'REQUEST_SCHEME': metadata['REQUEST_SCHEME'],
-        'SERVER_ADDR': metadata['SERVER_ADDR'],
-        'SERVER_PORT': metadata['SERVER_PORT'],
-        'REMOTE_ADDR': metadata['REMOTE_ADDR'],
-        'SERVER_PROTOCOL': metadata['SERVER_PROTOCOL'],
-        'REQUEST_METHOD': metadata['REQUEST_METHOD'],
-    })'''
+    # TODO: Should probably change to logging
+    return redirect('/oauth2/login')
 
 def discord_oauth2(request):
     return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
 
 @login_required(login_url="/oauth2/login")
 def get_authenticated_user(request):
-    user = request.user
+    discord_user = DiscordUser.objects.filter(id=request.user.id).values()
+    discord_user = list(discord_user).pop()
+    openidc_user = OpenIDCUser.objects.filter(id=discord_user['openidc_id']).values()
+    openidc_user = list(openidc_user).pop()
     return JsonResponse({
-        "id": user.id,
-        "username": user.username
+        "Discord": {
+            "id": discord_user['id'],
+            "username": discord_user['username'],
+            'last_login': discord_user['last_login'],
+            'openidc_id': discord_user['openidc_id']
+        },
+        "OpenIDC": {
+            'id': openidc_user['id'],
+            'username': openidc_user['username'],
+            'name': openidc_user['name'],
+            'email': openidc_user['email'],
+            'usertype': openidc_user['usertype'],
+            'last_login': openidc_user['last_login']
+        }
     })
 
 def discord_oauth2_redirect(request):
     discord_code = request.GET.get('code')
+    openidc_user = OpenIDCUser.objects.get(username=request.user.username)
     user = exchange_code(discord_code)
-    discord_user = DiscordAuthenticationBackend.authenticate(DiscordAuthenticationBackend, request, user=user)
+    discord_user = DiscordAuthenticationBackend.authenticate(DiscordAuthenticationBackend, request, user=user, openidc_user=openidc_user)
     discord_user = list(discord_user).pop()
     login(request, discord_user, backend='login.auth.DiscordAuthenticationBackend')
     # TODO: Should probably change to logging

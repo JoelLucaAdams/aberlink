@@ -3,13 +3,12 @@ from .models import DiscordUser, OpenIDCUser
 
 class DiscordAuthenticationBackend(BaseBackend):
 
-    def authenticate(self, request, user) -> DiscordUser:
+    def authenticate(self, request, user, openidc_user) -> DiscordUser:
         find_user = DiscordUser.objects.filter(id=user['id'])
         if len(find_user) == 0:
             print("User not in database... adding Discord user")
-            new_user = DiscordUser.objects.create_new_discord_user(user)
-            print(new_user)
-            return new_user
+            new_user = DiscordUser.objects.create_new_discord_user(user, openidc_user)
+            return DiscordUser.objects.filter(id=user['id'])
         return find_user
 
     def get_user(self, user_id):
@@ -25,8 +24,7 @@ class OpenIDCAuthenticationBackend(BaseBackend):
         if len(find_user) == 0:
             print("User not in database... adding OpenIDC user")
             new_user = OpenIDCUser.objects.create_new_openidc_user(user)
-            print(new_user)
-            return new_user
+            return OpenIDCUser.objects.filter(username=user['OIDC_CLAIM_preferred_username'])
         return find_user
 
     def get_user(self, user_id):
