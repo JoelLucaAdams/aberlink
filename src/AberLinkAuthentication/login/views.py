@@ -11,6 +11,10 @@ from .auth import DiscordAuthenticationBackend, OpenIDCAuthenticationBackend
 from .models import OpenIDCUser, DiscordUser
 
 def openidc_response(request):
+    """
+    Authenticates openidc user
+    Returns redirect to '/oauth2/login' discord login page
+    """
     metadata = request.META
     openidc_user = OpenIDCAuthenticationBackend().authenticate(request, user=metadata)
     openidc_user = list(openidc_user).pop()
@@ -19,10 +23,17 @@ def openidc_response(request):
     return redirect('/oauth2/login')
 
 def discord_oauth2(request):
+    """
+    Returns redirect to discord login page
+    """
     return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
 
 @login_required(login_url="/oauth2/login")
 def get_authenticated_user(request):
+    """
+    Gets openidc user using discord user's foreign key
+    Returns JSON object with data
+    """
     discord_user = DiscordUser.objects.filter(id=request.user.id).values()
     discord_user = list(discord_user).pop()
     openidc_user = OpenIDCUser.objects.filter(id=discord_user['openidc_id']).values()
@@ -45,6 +56,11 @@ def get_authenticated_user(request):
     })
 
 def discord_oauth2_redirect(request):
+    """
+    Is the redirect from discord login and authenticates Discord user
+    Returns redirects to 'auth/user' authenticated user
+    """
+    # Exchange url code for discord users information
     discord_code = request.GET.get('code')
     user = exchange_code(discord_code)
 
@@ -57,7 +73,12 @@ def discord_oauth2_redirect(request):
     return redirect('/auth/user')
 
 def exchange_code(code: str):
-    # Send request code to get access token https://discord.com/developers/docs/topics/oauth2#authorization-code-grant-redirect-url-example
+    """
+    Takes in code from discord redirect
+    Returns discord user information in json
+    """
+    # Send request code to get access token 
+    # https://discord.com/developers/docs/topics/oauth2#authorization-code-grant-redirect-url-example
     data = {
         'client_id': '807609453972422676',
         'client_secret': config['DISCORD_CLIENT_SECRET'],
@@ -72,7 +93,8 @@ def exchange_code(code: str):
     response = requests.post('https://discord.com/api/oauth2/token', data=data, headers=headers)
     credentials = response.json()
 
-    # Use access token to get user information https://discord.com/developers/docs/topics/oauth2#get-current-authorization-information
+    # Use access token to get user information 
+    # https://discord.com/developers/docs/topics/oauth2#get-current-authorization-information
     access_token = credentials['access_token']
     response = requests.get('https://discord.com/api/v6/users/@me', headers={
         'Authorization': 'Bearer %s' % access_token
