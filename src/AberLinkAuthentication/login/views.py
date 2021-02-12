@@ -12,7 +12,7 @@ from .models import OpenIDCUser, DiscordUser
 
 def openidc_response(request):
     metadata = request.META
-    openidc_user = OpenIDCAuthenticationBackend.authenticate(OpenIDCAuthenticationBackend, request, user=metadata)
+    openidc_user = OpenIDCAuthenticationBackend().authenticate(request, user=metadata)
     openidc_user = list(openidc_user).pop()
     login(request, openidc_user, backend='login.auth.OpenIDCAuthenticationBackend')
     # TODO: Should probably change to logging
@@ -46,13 +46,14 @@ def get_authenticated_user(request):
 
 def discord_oauth2_redirect(request):
     discord_code = request.GET.get('code')
-    openidc_user = OpenIDCUser.objects.get(username=request.user.username)
     user = exchange_code(discord_code)
-    discord_user = DiscordAuthenticationBackend.authenticate(DiscordAuthenticationBackend, request, user=user, openidc_user=openidc_user)
+
+    # gets openidc user using request.user.username
+    openidc_user = OpenIDCUser.objects.get(username=request.user.username)
+    discord_user = DiscordAuthenticationBackend().authenticate(request, user=user, openidc_user=openidc_user)
     discord_user = list(discord_user).pop()
     login(request, discord_user, backend='login.auth.DiscordAuthenticationBackend')
     # TODO: Should probably change to logging
-    print(user)
     return redirect('/auth/user')
 
 def exchange_code(code: str):
