@@ -67,8 +67,8 @@ def discord_oauth2_redirect(request):
     # gets openidc user using request.user.username
     openidc_user = OpenIDCUser.objects.get(username=request.user.username)
     discord_user = DiscordAuthenticationBackend().authenticate(request, user=user, openidc_user=openidc_user)
-    discord_user = list(discord_user).pop()
-    login(request, discord_user, backend='login.auth.DiscordAuthenticationBackend')
+    #discord_user = list(discord_user).pop()
+    #login(request, discord_user, backend='login.auth.DiscordAuthenticationBackend')
     # TODO: Should probably change to logging
     return redirect('/auth/user')
 
