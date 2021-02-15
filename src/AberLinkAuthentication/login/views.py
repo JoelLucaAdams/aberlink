@@ -34,24 +34,16 @@ def get_authenticated_user(request):
     Gets openidc user using discord user's foreign key
     Returns JSON object with data
     """
-    discord_user = DiscordUser.objects.filter(id=request.user.id).values()
-    discord_user = list(discord_user).pop()
-    openidc_user = OpenIDCUser.objects.filter(id=discord_user['openidc_id']).values()
-    openidc_user = list(openidc_user).pop()
-    return JsonResponse({
-        "Discord": {
-            "id": discord_user['id'],
-            "username": discord_user['username'],
-            'last_login': discord_user['last_login'],
-            'openidc_id': discord_user['openidc_id']
-        },
+    openidc_user = OpenIDCUser.objects.get(username=request.user.username)
+    discord_users = DiscordUser.objects.filter(openidc=openidc_user.id)
+    json_object = {
         "OpenIDC": {
-            'id': openidc_user['id'],
-            'username': openidc_user['username'],
-            'name': openidc_user['name'],
-            'email': openidc_user['email'],
-            'usertype': openidc_user['usertype'],
-            'last_login': openidc_user['last_login']
+            'id': openidc_user.id,
+            'username': openidc_user.username,
+            'name': openidc_user.name,
+            'email': openidc_user.email,
+            'usertype': openidc_user.usertype,
+            'last_login': openidc_user.last_login
         }
     }
     for index, user in enumerate(discord_users):
