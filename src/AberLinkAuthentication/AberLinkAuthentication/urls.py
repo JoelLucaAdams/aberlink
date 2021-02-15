@@ -24,5 +24,5 @@ urlpatterns = [
     path('admin/', admin.site.urls, name='Admin'),  
     # Responsible for discord login
     path('oauth2/login', views.discord_oauth2, name='Discord-login'),
-    path('oauth2/login/redirect', views.discord_oauth2_redirect, name='Discord-response-JSON'),
+    path('oauth2/login/redirect', views.discord_oauth2_redirect, name='Discord-response'),
 ]
