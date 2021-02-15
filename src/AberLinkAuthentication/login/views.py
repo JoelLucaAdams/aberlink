@@ -53,7 +53,18 @@ def get_authenticated_user(request):
             'usertype': openidc_user['usertype'],
             'last_login': openidc_user['last_login']
         }
-    })
+    }
+    for index, user in enumerate(discord_users):
+        user = {f"Discord_{index}": {
+            "id": user.id,
+            "username": user.username,
+            'last_login': user.last_login,
+            'openidc_id': user.openidc_id
+            }
+        }
+        json_object.update(user)
+        
+    return JsonResponse(json_object)
 
 def discord_oauth2_redirect(request):
     """
