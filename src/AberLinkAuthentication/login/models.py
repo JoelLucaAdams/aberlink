@@ -1,37 +1,46 @@
 from django.db import models
-from .managers import DiscordUserOAuth2Manager, OpenIDCUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from .managers import DiscordUserOAuth2Manager
 
-# Create your models here.
 
-class OpenIDCUser(models.Model):
+class OpenIDCUserManager(BaseUserManager):
+    def create_user(self, user, password=None):
+        new_user = self.model(
+            username = user['OIDC_CLAIM_preferred_username'],
+            name = user['OIDC_CLAIM_name'],
+            email = user['OIDC_CLAIM_email'],
+            usertype = user['OIDC_CLAIM_usertype']
+        )
+        if user['OIDC_CLAIM_usertype'] == "staff":
+            new_user.is_staff = True
+            new_user.is_admin = True
+
+        new_user.set_password(None)
+        new_user.save(using=self._db)
+        return new_user
+
+class OpenIDCUser(AbstractBaseUser):
     objects = OpenIDCUserManager()
 
     class usertypes(models.TextChoices):
         STAFF = "staff"
         UNDERGRAD = "undergrad"
 
+    id = models.AutoField(auto_created=True, primary_key=True, serialize=False)
     username = models.CharField(max_length=40)
     name = models.CharField(max_length=300)
     email = models.CharField(max_length=30)
     usertype = models.CharField(max_length=50, choices=usertypes.choices)
     last_login = models.DateTimeField(null=True)
+    password = None
+    is_active = models.BooleanField(default=True)
+    is_admin = models.BooleanField(default=False)
 
-    def is_authenticated(self, request):
-        return True
-
-    def is_active(self):
-        if self.usertype == "staff":
-            return True
-        else:
-            return False
-
-    def is_staff(self, request):
-        if self.usertype == "staff":
-            return True
-        else:
-            return False
+    USERNAME_FIELD = 'id'
+    #EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', 'name', 'email', 'usertype']
     
-    def has_perm(self, perm):
+    def has_perm(self, perm, obj=None):
         if self.usertype == "staff":
             return True
         else:
@@ -42,11 +51,15 @@ class OpenIDCUser(models.Model):
             return True
         else:
             return False
+
+    @property
+    def is_staff(self):
+        return self.is_admin
     
     def __str__(self):
         return "{} username: {}".format(self.__class__.__name__, self.username)
 
-class StaffManager(models.Manager):
+'''class StaffManager(models.Manager):
         def get_queryset(self, *args, **kwargs):
             return super().get_queryset(*args, **kwargs).filter(usertype=OpenIDCUser.usertypes.STAFF)
 
@@ -64,7 +77,7 @@ class Undergrad(OpenIDCUser):
     objects = UndergradManager()
 
     class Meta:
-        proxy = True
+        proxy = True'''
 
 
 class DiscordUser(models.Model):
