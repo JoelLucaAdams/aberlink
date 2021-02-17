@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'login.apps.LoginConfig'
+    #'login.apps.LoginConfig',
+    'login'
 ]
 
 MIDDLEWARE = [
@@ -134,4 +135,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
-#AUTH_USER_MODEL = 'userdata.UserData'
+AUTH_USER_MODEL = 'login.OpenIDCUser'
