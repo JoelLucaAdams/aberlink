@@ -3,7 +3,6 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin
 from django import forms
 from .models import OpenIDCUser, DiscordUser
-# Register your models here.
 
 class DiscordUserChangeForm(forms.ModelForm):
     class Meta:
@@ -46,7 +45,6 @@ class UserAdmin(UserAdmin):
     list_filter = ('usertype',)
     fieldsets = (
         (None, {'fields': ('username', 'name', 'email', 'usertype')}),
-        #('Personal info', (None))),
         ('Permissions', {'fields': ('is_admin',)}),
     )
     readonly_fields = ('username', 'name', 'email', 'usertype')
