@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth import models as authModels
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-#from .managers import DiscordUserOAuth2Manager
-
 
 class OpenIDCUserManager(BaseUserManager):
     def create_user(self, user, password=None):
@@ -16,8 +14,6 @@ class OpenIDCUserManager(BaseUserManager):
             new_user.is_staff = True
             new_user.is_admin = True
 
-        new_user.set_password(None)
-        new_user.save(using=self._db)
         return new_user
 
 class OpenIDCUser(AbstractBaseUser):
@@ -38,7 +34,6 @@ class OpenIDCUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'id'
-    #EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['username', 'name', 'email', 'usertype']
     
     def has_perm(self, perm, obj=None):
@@ -58,7 +53,7 @@ class OpenIDCUser(AbstractBaseUser):
         return self.is_admin
     
     def __str__(self):
-        return "{} username: {}".format(self.__class__.__name__, self.username)
+        return "{} {}".format(self.__class__.__name__, self.username)
 
 '''class StaffManager(models.Manager):
         def get_queryset(self, *args, **kwargs):
@@ -116,4 +111,4 @@ class DiscordUser(models.Model):
         return False
 
     def __str__(self):
-        return "{} id: {}".format(self.__class__.__name__, self.id)
+        return "{} {}".format(self.__class__.__name__, self.id)
