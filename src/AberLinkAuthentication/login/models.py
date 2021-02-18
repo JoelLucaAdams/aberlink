@@ -20,8 +20,15 @@ class OpenIDCUser(AbstractBaseUser):
     objects = OpenIDCUserManager()
 
     class usertypes(models.TextChoices):
-        STAFF = "staff"
-        UNDERGRAD = "undergrad"
+        STAFF = 'staff'
+        UNDERGRAD = 'undergrad'
+        POSTGRAD = 'postgrad'
+        OFFICE = 'office'
+        CONTED = 'conted'
+        SUMMER = 'summer'
+        WEB = 'web'
+        TEMPORARY = 'temporary'
+        UNKOWN = 'unknown'
 
     id = models.AutoField(auto_created=True, primary_key=True, serialize=False)
     username = models.CharField(max_length=40)
