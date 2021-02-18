@@ -44,13 +44,13 @@ class OpenIDCUser(AbstractBaseUser):
     REQUIRED_FIELDS = ['username', 'name', 'email', 'usertype']
     
     def has_perm(self, perm, obj=None):
-        if self.usertype == "staff":
+        if self.usertype == 'staff':
             return True
         else:
             return False
 
     def has_module_perms(self, app_label):
-        if self.usertype == "staff":
+        if self.usertype == 'staff':
             return True
         else:
             return False
