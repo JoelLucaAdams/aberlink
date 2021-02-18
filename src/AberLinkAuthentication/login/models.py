@@ -13,7 +13,7 @@ class OpenIDCUserManager(BaseUserManager):
         if user['OIDC_CLAIM_usertype'] == "staff":
             new_user.is_staff = True
             new_user.is_admin = True
-
+        new_user.save(using=self._db)
         return new_user
 
 class OpenIDCUser(AbstractBaseUser):
