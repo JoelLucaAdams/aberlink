@@ -20,12 +20,13 @@ class DiscordAuthenticationBackend(BaseBackend):
 class OpenIDCAuthenticationBackend(BaseBackend):
 
     def authenticate(self, request, user) -> OpenIDCUser:
-        find_user = OpenIDCUser.objects.filter(username=user['OIDC_CLAIM_preferred_username'])
-        if len(find_user) == 0:
+        try:
+            find_user = OpenIDCUser.objects.get(username=user['OIDC_CLAIM_preferred_username'])
+            return find_user
+        except OpenIDCUser.DoesNotExist:
             print("User not in database... adding OpenIDC user")
             new_user = OpenIDCUser.objects.create_user(user)
-            return OpenIDCUser.objects.filter(username=user['OIDC_CLAIM_preferred_username'])
-        return find_user
+            return OpenIDCUser.objects.get(username=user['OIDC_CLAIM_preferred_username'])
 
     def get_user(self, user_id):
         try:

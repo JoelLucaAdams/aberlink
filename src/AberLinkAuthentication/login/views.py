@@ -4,11 +4,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-import requests
-import json
 from AberLinkAuthentication.settings import config
 from .auth import DiscordAuthenticationBackend, OpenIDCAuthenticationBackend
 from .models import OpenIDCUser, DiscordUser
+import requests
+import json
 
 def openidc_response(request):
     """
@@ -17,7 +17,6 @@ def openidc_response(request):
     """
     metadata = request.META
     openidc_user = OpenIDCAuthenticationBackend().authenticate(request, user=metadata)
-    openidc_user = list(openidc_user).pop()
     login(request, openidc_user, backend='login.auth.OpenIDCAuthenticationBackend')
     # TODO: Should probably change to logging
     return redirect('/oauth2/login')
@@ -70,8 +69,6 @@ def discord_oauth2_redirect(request):
     # gets openidc user using request.user.username
     openidc_user = OpenIDCUser.objects.get(username=request.user.username)
     discord_user = DiscordAuthenticationBackend().authenticate(request, user=user, openidc_user=openidc_user)
-    #discord_user = list(discord_user).pop()
-    #login(request, discord_user, backend='login.auth.DiscordAuthenticationBackend')
     # TODO: Should probably change to logging
     return redirect('/auth/user')
 
