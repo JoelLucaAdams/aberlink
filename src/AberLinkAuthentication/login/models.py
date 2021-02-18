@@ -1,6 +1,7 @@
 from django.db import models
+from django.contrib.auth import models as authModels
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from .managers import DiscordUserOAuth2Manager
+#from .managers import DiscordUserOAuth2Manager
 
 
 class OpenIDCUserManager(BaseUserManager):
@@ -79,6 +80,17 @@ class Undergrad(OpenIDCUser):
     class Meta:
         proxy = True'''
 
+
+class DiscordUserOAuth2Manager(authModels.UserManager):
+
+    def create_user(self, user, openidc_user):
+        discord_username = '%s#%s' % (user['username'], user['discriminator']) 
+        new_user = self.create(
+            id=user['id'],
+            username=discord_username,
+            openidc=openidc_user
+        )
+        return new_user
 
 class DiscordUser(models.Model):
     objects = DiscordUserOAuth2Manager()
