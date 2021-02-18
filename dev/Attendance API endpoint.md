@@ -4,13 +4,17 @@ Currently waiting for the API to be setup for sending a request to update a stud
 
 Below is an example of the JSON objects which will be sent and recieved from the API endpoint:
 
+Request:
+
 ```json
-//Request
 {
     "username": "joa38"
 }
+```
 
-//Response
+Response:
+
+```json
 {
     "status_updated": "true",
     "request": "200", 
