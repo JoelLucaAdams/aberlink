@@ -5,16 +5,16 @@ Currently waiting for the API to be setup for sending a request to update a stud
 Below is an example of the JSON objects which will be sent and recieved from the API endpoint:
 
 ```json
-# Request
+//Request
 {
-    “username” : “joa38”
+    "username": "joa38"
 }
 
-# Response
+//Response
 {
-    “status_updated” : ”true”,
-    “request” : “200”, 
-    “module_code”:”CS32120”
+    "status_updated": "true",
+    "request": "200", 
+    "module_code": "CS32120"
  }
 ```
 
