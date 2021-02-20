@@ -12,6 +12,7 @@ python-dotenv = "*"
 PyNaCl = "*"
 "discord.py" = "*"
 asyncio = "*"
+discord-py-slash-command = "*"
 
 [requires]
 python_version = "3.7"
