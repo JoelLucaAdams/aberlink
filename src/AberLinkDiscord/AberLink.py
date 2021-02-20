@@ -7,6 +7,7 @@ from discord.ext import commands
 from discord.ext.commands import DefaultHelpCommand
 from dotenv import load_dotenv
 from cogs.utilities import Utilities
+from discord_slash import SlashCommand
 
 # logs data to the discord.log file, if this file doesn't exist at runtime it is created automatically
 logger = logging.getLogger('discord')
@@ -22,17 +23,22 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 
 
 # Initialise the Bot object with an accessible help Command object
-helpCommand = DefaultHelpCommand()
+#helpCommand = DefaultHelpCommand()
 
 bot = commands.Bot(
     command_prefix="!",
-    help_command=helpCommand
+    #help_command=helpCommand
+    intents=discord.Intents.all(),
 )
 
+#client = discord.Client(intents=discord.Intents.all())
+
+slash = SlashCommand(bot, sync_commands=True)
+
 # Setup the General cog with the help command
-generalCog = Utilities()
-bot.add_cog(generalCog)
-helpCommand.cog = generalCog
+#generalCog = Utilities()
+bot.add_cog(Utilities(bot))
+#helpCommand.cog = generalCog
 
 
 @bot.event
