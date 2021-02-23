@@ -48,7 +48,6 @@ def get_authenticated_user(request):
     for index, user in enumerate(discord_users):
         user = {f"Discord_{index}": {
             "id": user.id,
-            "username": user.username,
             'last_login': user.last_login,
             'openidc_id': user.openidc_id
             }

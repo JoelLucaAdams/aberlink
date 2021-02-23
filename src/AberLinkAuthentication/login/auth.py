@@ -1,15 +1,17 @@
 from django.contrib.auth.backends import BaseBackend
 from .models import DiscordUser, OpenIDCUser
+from django.utils import timezone 
 
 class DiscordAuthenticationBackend(BaseBackend):
 
     def authenticate(self, request, user, openidc_user) -> DiscordUser:
-        find_user = DiscordUser.objects.filter(id=user['id'])
-        if len(find_user) == 0:
+        try:
+            DiscordUser.objects.filter(id=user['id']).update(last_login=timezone.now())
+            return DiscordUser.objects.get(id=user['id'])
+        except DiscordUser.DoesNotExist:
             print("User not in database... adding Discord user")
-            new_user = DiscordUser.objects.create_user(user, openidc_user)
-            return DiscordUser.objects.filter(id=user['id'])
-        return find_user
+            DiscordUser.objects.create_user(user, openidc_user)
+            return DiscordUser.objects.get(id=user['id'])
 
     def get_user(self, user_id):
         try:
@@ -21,11 +23,10 @@ class OpenIDCAuthenticationBackend(BaseBackend):
 
     def authenticate(self, request, user) -> OpenIDCUser:
         try:
-            find_user = OpenIDCUser.objects.get(username=user['OIDC_CLAIM_preferred_username'])
-            return find_user
+            return OpenIDCUser.objects.get(username=user['OIDC_CLAIM_preferred_username'])
         except OpenIDCUser.DoesNotExist:
             print("User not in database... adding OpenIDC user")
-            new_user = OpenIDCUser.objects.create_user(user)
+            OpenIDCUser.objects.create_user(user)
             return OpenIDCUser.objects.get(username=user['OIDC_CLAIM_preferred_username'])
 
     def get_user(self, user_id):

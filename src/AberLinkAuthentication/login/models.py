@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import models as authModels
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils import timezone
 
 class OpenIDCUserManager(BaseUserManager):
     def create_user(self, user, password=None):
@@ -88,8 +89,9 @@ class DiscordUserOAuth2Manager(authModels.UserManager):
         discord_username = '%s#%s' % (user['username'], user['discriminator']) 
         new_user = self.create(
             id=user['id'],
-            username=discord_username,
+            last_login=timezone.now(),
             openidc=openidc_user
+
         )
         return new_user
 
@@ -97,7 +99,6 @@ class DiscordUser(models.Model):
     objects = DiscordUserOAuth2Manager()
 
     id = models.BigIntegerField(primary_key=True)
-    username = models.CharField(max_length=100)
     last_login = models.DateTimeField(null=True)
     openidc = models.ForeignKey(OpenIDCUser, on_delete=models.CASCADE, related_name='aber_id')
 

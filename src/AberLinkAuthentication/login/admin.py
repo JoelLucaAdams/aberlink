@@ -7,26 +7,26 @@ from .models import OpenIDCUser, DiscordUser
 class DiscordUserChangeForm(forms.ModelForm):
     class Meta:
         model = DiscordUser
-        fields = ('id', 'username', 'openidc')
+        fields = ('id', 'openidc')
 
 class DiscordAdmin(UserAdmin):
     form = DiscordUserChangeForm
 
-    list_display = ('id', 'username', 'openidc')
+    list_display = ('id', 'openidc')
     list_filter = ('openidc',)
     fieldsets = (
-        (None, {'fields': ('id', 'username', 'openidc')}),
+        (None, {'fields': ('id', 'openidc')}),
     )
-    readonly_fields = ('id', 'username', 'openidc')
+    readonly_fields = ('id', 'openidc')
 
     add_fieldsets = (
         (None, {
             'classes': ('wide'),
-            'fields': ('id', 'username', 'openidc')
+            'fields': ('id', 'openidc')
         })
     )
-    search_fields = ('id', 'username', 'openidc',)
-    ordering = ('id', 'username', 'openidc')
+    search_fields = ('id', 'openidc',)
+    ordering = ('id', 'openidc')
     filter_horizontal = ()
 
     def has_add_permission(self, request, obj=None):

@@ -40,9 +40,7 @@ class TestModels(TestCase):
     def test_model_discord_user(self):
         self.discord_user1 = DiscordUser.objects.create(
             id=12213123123,
-            username="Bob Ross",
             openidc=self.discord_user1
         )
         self.assertEquals(self.discord_user1.id, 12213123123)
-        self.assertEquals(self.discord_user1.username, "Bob Ross")
         self.assertEquals(self.discord_user1.openidc, self.openidc_user1)
