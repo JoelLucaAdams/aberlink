@@ -7,26 +7,26 @@ from .models import OpenIDCUser, DiscordUser
 class DiscordUserChangeForm(forms.ModelForm):
     class Meta:
         model = DiscordUser
-        fields = ('id', 'openidc')
+        fields = ('id', 'last_login', 'openidc')
 
 class DiscordAdmin(UserAdmin):
     form = DiscordUserChangeForm
 
-    list_display = ('id', 'openidc')
+    list_display = ('id', 'last_login', 'openidc')
     list_filter = ('openidc',)
     fieldsets = (
-        (None, {'fields': ('id', 'openidc')}),
+        (None, {'fields': ('id', 'last_login', 'openidc')}),
     )
-    readonly_fields = ('id', 'openidc')
+    readonly_fields = ('id', 'last_login', 'openidc')
 
     add_fieldsets = (
         (None, {
             'classes': ('wide'),
-            'fields': ('id', 'openidc')
+            'fields': ('id', 'last_login', 'openidc')
         })
     )
-    search_fields = ('id', 'openidc',)
-    ordering = ('id', 'openidc')
+    search_fields = ('id', 'last_login', 'openidc',)
+    ordering = ('id', 'last_login', 'openidc')
     filter_horizontal = ()
 
     def has_add_permission(self, request, obj=None):
@@ -36,27 +36,27 @@ class DiscordAdmin(UserAdmin):
 class UserChangeForm(forms.ModelForm):
     class Meta:
         model = OpenIDCUser
-        fields = ('id', 'username', 'name', 'email', 'usertype', 'is_admin')
+        fields = ('id', 'username', 'name', 'email', 'usertype', 'is_admin', 'last_login')
 
 class UserAdmin(UserAdmin):
     form = UserChangeForm
 
-    list_display = ('username', 'name', 'email', 'usertype', 'is_admin')
+    list_display = ('username', 'name', 'email', 'usertype', 'is_admin', 'last_login')
     list_filter = ('usertype',)
     fieldsets = (
-        (None, {'fields': ('username', 'name', 'email', 'usertype')}),
+        (None, {'fields': ('username', 'name', 'email', 'usertype', 'last_login')}),
         ('Permissions', {'fields': ('is_admin',)}),
     )
-    readonly_fields = ('username', 'name', 'email', 'usertype')
+    readonly_fields = ('username', 'name', 'email', 'usertype', 'last_login')
 
     add_fieldsets = (
         (None, {
             'classes': ('wide'),
-            'fields': ('username', 'name', 'email', 'usertype')
+            'fields': ('username', 'name', 'email', 'usertype', 'last_login')
         })
     )
     search_fields = ('email', 'name',)
-    ordering = ('email',)
+    ordering = ('email', 'last_login',)
     filter_horizontal = ()
 
     def has_add_permission(self, request, obj=None):
