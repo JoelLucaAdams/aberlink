@@ -6,7 +6,6 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import DefaultHelpCommand
 from dotenv import load_dotenv
-from cogs.utilities import Utilities
 #from discord_slash import SlashCommand
 
 # logs data to the discord.log file, if this file doesn't exist at runtime it is created automatically
@@ -34,11 +33,12 @@ bot = commands.Bot(
 #client = discord.Client(intents=discord.Intents.all())
 #slash = SlashCommand(bot, sync_commands=True)
 
-# Setup the General cog with the help command
-generalCog = Utilities(bot)
-bot.add_cog(generalCog)
-helpCommand.cog = generalCog
+# load cogs
+bot.load_extension('cogs.utilities')
 
+# Setup the General cog with the help command
+generalCog = bot.get_cog("Utilities")
+helpCommand.cog = generalCog
 
 @bot.event
 async def on_ready():
