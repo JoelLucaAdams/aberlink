@@ -60,7 +60,6 @@ async def on_command_error(ctx, error):
         await ctx.send('You are missing a required argument.')
     elif isinstance(error, commands.errors.CommandInvokeError):
         await ctx.send(error)
-        await ctx.send('Lmao, you broke something')
     elif isinstance(error, commands.errors.BadArgument):
         print(error)
     elif isinstance(error, commands.errors.CommandNotFound):
