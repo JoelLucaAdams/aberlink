@@ -8,6 +8,9 @@ from time import time
 # test server guild
 #guild_ids = [802212304216260661]
 
+# use \:emote: to get
+emojis = {'aberlink': '<:AberLink:813468686647033936>', 'discord': '<:discord:814098231142514697>'}
+
 class Utilities(commands.Cog):
     """
     General Utilities
@@ -34,8 +37,16 @@ class Utilities(commands.Cog):
         """
         Link to the source code
         """
-        await ctx.send('This code is currently closed source\n'
-                        'Created by `Joel Adams` https://github.com/JoelLucaAdams/aberlink')
+        
+        embed = Embed(description='Created and maintained by `Joel Adams` for his major project', colour=discord.Colour.green())
+        embed.add_field(name=f'{emojis["aberlink"]} Repository (closed source):', 
+                        value='https://github.com/JoelLucaAdams/aberlink', inline=False)
+        embed.add_field(name=f'{emojis["discord"]} Discord server (suggestions or feedback):', 
+                        value='https://discord.gg/b3EdxVK', inline=False)
+        await ctx.send(embed=embed)
+        #await ctx.send(content='Created and maintained by `Joel Adams` for a major project\n'
+                                #f'{emojis["aberlink"]} Repository (closed source): <https://github.com/JoelLucaAdams/aberlink>\n'
+                                #f'{emojis["discord"]} Discord server (suggestions or feedback): https://discord.gg/b3EdxVK')
 
     @commands.command()
     #@cog_ext.cog_subcommand(base="utilities", name="pog", guild_ids=guild_ids)
