@@ -1,0 +1,1 @@
+admin_roles = ['Admin role', 'ADMIN ROLE', 'Admin', 'Devs', 'Dev', 'lecturer', 'LECTURER']
