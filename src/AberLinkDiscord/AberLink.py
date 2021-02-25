@@ -8,6 +8,8 @@ from discord.ext.commands import DefaultHelpCommand
 from dotenv import load_dotenv
 #from discord_slash import SlashCommand
 
+import psycopg2
+
 # logs data to the discord.log file, if this file doesn't exist at runtime it is created automatically
 logger = logging.getLogger('discord')
 logger.setLevel(logging.INFO)  # logging levels: NOTSET (all), DEBUG (bot interactions), INFO (bot connected etc)
@@ -19,7 +21,14 @@ logger.addHandler(handler)
 # load the private discord token from .env file.
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
+DB_NAME = os.getenv('DATABASE_NAME')
+DB_USER = os.getenv('USER')
+DB_PASSWORD = os.getenv('PASSWORD')
+DB_HOST = os.getenv('HOST')
+DB_PORT = os.getenv('PORT')
 
+con = psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+print(f'Connected to PSQL database: {con}')
 
 # Initialise the Bot object with an accessible help Command object
 helpCommand = DefaultHelpCommand()
