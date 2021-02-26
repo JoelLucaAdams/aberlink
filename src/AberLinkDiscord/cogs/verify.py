@@ -1,9 +1,10 @@
 import discord
 from discord.ext import commands
 from discord.ext.commands import Context
+from discord.utils import get
 from cogs import admin_roles, emojis
 from AberLink import logger as logging
-from postgresql import postgreSQL
+from .db import PostgreSQL
 
 def setup(bot):
     bot.add_cog(Verify(bot))
@@ -18,13 +19,14 @@ class Verify(commands.Cog):
         """
         Confirms if user is verified or not
         """
-        if postgreSQL.get_discord_user(ctx.message.author.id) is not None:
-            verified = discord.utils.get(ctx.guild.roles, name='verified')
+        if PostgreSQL.get_discord_user(ctx.message.author.id) is not None:
+            verified = get(ctx.guild.roles, name='verified')
             user = ctx.message.author
             await user.add_roles(verified, reason='Assigning user the Verified role')
             await ctx.send("You are now verified with AberLink:tm:")
-        else:
-            await ctx.send("You have not been verified yet. Please visit to get verified: https://mmp-joa38.dcs.aber.ac.uk/")
+            return
+
+        await ctx.send("You have not been verified yet. Please visit to get verified: https://mmp-joa38.dcs.aber.ac.uk/")
 
     @commands.command(aliases=['b'])
     @commands.has_any_role(*admin_roles)
@@ -34,9 +36,9 @@ class Verify(commands.Cog):
         Sets up the server for verification
         """
         guild = ctx.message.guild
-        everyone_role = discord.utils.get(ctx.guild.roles, name='@everyone')
-        verified_role = discord.utils.get(ctx.guild.roles, name='verified')
-        verify_channel = discord.utils.get(guild.channels, name='verify')
+        everyone_role = get(ctx.guild.roles, name='@everyone')
+        verified_role = get(ctx.guild.roles, name='verified')
+        verify_channel = get(guild.channels, name='verify')
         verify_perms = discord.PermissionOverwrite()
         verified_role_perms = discord.Permissions(
             send_messages=True, read_messages=True, read_message_history=True, 
@@ -50,7 +52,7 @@ class Verify(commands.Cog):
         await ctx.send('`@everyone` removed all permissions')
         
         # Create or modify verified role
-        if verified_role:
+        if verified_role is not None:
             await verified_role.edit(reason='Updating old verified role', permissions=verified_role_perms)
             await ctx.send('`verified` role already exists, updating to match permissions...')
         else:
@@ -62,7 +64,7 @@ class Verify(commands.Cog):
         await bot.add_roles(verified_role)
 
         # Create or modify verify channel
-        if verify_channel:
+        if verify_channel is not None:
             await ctx.send('`verify` channel already exists, updating to match permissions...')
         else:
             verify_channel = await guild.create_text_channel('verify')
@@ -73,6 +75,7 @@ class Verify(commands.Cog):
         # Set permissions for roles in verify channel
         verify_perms.read_messages = True
         verify_perms.send_messages = True
+        verify_perms.read_message_history = True
         await verify_channel.set_permissions(everyone_role, overwrite=verify_perms)
         verify_perms.read_messages = False
         verify_perms.send_messages = False
@@ -84,9 +87,10 @@ class Verify(commands.Cog):
         """
         Returns the users' aber username
         """
-        try:
-            discord_user = postgreSQL.get_discord_user(ctx.message.author.id)
-            message = postgreSQL.get_openid_user(discord_user["openidc_id"])
+        discord_user = PostgreSQL.get_discord_user(ctx.message.author.id)
+        if discord_user is not None:
+            message = PostgreSQL.get_openid_user(discord_user["openidc_id"])
             await ctx.send(f'username: {message["username"]}')
-        except TypeError:
-            await ctx.send("You have not been verified yet. Please visit to get verified: https://mmp-joa38.dcs.aber.ac.uk/")
+            return
+
+        await ctx.send("You have not been verified yet. Please visit to get verified: https://mmp-joa38.dcs.aber.ac.uk/")
