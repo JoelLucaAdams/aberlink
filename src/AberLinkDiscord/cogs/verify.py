@@ -1,4 +1,5 @@
 import discord
+from discord import Member
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord.utils import get
@@ -9,24 +10,66 @@ from .db import PostgreSQL
 def setup(bot):
     bot.add_cog(Verify(bot))
 
+async def check_verify_role(ctx: Context):
+        """
+        Checks if the verified role exists in the guild
+        """
+        verified = get(ctx.guild.roles, name='verified')
+        if verified is None:
+            await ctx.send(f'{ctx.guild.owner.mention} the verified role doesn\'t exist. Please type `!build` to configure the server for verification')
+            return
+        return verified
+
+async def check_discord_user(ctx: Context):
+    """
+    Checks if user exists in the database
+    """
+    user = PostgreSQL.get_discord_user(ctx.message.author.id)
+    if user is None:
+        await ctx.send("You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified")
+        return
+    return user
+
 class Verify(commands.Cog):
     """
     Verification of aber users
     """
+
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        """
+        Triggered when a new member joins the guild and gives them the verified role
+        """
+        verified = get(member.guild.roles, name='verified')
+        user = PostgreSQL.get_discord_user(member.id)
+        # Checks if the verified role exists, if it doesn't a DM is sent to the server owner to configure it
+        if verified is None:
+            dm_channel = await member.guild.owner.create_dm()
+            await dm_channel.send(f'{member.guild.owner.mention} the verified role doesn\'t exist in the server `{member.guild.name}`. Please type `!build` in one of the text channels in that server')
+            return
+
+        # Checks if the user exists in the database, if it doesn't a DM is sent to the user to tell them to get verified
+        if user is None:
+            dm_channel = await member.create_dm()
+            await dm_channel.send("You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified")
+            return
+            
+        await member.add_roles(verified, reason='Assigning user the verified role')
+    
 
     @commands.command()
     async def verify(self, ctx: Context):
         """
         Confirms if user is verified or not
         """
-        if PostgreSQL.get_discord_user(ctx.message.author.id) is not None:
-            verified = get(ctx.guild.roles, name='verified')
-            user = ctx.message.author
-            await user.add_roles(verified, reason='Assigning user the Verified role')
-            await ctx.send("You are now verified with AberLink:tm:")
+        verified = await check_verify_role(ctx)
+        db_user = await check_discord_user(ctx)
+        if verified is None or db_user is None:
             return
+        user = ctx.message.author
+        await user.add_roles(verified, reason='Assigning user the verified role')
+        await ctx.send("You are now verified with AberLink:tm:")
 
-        await ctx.send("You have not been verified yet. Please visit to get verified: https://mmp-joa38.dcs.aber.ac.uk/")
 
     @commands.command(aliases=['b'])
     @commands.has_any_role(*admin_roles)
@@ -87,10 +130,8 @@ class Verify(commands.Cog):
         """
         Returns the users' aber username
         """
-        discord_user = PostgreSQL.get_discord_user(ctx.message.author.id)
-        if discord_user is not None:
-            message = PostgreSQL.get_openid_user(discord_user["openidc_id"])
-            await ctx.send(f'username: {message["username"]}')
+        discord_user = await check_discord_user(ctx)
+        if discord_user is None:
             return
-
-        await ctx.send("You have not been verified yet. Please visit to get verified: https://mmp-joa38.dcs.aber.ac.uk/")
+        message = PostgreSQL.get_openid_user(discord_user["openidc_id"])
+        await ctx.send(f'username: {message["username"]}')
