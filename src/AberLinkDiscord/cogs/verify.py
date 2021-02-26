@@ -28,9 +28,10 @@ class Verify(commands.Cog):
 
     @commands.command(aliases=['b'])
     @commands.has_any_role(*admin_roles)
+    @commands.bot_has_permissions(manage_roles=True, manage_messages=True, manage_channels=True)
     async def build(self, ctx: Context):
         """
-        Creates verified role for server
+        Sets up the server for verification
         """
         guild = ctx.message.guild
         everyone_role = discord.utils.get(ctx.guild.roles, name='@everyone')
