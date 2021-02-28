@@ -1,11 +1,14 @@
 import discord
-from discord import Member
+from discord import Member, Embed
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord.utils import get
+
 from cogs import admin_roles, emojis
 from AberLink import logger as logging
 from .db import PostgreSQL
+
+from time import time
 
 def setup(bot):
     bot.add_cog(Verify(bot))
@@ -78,6 +81,9 @@ class Verify(commands.Cog):
         """
         Sets up the server for verification
         """
+        start_time = time()
+        description= f'{emojis["discord"]} Configuring `{ctx.guild.name}` for verification...\n'
+
         guild = ctx.message.guild
         everyone_role = get(ctx.guild.roles, name='@everyone')
         verified_role = get(ctx.guild.roles, name='verified')
@@ -92,15 +98,16 @@ class Verify(commands.Cog):
 
         # Change permissions on @everyone role
         await everyone_role.edit(reason='Configuring everyone role for verify', permissions=discord.Permissions())
-        await ctx.send('`@everyone` removed all permissions')
+        description += f'{int((time() - start_time) * 1000)}ms: `@everyone` removed all permissions\n'
+        # {int((end_time - start_time) * 1000)}
         
         # Create or modify verified role
         if verified_role is not None:
             await verified_role.edit(reason='Updating old verified role', permissions=verified_role_perms)
-            await ctx.send('`verified` role already exists, updating to match permissions...')
+            description += f'{int((time() - start_time) * 1000)}ms: `verified` role already exists, updating to match permissions...\n'
         else:
             verified_role = await guild.create_role(reason='Creating verified role', name='verified', permissions=verified_role_perms)
-            await ctx.send('`verified` role created')
+            description += f'{int((time() - start_time) * 1000)}ms: `verified` role created\n'
         
         # Gives the bot the verified role
         bot = await guild.fetch_member(ctx.bot.user.id)
@@ -108,10 +115,10 @@ class Verify(commands.Cog):
 
         # Create or modify verify channel
         if verify_channel is not None:
-            await ctx.send('`verify` channel already exists, updating to match permissions...')
+            description += f'{int((time() - start_time) * 1000)}ms: `verify` channel already exists, updating to match permissions...\n'
         else:
             verify_channel = await guild.create_text_channel('verify')
-            await ctx.send('`verify` channel created')
+            description += f'{int((time() - start_time) * 1000)}ms: `verify` channel created\n'
             message = await verify_channel.send(f'Welcome to `{guild.name}`! If you are seeing this message then please type `!verify`')
             await message.pin()
         
@@ -123,6 +130,9 @@ class Verify(commands.Cog):
         verify_perms.read_messages = False
         verify_perms.send_messages = False
         await verify_channel.set_permissions(verified_role, overwrite=verify_perms)
+        description += f'{emojis["aberlink"]} This server is now setup for verification!'
+        embed = Embed(description=description, colour=discord.Colour.green())
+        await ctx.send(embed=embed)
 
 
     @commands.command(aliases=['go'])
