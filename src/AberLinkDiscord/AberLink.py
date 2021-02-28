@@ -27,7 +27,12 @@ DB_PASSWORD = os.getenv('PASSWORD')
 DB_HOST = os.getenv('HOST')
 DB_PORT = os.getenv('PORT')
 
-con = psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+try:
+    con = psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+except psycopg2.OperationalError as err:
+    print(f'Error connecting to database. Error: {err}')
+    raise
+
 print(f'Connected to PSQL database: {con}')
 
 # Initialise the Bot object with an accessible help Command object
