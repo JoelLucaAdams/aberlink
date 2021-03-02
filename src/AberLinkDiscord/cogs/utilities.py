@@ -18,8 +18,10 @@ class Utilities(commands.Cog):
     General Utilities
     """
 
+
     def __init__(self, bot):
         self.bot = bot
+
 
     @commands.command(aliases=['p'])
     #@cog_ext.cog_subcommand(base="utilities", name="ping", guild_ids=guild_ids)
@@ -35,6 +37,7 @@ class Utilities(commands.Cog):
         await message.edit(content=f'🏓 pong \n`DWSP latency: {str(round(ctx.bot.latency * 1000))}ms` ' +
                                    f'`Response time: {str(int((end_time - start_time) * 1000))}ms` \n' +
                                    f'`Database Polling status: {db_poll}` `Database latency: {db_latency}ms`')
+
 
     @commands.command(aliases=['s'])
     #@cog_ext.cog_subcommand(base="utilities", name="source", guild_ids=guild_ids)
@@ -52,6 +55,7 @@ class Utilities(commands.Cog):
                                 #f'{emojis["aberlink"]} Repository (closed source): <https://github.com/JoelLucaAdams/aberlink>\n'
                                 #f'{emojis["discord"]} Discord server (suggestions or feedback): https://discord.gg/b3EdxVK')
 
+
     @commands.command()
     #@cog_ext.cog_subcommand(base="utilities", name="pog", guild_ids=guild_ids)
     async def pog(self, ctx: Context):
@@ -59,6 +63,7 @@ class Utilities(commands.Cog):
         Responds with a pogalitious message
         '''
         await ctx.send('certified poggers moment:tm:')
+
 
     @commands.command(aliases=['cm'])
     @commands.has_any_role(*admin_roles)

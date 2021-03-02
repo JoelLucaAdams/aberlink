@@ -11,3 +11,7 @@ class IAmHere(commands.Cog):
     """
     Verification of aber users
     """
+
+
+    def __init__(self, bot):
+        self.bot = bot

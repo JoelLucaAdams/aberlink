@@ -13,6 +13,7 @@ from time import time
 def setup(bot):
     bot.add_cog(Verify(bot))
 
+
 async def check_verify_role(ctx: Context):
         """
         Checks if the verified role exists in the guild
@@ -22,6 +23,7 @@ async def check_verify_role(ctx: Context):
             await ctx.send(f'{ctx.guild.owner.mention} the verified role doesn\'t exist. Please type `!build` to configure the server for verification')
             return
         return verified
+
 
 async def check_discord_user(ctx: Context):
     """
@@ -33,10 +35,16 @@ async def check_discord_user(ctx: Context):
         return
     return user
 
+
 class Verify(commands.Cog):
     """
     Verification of aber users
     """
+
+
+    def __init__(self, bot):
+        self.bot = bot
+
 
     @commands.Cog.listener()
     async def on_member_join(self, member):
@@ -72,6 +80,7 @@ class Verify(commands.Cog):
         user = ctx.message.author
         await user.add_roles(verified, reason='Assigning user the verified role')
         await ctx.send("You are now verified with AberLink:tm:")
+
 
     @commands.command(aliases=['va'])
     async def verify_alumni(self, ctx: Context):

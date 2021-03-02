@@ -3,6 +3,10 @@ from AberLink import conn
 from time import time
 
 class PostgreSQL():
+    """
+    Responsible for database interactions
+    """
+
 
     def get_discord_user(discord_id: int):
         """ 
@@ -14,6 +18,7 @@ class PostgreSQL():
         if row is not None:
             return {"id": row[0], "last_login": row[1], "openidc_id": row[2]}
 
+
     def get_openid_user(openidc_id: int):
         """ 
         Returns a openid user if they exist or None
@@ -23,6 +28,7 @@ class PostgreSQL():
         row = cur.fetchone()
         if row is not None:
             return {"id": row[0], "username": row[1], "name": row[2], "email": row[3], "usertype": row[4], "last_login": row[5], "is_active": row[6], "is_admin": row[7]}
+
 
     def get_connection_status():
         """
@@ -44,6 +50,7 @@ class PostgreSQL():
             # psycopg2 status 4: A transcation is in the 2nd phase of the process
             return '🟠 STATUS_PREPARED'
 
+
     def get_polling_status():
         """
         Gets the database's polling status (checks what state the database is in)
@@ -55,6 +62,7 @@ class PostgreSQL():
             return '🟠 POLL_READ'
         if conn.poll() == extensions.POLL_WRITE:
             return '🟠 POLL_WRITE'
+
 
     def get_connection_latency():
         """
