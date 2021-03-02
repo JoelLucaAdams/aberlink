@@ -5,6 +5,7 @@ from discord.ext.commands import Context
 #from discord_slash import cog_ext, SlashContext
 from AberLink import logger as logging
 from cogs import admin_roles, emojis, guild_ids
+from .db import PostgreSQL
 
 from time import time
 import asyncio
@@ -24,21 +25,23 @@ class Utilities(commands.Cog):
     #@cog_ext.cog_subcommand(base="utilities", name="ping", guild_ids=guild_ids)
     async def ping(self, ctx: Context):
         """
-        Check latency and response time 
+        Returns latency and response time of Discord and the database
         """
         start_time = time()
-        message = await ctx.send('🏓 pong `DWSPz latency: ' + str(round(ctx.bot.latency * 1000)) + 'ms`')
+        message = await ctx.send(f'🏓 pong `DWSP latency: {str(round(ctx.bot.latency * 1000))}ms`')
         end_time = time()
-        await message.edit(content='🏓 pong `DWSP latency: ' + str(round(ctx.bot.latency * 1000)) + 'ms` ' +
-                                   '`Response time: ' + str(int((end_time - start_time) * 1000)) + 'ms`')
+        db_latency = PostgreSQL.get_connection_latency()
+        db_poll = PostgreSQL.get_polling_status()
+        await message.edit(content=f'🏓 pong \n`DWSP latency: {str(round(ctx.bot.latency * 1000))}ms` ' +
+                                   f'`Response time: {str(int((end_time - start_time) * 1000))}ms` \n' +
+                                   f'`Database Polling status: {db_poll}` `Database latency: {db_latency}ms`')
 
     @commands.command(aliases=['s'])
     #@cog_ext.cog_subcommand(base="utilities", name="source", guild_ids=guild_ids)
     async def source(self, ctx: Context):
         """
-        Link to the source code
+        Returns a link to the source code
         """
-        
         embed = Embed(description='Created and maintained by `Joel Adams` for his major project', colour=discord.Colour.green())
         embed.add_field(name=f'{emojis["aberlink"]} Repository (closed source):', 
                         value='https://github.com/JoelLucaAdams/aberlink', inline=False)
