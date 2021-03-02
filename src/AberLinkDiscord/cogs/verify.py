@@ -88,58 +88,60 @@ class Verify(commands.Cog):
         """
         Sets up the server for verification
         """
-        start_time = time()
-        description= f'{emojis["discord"]} Configuring `{ctx.guild.name}` for verification...\n'
+        # Simulates that the bot is typing to visually show user command is being processed
+        async with ctx.typing(): 
+            start_time = time()
+            description= f'{emojis["discord"]} Configuring `{ctx.guild.name}` for verification...\n'
 
-        guild = ctx.message.guild
-        everyone_role = get(ctx.guild.roles, name='@everyone')
-        verified_role = get(ctx.guild.roles, name='verified')
-        verify_channel = get(guild.channels, name='verify')
-        verify_perms = discord.PermissionOverwrite()
-        verified_role_perms = discord.Permissions(
-            send_messages=True, read_messages=True, read_message_history=True, 
-            change_nickname=True, embed_links=True, attach_files=True, 
-            add_reactions=True, external_emojis=True, 
-            connect=True, speak=True, stream=True, use_voice_activation=True
-            )
+            guild = ctx.message.guild
+            everyone_role = get(ctx.guild.roles, name='@everyone')
+            verified_role = get(ctx.guild.roles, name='verified')
+            verify_channel = get(guild.channels, name='verify')
+            verify_perms = discord.PermissionOverwrite()
+            verified_role_perms = discord.Permissions(
+                send_messages=True, read_messages=True, read_message_history=True, 
+                change_nickname=True, embed_links=True, attach_files=True, 
+                add_reactions=True, external_emojis=True, 
+                connect=True, speak=True, stream=True, use_voice_activation=True
+                )
 
-        # Change permissions on @everyone role
-        await everyone_role.edit(reason='Configuring everyone role for verify', permissions=discord.Permissions())
-        description += f'{int((time() - start_time) * 1000)}ms: `@everyone` removed all permissions\n'
-        # {int((end_time - start_time) * 1000)}
-        
-        # Create or modify verified role
-        if verified_role is not None:
-            await verified_role.edit(reason='Updating old verified role', permissions=verified_role_perms)
-            description += f'{int((time() - start_time) * 1000)}ms: `verified` role already exists, updating to match permissions...\n'
-        else:
-            verified_role = await guild.create_role(reason='Creating verified role', name='verified', permissions=verified_role_perms)
-            description += f'{int((time() - start_time) * 1000)}ms: `verified` role created\n'
-        
-        # Gives the bot the verified role
-        bot = await guild.fetch_member(ctx.bot.user.id)
-        await bot.add_roles(verified_role)
+            # Change permissions on @everyone role
+            await everyone_role.edit(reason='Configuring everyone role for verify', permissions=discord.Permissions())
+            description += f'{int((time() - start_time) * 1000)}ms: `@everyone` removed all permissions\n'
+            # {int((end_time - start_time) * 1000)}
+            
+            # Create or modify verified role
+            if verified_role is not None:
+                await verified_role.edit(reason='Updating old verified role', permissions=verified_role_perms)
+                description += f'{int((time() - start_time) * 1000)}ms: `verified` role already exists, updating to match permissions...\n'
+            else:
+                verified_role = await guild.create_role(reason='Creating verified role', name='verified', permissions=verified_role_perms)
+                description += f'{int((time() - start_time) * 1000)}ms: `verified` role created\n'
+            
+            # Gives the bot the verified role
+            bot = await guild.fetch_member(ctx.bot.user.id)
+            await bot.add_roles(verified_role)
 
-        # Create or modify verify channel
-        if verify_channel is not None:
-            description += f'{int((time() - start_time) * 1000)}ms: `verify` channel already exists, updating to match permissions...\n'
-        else:
-            verify_channel = await guild.create_text_channel('verify')
-            description += f'{int((time() - start_time) * 1000)}ms: `verify` channel created\n'
-            message = await verify_channel.send(f'Welcome to `{guild.name}`! If you are seeing this message then please type `!verify`')
-            await message.pin()
-        
-        # Set permissions for roles in verify channel
-        verify_perms.read_messages = True
-        verify_perms.send_messages = True
-        verify_perms.read_message_history = True
-        await verify_channel.set_permissions(everyone_role, overwrite=verify_perms)
-        verify_perms.read_messages = False
-        verify_perms.send_messages = False
-        await verify_channel.set_permissions(verified_role, overwrite=verify_perms)
-        description += f'{emojis["aberlink"]} This server is now setup for verification!'
-        embed = Embed(description=description, colour=discord.Colour.green())
-        await ctx.send(embed=embed)
+            # Create or modify verify channel
+            if verify_channel is not None:
+                description += f'{int((time() - start_time) * 1000)}ms: `verify` channel already exists, updating to match permissions...\n'
+            else:
+                verify_channel = await guild.create_text_channel('verify')
+                description += f'{int((time() - start_time) * 1000)}ms: `verify` channel created\n'
+                message = await verify_channel.send(f'Welcome to `{guild.name}`! If you are seeing this message then please type `!verify`')
+                await message.pin()
+            
+            # Set permissions for roles in verify channel
+            verify_perms.read_messages = True
+            verify_perms.send_messages = True
+            verify_perms.read_message_history = True
+            await verify_channel.set_permissions(everyone_role, overwrite=verify_perms)
+            verify_perms.read_messages = False
+            verify_perms.send_messages = False
+            await verify_channel.set_permissions(verified_role, overwrite=verify_perms)
+            description += f'{emojis["aberlink"]} This server is now setup for verification!'
+            embed = Embed(description=description, colour=discord.Colour.green())
+            await ctx.send(embed=embed)
 
 
     @commands.command(aliases=['go'])
