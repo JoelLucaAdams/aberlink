@@ -73,6 +73,13 @@ class Verify(commands.Cog):
         await user.add_roles(verified, reason='Assigning user the verified role')
         await ctx.send("You are now verified with AberLink:tm:")
 
+    @commands.command(aliases=['va'])
+    async def verify_alumni(self, ctx: Context):
+        """
+        Verifies alumni of the university
+        """
+        await ctx.send('Unfortunately we can\'t automatically verify Alumni so please send an email to `afc@aber.ac.uk` including your discord name (e.g `JohnSmith#1234`) and we will add you. Include your name and if possible the year you graduated. It may take a day or two to do this if we are busy.')
+
 
     @commands.command(aliases=['b'])
     @commands.has_any_role(*admin_roles)
