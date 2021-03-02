@@ -18,7 +18,6 @@ class Utilities(commands.Cog):
     General Utilities
     """
 
-
     def __init__(self, bot):
         self.bot = bot
 

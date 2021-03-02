@@ -51,7 +51,7 @@ bot = commands.Bot(
 # load cogs
 bot.load_extension('cogs.utilities')
 bot.load_extension('cogs.verify')
-bot.load_extension('cogs.i_am_here')
+bot.load_extension('cogs.here')
 
 # Setup the General cog with the help command
 generalCog = bot.get_cog("Utilities")

@@ -31,7 +31,7 @@ async def check_discord_user(ctx: Context):
     """
     user = PostgreSQL.get_discord_user(ctx.message.author.id)
     if user is None:
-        await ctx.send("You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified")
+        await ctx.send('You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified')
         return
     return user
 
@@ -40,7 +40,6 @@ class Verify(commands.Cog):
     """
     Verification of aber users
     """
-
 
     def __init__(self, bot):
         self.bot = bot
@@ -56,7 +55,7 @@ class Verify(commands.Cog):
         # Checks if the verified role exists, if it doesn't a DM is sent to the server owner to configure it
         if verified is None:
             dm_channel = await member.guild.owner.create_dm()
-            await dm_channel.send(f'{member.guild.owner.mention} the verified role doesn\'t exist in the server `{member.guild.name}`. Please type `!build` in one of the text channels in that server')
+            await dm_channel.send(f'The verified role doesn\'t exist in the server `{member.guild.name}`. Please type `!build` in one of the text channels in that server')
             return
 
         # Checks if the user exists in the database, if it doesn't a DM is sent to the user to tell them to get verified
