@@ -7,6 +7,7 @@ from discord.ext import commands
 from discord.ext.commands import DefaultHelpCommand
 from dotenv import load_dotenv
 #from discord_slash import SlashCommand
+from cogs import emojis
 
 import psycopg2
 
@@ -28,12 +29,12 @@ DB_HOST = os.getenv('HOST')
 DB_PORT = os.getenv('PORT')
 
 try:
-    con = psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
+    conn = psycopg2.connect(database=DB_NAME, user=DB_USER, password=DB_PASSWORD, host=DB_HOST, port=DB_PORT)
 except psycopg2.OperationalError as err:
     print(f'Error connecting to database. Error: {err}')
     raise
 
-print(f'Connected to PSQL database: {con}')
+print(f'Connected to PSQL database: {conn}')
 
 # Initialise the Bot object with an accessible help Command object
 helpCommand = DefaultHelpCommand()
@@ -75,7 +76,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.errors.MissingRequiredArgument):
         await ctx.send('You are missing a required argument.')
     elif isinstance(error, commands.errors.CommandInvokeError):
-        await ctx.send(error)
+        await ctx.send(f'{emojis["aberlink_error"]} {error}')
     elif isinstance(error, commands.errors.BadArgument):
         print(error)
     elif isinstance(error, commands.errors.CommandNotFound):
