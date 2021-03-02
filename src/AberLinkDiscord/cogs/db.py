@@ -27,7 +27,7 @@ class PostgreSQL():
     def get_connection_status():
         """
         Gets the database's connection status
-        Returns either 🟢 (database fine), 🔴 (connection lost), 🟠 (database is doing something weird)
+        Returns either 🟢 (database fine), 🔴 (connection lost), 🟠 (database is doing something)
         """
         db_status = conn.status
         # evaluate the status for the PostgreSQL connection
@@ -47,6 +47,7 @@ class PostgreSQL():
     def get_polling_status():
         """
         Gets the database's polling status (checks what state the database is in)
+        Returns either 🟢 POLL_OK, 🟠 POLL_READ, 🟠 POLL_WRITE
         """
         if conn.poll() == extensions.POLL_OK:
             return '🟢 POLL_OK'
