@@ -1,6 +1,0 @@
-.env
-.idea/
-__pycache__/
-Pipfile.lock
-discord.log
-.vscode/

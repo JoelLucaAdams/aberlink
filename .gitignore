@@ -1,2 +1,9 @@
 discord.log
 .vscode
+src/AberLinkAuthentication/venv
+src/AberLinkDiscord/__pycache__
+src/AberLinkDiscord/.vscode
+src/AberLinkDiscord/.env
+src/AberLinkDiscord/discord.log
+src/AberLinkDiscord/Pipfile.lock
+src/AberLinkDiscord/cogs/__pycache__
