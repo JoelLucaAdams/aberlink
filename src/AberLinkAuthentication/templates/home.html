@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h3>name: {{ openidc_user.name }}</h3>
+    <p>username: {{ openidc_user.username }}<br>
+    email: {{ openidc_user.email }}<br>
+    usertype: {{ openidc_user.usertype }}<br>
+    last_login: {{ openidc_user.last_login }}<br>
+    </p>
+
+    {% for user in discord_users %}
+    <p>id: {{ user.id }}<br>
+    last_login: {{ user.last_login }}<br>
+    openidc_id: {{ user.openidc_id }}<br>
+    </p>
+    {% endfor %}
+{% endblock content%}

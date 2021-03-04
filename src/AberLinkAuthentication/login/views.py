@@ -10,6 +10,7 @@ from .models import OpenIDCUser, DiscordUser
 import requests
 import json
 
+
 def openidc_response(request):
     """
     Authenticates openidc user
@@ -21,40 +22,29 @@ def openidc_response(request):
     # TODO: Should probably change to logging
     return redirect('/oauth2/login')
 
+
 def discord_oauth2(request):
     """
     Returns redirect to discord login page
     """
     return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
 
+
 @login_required(login_url="/oauth2/login")
 def get_authenticated_user(request):
     """
     Gets openidc user using discord user's foreign key
-    Returns JSON object with data
+    Returns HTML page
     """
     openidc_user = OpenIDCUser.objects.get(username=request.user.username)
     discord_users = DiscordUser.objects.filter(openidc=openidc_user.id)
-    json_object = {
-        "OpenIDC": {
-            'id': openidc_user.id,
-            'username': openidc_user.username,
-            'name': openidc_user.name,
-            'email': openidc_user.email,
-            'usertype': openidc_user.usertype,
-            'last_login': openidc_user.last_login
-        }
+    context = {
+        'openidc_user': openidc_user,
+        'discord_users': discord_users,
+        'title': 'Home',
     }
-    for index, user in enumerate(discord_users):
-        user = {f"Discord_{index}": {
-            "id": user.id,
-            'last_login': user.last_login,
-            'openidc_id': user.openidc_id
-            }
-        }
-        json_object.update(user)
-        
-    return JsonResponse(json_object)
+    return render(request, 'home.html', context)
+
 
 def discord_oauth2_redirect(request):
     """
@@ -70,6 +60,7 @@ def discord_oauth2_redirect(request):
     discord_user = DiscordAuthenticationBackend().authenticate(request, user=user, openidc_user=openidc_user)
     # TODO: Should probably change to logging
     return redirect('/auth/user')
+
 
 def exchange_code(code: str):
     """
