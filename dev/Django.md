@@ -15,3 +15,9 @@ A series of videos on using Django in Python:
 `$ python3 manage.py shell` \
 `>>> from django.contrib.sessions.models import Session` \
 `>>> Session.objects.all().delete()`
+
+## favicon usage
+
+1. First upload an image to <https://favicon.io/favicon-converter/> and download the folder. 
+2. Then copy the `favicon.ico` file over to the `src/AberLinkAuthentication/static/admin/img/` and delete the old `favicon.ico`.
+3. The rest of the website should update with the new icon but if there are any issues please check or update the `src/AberLinkAuthentication/templates`.
