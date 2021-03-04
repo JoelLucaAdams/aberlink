@@ -30,7 +30,7 @@ def discord_oauth2(request):
     return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
 
 
-@login_required(login_url="/oauth2/login")
+#@login_required(login_url="/oauth2/login")
 def get_authenticated_user(request):
     """
     Gets openidc user using discord user's foreign key
