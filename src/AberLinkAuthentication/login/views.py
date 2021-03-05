@@ -49,7 +49,7 @@ def get_authenticated_user(request):
 def discord_oauth2_redirect(request):
     """
     Is the redirect from discord login and authenticates Discord user
-    Returns redirect to 'auth/user' authenticated user
+    Returns redirect to 'auth/user/' authenticated user
     """
     # Exchange url code for discord users information
     discord_code = request.GET.get('code')
@@ -59,7 +59,7 @@ def discord_oauth2_redirect(request):
     openidc_user = OpenIDCUser.objects.get(username=request.user.username)
     discord_user = DiscordAuthenticationBackend().authenticate(request, user=user, openidc_user=openidc_user)
     # TODO: Should probably change to logging
-    return redirect('/auth/user')
+    return redirect('/auth/user/')
 
 
 def exchange_code(code: str):
