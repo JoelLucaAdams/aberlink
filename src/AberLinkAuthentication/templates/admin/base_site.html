@@ -3,7 +3,47 @@
 {% load static %}
 
 {% block extrahead %}
-    <link rel="shortcut icon" href="{% static 'admin/img/favicon.ico' %}" />
+<link rel="shortcut icon" href="{% static 'admin/img/favicon.ico' %}" />
 {% endblock %}
 
+{% block branding %}
+<h1 id="site-name">
+<a href="/admin/">AberLink Administration</a>
+</h1>
+{% endblock %}
 {% block title %}AberLink - Admin{% endblock %}
+
+{% block usertools %}
+<div id="usertools">
+Welcome, <strong>{{ request.user.username }}</strong>
+<a href="/auth/user/">View site</a>
+/
+<a href="/admin/logout">Log out</a>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+<style>
+  #branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: black;
+  }
+  #header, #header a:link, #header a:visited {
+    background: #ffcc00;
+    color: black;
+  }
+  a.section:link, a.section:visited {
+    color: black;
+  }
+  .module h2, .module caption, .inline-group h2 {
+    background: #ffcc00;
+    color: black;
+  }
+  div.breadcrumbs, div.breadcrumbs a {
+    background: #ffbc00;
+    color: black;
+  }
+  #nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited {
+    color: black;
+  }
+</style>
+{% endblock %}
