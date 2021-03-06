@@ -8,6 +8,7 @@
 
 {% block branding %}
 <h1 id="site-name">
+<img src="/static/admin/img/AberLink_logo_cropped.png" width="30" height="40" class="d-inline-block align-top" alt="">
 <a href="/admin/">AberLink Administration</a>
 </h1>
 {% endblock %}
@@ -28,6 +29,10 @@ Welcome, <strong>{{ request.user.username }}</strong>
   #header, #header a:link, #header a:visited {
     background: #ffcc00;
     color: black;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
   a.section:link, a.section:visited {
     color: black;
@@ -42,6 +47,9 @@ Welcome, <strong>{{ request.user.username }}</strong>
   }
   #nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited {
     color: black;
+  }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   }
 </style>
 {% endblock %}
