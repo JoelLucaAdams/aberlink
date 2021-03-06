@@ -65,7 +65,8 @@
             </li>
           </ul>
         </div>
-          <ul class="navbar-nav justify-content-end">
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+          <ul class="navbar-nav">
             <span class="navbar-text">
               Welcome, <strong>{{ request.user.username }}</strong>
             </span>
@@ -80,6 +81,7 @@
             {% endif %}
           </ul>
     </div>
+  </div>
   </nav>
 
 
