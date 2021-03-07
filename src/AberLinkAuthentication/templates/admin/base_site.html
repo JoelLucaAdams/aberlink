@@ -8,7 +8,9 @@
 
 {% block branding %}
 <h1 id="site-name">
-<img src="/static/admin/img/AberLink_logo_cropped.png" width="30" height="40" class="d-inline-block align-top" alt="">
+<a href="/">
+  <img src="/static/admin/img/AberLink_logo_cropped.png" width="30" height="40" class="d-inline-block align-top" alt="">
+</a>
 <a href="/admin/">AberLink Administration</a>
 </h1>
 {% endblock %}
@@ -24,29 +26,29 @@ Welcome, <strong>{{ request.user.username }}</strong>
 {% block extrastyle %}
 <style>
   #branding h1, #branding h1 a:link, #branding h1 a:visited {
-    color: black;
+    color: white;
   }
   #header, #header a:link, #header a:visited {
-    background: #ffcc00;
-    color: black;
+    background: #212529;
+    color: white;
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 12px;
     padding-right: 12px;
   }
   a.section:link, a.section:visited {
-    color: black;
+    color: white;
   }
   .module h2, .module caption, .inline-group h2 {
-    background: #ffcc00;
-    color: black;
+    background: #212529;
+    color: white;
   }
   div.breadcrumbs, div.breadcrumbs a {
-    background: #ffbc00;
-    color: black;
+    background: #212529;
+    color: white;
   }
   #nav-sidebar .current-app .section:link, #nav-sidebar .current-app .section:visited {
-    color: black;
+    color: white;
   }
   body {
     font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

@@ -20,7 +20,13 @@ def openidc_response(request):
     openidc_user = OpenIDCAuthenticationBackend().authenticate(request, user=metadata)
     login(request, openidc_user, backend='login.auth.OpenIDCAuthenticationBackend')
     # TODO: Should probably change to logging
-    return redirect('/oauth2/login')
+    discord_users = DiscordUser.objects.filter(openidc=openidc_user.id)
+    context = {
+        'openidc_user': openidc_user,
+        'discord_users': discord_users,
+        'title': 'Home',
+    }
+    return render(request, 'home.html', context)
 
 
 def discord_oauth2(request):

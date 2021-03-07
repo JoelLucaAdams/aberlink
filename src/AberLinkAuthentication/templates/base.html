@@ -1,95 +1,99 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-    
-    <!-- Website icon -->
-    <link rel="icon" href="{% static '/admin/img/favicon.ico' %}" />
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% if title %}
-        <title>AberLink - {{ title }}</title>
-    {% else %}
-        <title>TITLE NOT FOUND</title>
-    {% endif %}
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
-    <style>
-      .navbar-light .navbar-text {
-        color: black;
-      }
-      .navbar {
-	    margin:0 !important;
-	    padding-top: 0px !important;
+  <!-- Website icon -->
+  <link rel="icon" href="{% static '/admin/img/favicon.ico' %}" />
+
+  {% if title %}
+  <title>AberLink - {{ title }}</title>
+  {% else %}
+  <title>TITLE NOT FOUND</title>
+  {% endif %}
+
+  <style>
+    .navbar {
+      margin: 0 !important;
+      padding-top: 0px !important;
       padding-bottom: 0px !important;
     }
+
     body {
       font-size: 14px;
     }
-    </style>
+  </style>
 </head>
+
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ffcc00;">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/auth/user/">
-          <img src="/static/admin/img/AberLink_logo_cropped.png" width="30" height="40" class="d-inline-block align-top" alt="">
-          <span style="line-height: 40px;">AberLink</span>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-      
+      <a class="navbar-brand" href="/">
+        <img src="/static/admin/img/AberLink_logo_cropped.png" width="30" height="40" class="d-inline-block align-top"
+          alt="">
+        <span style="line-height: 40px;">AberLink</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="/auth/user/">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/oauth2/login">Add Discord Account</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                About
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li><a class="dropdown-item" href="#">Major Project</a></li>
-                <li><a class="dropdown-item" href="https://cs39440blog.wordpress.com/">Blog</a></li>
-                <li><a class="dropdown-item" href="#">Privacy Policy</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
-          <ul class="navbar-nav">
-            <span class="navbar-text">
-              Welcome, <strong>{{ request.user.username }}</strong>
-            </span>
-            {% if request.user.is_admin %}
-            <li class="nav-item">
-              <a class="nav-link active" href="/admin/">Admin site</a>
-            </li>
-            {% else %}
-            <li class="nav-item">
-              <a class="nav-link disabled" href="/admin/" tabindex="-1" aria-disabled="true">Admin site</a>
-            </li>
-            {% endif %}
-          </ul>
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+              data-bs-toggle="dropdown" aria-expanded="false">
+              About
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Major Project</a></li>
+              <li><a class="dropdown-item" href="https://cs39440blog.wordpress.com/">Blog</a></li>
+              <li><a class="dropdown-item" href="#">Privacy Policy</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+        <ul class="navbar-nav">
+          <span class="navbar-text">
+            Welcome, <strong>{{ request.user.username }}</strong>
+          </span>
+          {% if request.user.is_admin %}
+          <li class="nav-item">
+            <a class="nav-link active" href="/admin/">Admin site</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link disabled" href="/admin/" tabindex="-1" aria-disabled="true">Admin site</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
-  </div>
   </nav>
 
 
-    <div class="container">
-        {% block content %}{% endblock %}
-    </div>
+  <div class="container">
+    {% block content %}{% endblock %}
+  </div>
 
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
 </body>
+
 </html>
