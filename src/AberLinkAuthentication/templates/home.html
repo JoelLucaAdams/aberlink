@@ -1,18 +1,97 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h3>name: {{ openidc_user.name }}</h3>
-    <p>username: {{ openidc_user.username }}<br>
-    email: {{ openidc_user.email }}<br>
-    usertype: {{ openidc_user.usertype }}<br>
-    last_login: {{ openidc_user.last_login }}<br>
-    </p>
+<h1 style="text-align: center; padding: 30px;">Welcome {{ openidc_user.name }}!</h1>
 
+<div class="card-group justify-content-center" style="margin-left: auto; margin-right: auto;">
     {% for user in discord_users %}
-    <p>id: {{ user.id }}<br>
-    last_login: {{ user.last_login }}<br>
-    openidc_id: {{ user.openidc_id }}<br>
+    <div class="card text-black bg-light mb-3" style="max-width: 16rem;">
+        <div class="card-body">
+            <h5 class="card-title">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord"
+                    viewBox="0 0 16 16">
+                    <path
+                        d="M6.552 6.712c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888.008-.488-.36-.888-.816-.888zm2.92 0c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888s-.36-.888-.816-.888z">
+                    </path>
+                    <path
+                        d="M13.36 0H2.64C1.736 0 1 .736 1 1.648v10.816c0 .912.736 1.648 1.64 1.648h9.072l-.424-1.48 1.024.952.968.896L15 16V1.648C15 .736 14.264 0 13.36 0zm-3.088 10.448s-.288-.344-.528-.648c1.048-.296 1.448-.952 1.448-.952-.328.216-.64.368-.92.472-.4.168-.784.28-1.16.344a5.604 5.604 0 0 1-2.072-.008 6.716 6.716 0 0 1-1.176-.344 4.688 4.688 0 0 1-.584-.272c-.024-.016-.048-.024-.072-.04-.016-.008-.024-.016-.032-.024-.144-.08-.224-.136-.224-.136s.384.64 1.4.944c-.24.304-.536.664-.536.664-1.768-.056-2.44-1.216-2.44-1.216 0-2.576 1.152-4.664 1.152-4.664 1.152-.864 2.248-.84 2.248-.84l.08.096c-1.44.416-2.104 1.048-2.104 1.048s.176-.096.472-.232c.856-.376 1.536-.48 1.816-.504.048-.008.088-.016.136-.016a6.521 6.521 0 0 1 4.024.752s-.632-.6-1.992-1.016l.112-.128s1.096-.024 2.248.84c0 0 1.152 2.088 1.152 4.664 0 0-.68 1.16-2.448 1.216z">
+                    </path>
+                </svg>
+                Discord account
+            </h5>
+            <p class="card-text">
+                The account with the id {{ user.id }} is currently linked to your account.
+                <button type="button" id="discordDeleteButton" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#discordDeleteButtonModal" data-bs-whatever="{{ user.id }}">
+                    Delete Discord account
+                </button>
+            </p>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Last login: {{ user.last_login }}</small>
+        </div>
+    </div>
+    {% empty %}
+    <p>
+        You don't seem to have any linked Discord accounts... Click the button to link a Discord account to your profile
     </p>
     {% endfor %}
-    <a class="btn btn-outline-primary" href="/oauth2/login" role="Link">Link Discord account</a>
+</div>
+<div class="text-center" style="padding: 10px;">
+    <a class="btn" href="/oauth2/login" role="Link" style="background-color: #7289DA; color: white;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord"
+            viewBox="0 0 16 16">
+            <path
+                d="M6.552 6.712c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888.008-.488-.36-.888-.816-.888zm2.92 0c-.456 0-.816.4-.816.888s.368.888.816.888c.456 0 .816-.4.816-.888s-.36-.888-.816-.888z">
+            </path>
+            <path
+                d="M13.36 0H2.64C1.736 0 1 .736 1 1.648v10.816c0 .912.736 1.648 1.64 1.648h9.072l-.424-1.48 1.024.952.968.896L15 16V1.648C15 .736 14.264 0 13.36 0zm-3.088 10.448s-.288-.344-.528-.648c1.048-.296 1.448-.952 1.448-.952-.328.216-.64.368-.92.472-.4.168-.784.28-1.16.344a5.604 5.604 0 0 1-2.072-.008 6.716 6.716 0 0 1-1.176-.344 4.688 4.688 0 0 1-.584-.272c-.024-.016-.048-.024-.072-.04-.016-.008-.024-.016-.032-.024-.144-.08-.224-.136-.224-.136s.384.64 1.4.944c-.24.304-.536.664-.536.664-1.768-.056-2.44-1.216-2.44-1.216 0-2.576 1.152-4.664 1.152-4.664 1.152-.864 2.248-.84 2.248-.84l.08.096c-1.44.416-2.104 1.048-2.104 1.048s.176-.096.472-.232c.856-.376 1.536-.48 1.816-.504.048-.008.088-.016.136-.016a6.521 6.521 0 0 1 4.024.752s-.632-.6-1.992-1.016l.112-.128s1.096-.024 2.248.84c0 0 1.152 2.088 1.152 4.664 0 0-.68 1.16-2.448 1.216z">
+            </path>
+        </svg>
+        Login with Discord
+    </a>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="discordDeleteButtonModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Discord account</h5>
+            </div>
+            <div class="modal-body">
+                <!--Any content placed here is overwritten by the Javascript function below-->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal"
+                    id="deleteDiscordAccountButtonConfirm">Delete Account
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Reference https://getbootstrap.com/docs/5.0/components/modal/#varying-modal-content
+    // Gets the DeleteDiscordAccount modal and adds an event listener to check when it's pressed
+    let deleteDiscordAccountModal = document.getElementById('discordDeleteButtonModal')
+    deleteDiscordAccountModal.addEventListener('show.bs.modal', function (event) {
+        // Gets the button and it's data attribute and prints it out in the .modal-body
+        let recipient = event.relatedTarget.getAttribute('data-bs-whatever')
+        let modalBodyInput = deleteDiscordAccountModal.querySelector('.modal-body')
+        modalBodyInput.textContent = 'Are you sure you want to delete the Discord account: ' + recipient
+    })
+
+    // Adds a listener for on click for the confirmation od deleting a discord account 
+    let deleteDiscordAccountButtonConfirm = document.getElementById('deleteDiscordAccountButtonConfirm')
+    deleteDiscordAccountButtonConfirm.addEventListener('click', function (event) {
+        // Gets the original data stored in the discord delete button
+        let discordId = document.getElementById('discordDeleteButton').getAttribute('data-bs-whatever')
+        console.log(discordId)
+    });
+</script>
 {% endblock content%}
