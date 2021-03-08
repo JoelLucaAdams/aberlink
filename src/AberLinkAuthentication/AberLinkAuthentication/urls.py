@@ -18,7 +18,8 @@ from django.urls import path
 from login import views
 
 urlpatterns = [
-    path('', views.openidc_response, name='Home page'),
+    path('', views.openidc_response, name='Home'),
+    # JSON response with user data for debugging
     path('auth/user/', views.get_authenticated_user, name='logged-in-accounts'),
     path('admin/', admin.site.urls, name='Admin'),  
     # Responsible for discord login
