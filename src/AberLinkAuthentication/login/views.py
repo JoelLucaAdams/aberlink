@@ -68,7 +68,7 @@ def get_authenticated_user(request):
 def discord_oauth2_redirect(request):
     """
     Is the redirect from discord login and authenticates Discord user
-    Returns redirect to 'auth/user/' authenticated user
+    Returns redirect to '/'
     """
     # Exchange url code for discord users information
     discord_code = request.GET.get('code')
