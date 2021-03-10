@@ -19,6 +19,13 @@ def openidc_response(request):
     """
     openidc_user = OpenIDCAuthenticationBackend().authenticate(request, user=request.META)
     login(request, openidc_user, backend='login.auth.OpenIDCAuthenticationBackend')
+
+    if request.method == 'POST':
+        try:
+            discord_id = request.POST.get("discord_id")
+            DiscordUser.objects.filter(id=discord_id).delete()
+        except KeyError:
+            pass
     # TODO: Should probably change to logging
     discord_users = DiscordUser.objects.filter(openidc=openidc_user.id)
     context = {
@@ -28,6 +35,15 @@ def openidc_response(request):
     }
     return render(request, 'home.html', context)
 
+def deleted_user(request):
+    
+    if request.method == 'POST':
+        user_id = request.POST.get('user_id')
+        OpenIDCUser.objects.filter(username=request.user.username).delete()
+    context = {
+        'title': 'Deleted user data'
+    }
+    return render(request, 'deleted_data.html', context)
 
 def discord_oauth2(request):
     """

@@ -19,6 +19,7 @@ from login import views
 
 urlpatterns = [
     path('', views.openidc_response, name='Home'),
+    path('deleted/', views.deleted_user, name='User-data-deleted'),
     # JSON response with user data for debugging
     path('auth/user/', views.get_authenticated_user, name='logged-in-accounts'),
     path('admin/', admin.site.urls, name='Admin'),  
