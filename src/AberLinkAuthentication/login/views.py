@@ -136,3 +136,12 @@ def exchange_code(code: str):
     })
     user = response.json()
     return user
+
+def privacy_policy_view(request):
+    """
+    Returns a HTML render of the privacy policy
+    """
+    context = {
+        'title': 'Privacy Policy'
+    }
+    return render(request, 'privacy_policy.html', context)
