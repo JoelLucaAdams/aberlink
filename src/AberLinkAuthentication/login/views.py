@@ -145,3 +145,12 @@ def privacy_policy_view(request):
         'title': 'Privacy Policy'
     }
     return render(request, 'privacy_policy.html', context)
+
+def about_major_project_view(request):
+    """
+    Returns a HTML render of the major project webpage
+    """
+    context = {
+        'title': 'Major Project'
+    }
+    return render(request, 'major_project.html', context)
