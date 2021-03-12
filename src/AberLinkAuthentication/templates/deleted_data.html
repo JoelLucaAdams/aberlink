@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
 <h1 style="text-align: center; padding: 30px;">We're sorry to see you go</h1>
 <div class="text-center" style="padding: 10px;">
 <p>All your data has been removed from our database. Please go to <a href="https://mmp-joa38.dcs.aber.ac.uk">Home</a> to create an account once again.</p>
 </div>
+<img src="{% static '/admin/img/AberLink_database.png' %}" alt="AberLink data deleted" style="display: block; margin: auto; width: 50%;"
 {% endblock %}
