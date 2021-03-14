@@ -5,44 +5,36 @@
 <h1 style="padding: 30px;">About the Major Project</h1>
 
 <h2>What is AberLink?</h2>
-<p>AberLink is a software service that connects Discord accounts to Aberystwyth University accounts using OpenID
-    Connect. There is currently a website hosted on <a href="https://mmp-joa38.dcs.aber.ac.uk/">https://mmp-joa38.dcs.aber.ac.uk/</a> that acts as the temporary webite for the
-    login system. From the website users can monitor which university servers they are in. This project will also contain a
-    front-end Discord bot to verify users and monitor attendance.
+
+<p>
+    AberLink is a major project created by Joel Adams. It contains 2 sections; this website which is used to link up
+    discord accounts to students' accounts and a Discord bot called AberLink that is used for verifying students' Discord
+    accounts with their Aber accounts. This bot is also responsible for marking students' attendance during practicals
+    that have the flag of "Discord" on their student record.
 </p>
 <p>
-    A website will be created called discord.dcs.aber.ac.uk and will be built using the Python
-    Django framework and can be accessed using OpenID Connect login system. After the user
-    signs in for the first time they will be requested to sign in with Discord using OAuth2 to link
-    their accounts together (this only happens once). Their uni email and Discord account will be
-    saved in a relational database using PostgreSQL (PSQL) and stored there for use in the bot.
-    The website will offer a dashboard that displays information on the servers that the user
-    is currently in (module servers only) by using the bot to cross check if the user’s Discord ID
-    exists in a specific server. If the user is not present inside of a module server the bot will create
-    an invite link and make a clickable hyperlink on the website for the student to use to join the
-    server. If the logged-in user is a lecturer then they will be able to see the servers for which they
-    have an administrative role and view all the users that are currently in those servers. There
-    will also be an interface for lecturers to provision module servers where they can remove any
-    of last year’s students, all the channels and re-create fresh channels or create a new server
-    entirely using a server template.
+    The AberLink Discord bot is based off of two previous bots called <a
+    href="https://github.com/NealSnooke/Aber-Verify-Discord-Bot" class="link-success" target="_blank">Aber Verify
+    Bot</a> and <a href="https://github.com/NealSnooke/IAmHere-Discord-Bot" class="link-success" target="_blank">I
+    am here!</a>. These bots veirfied students' Discord accounts and helped to mark attendance during practicals
+    respectively.
 </p>
+
+<h2>How it's made (the boring bit)</h2>
+
+<h5>The Website</h5>
 <p>
-    This project builds on the Discord bots ’AberVerify’ and ’I am here’ by integrating
-    them into a singular bot in Python using the Discord.py library. The ’AberVerify’ bot is
-    responsible for verifying the identity of students in Discord by cross checking their IDs with
-    their aber.ac.uk email addresses. The new system will use a PSQL database to check if a Discord
-    user’s ID exists and give them the verified role once they join the server. The ’I am here’
-    bot is responsible for acknowledging the attendance of a student in a practical by having the
-    student type a command in Discord and the bot will send an email to the lecturer containing
-    the student’s email. The new system will wait until the student sends the command to confirm
-    their presence in the practical and then send the request to the university servers to mark
-    the student as present during the practical. It will also send them a DM on Discord with a
-    timestamp and module code as a confirmation receipt of the update.
+    The backend of the system uses <a href="https://httpd.apache.org/" class="link-success" target="_blank">Apache 2.0</a> and <a href="https://www.debian.org/" class="link-success" target="_blank"> Debian 10.8</a>. The website is developed in Python using the <a href="https://www.djangoproject.com/" class="link-success" target="_blank">Django</a> framework. It acts as a portal to sign Aberystwyth users in and link their accounts up to their Discord accounts for attendance. It contains two login systems; the <a href="https://openid.net/" class="link-success" target="_blank">OpenID Connect</a> system that is integrated directly into the Apache modifications which is responsible for verifying Aberystwyth uni accounts and the <a href="https://discord.com/" class="link-success" target="_blank">Discord authentication system</a> that returns information about Discord accounts.
 </p>
+<h5>The database</h5>
 <p>
-    The end goal of this project is to provide a piece of software that can be run and maintained
-    by the DCS easily and used for Discord servers in the foreseeable future. Therefore the project
-    will have substantially more documentation to explain how each component of the software
-    works.
+    The database uses <a href="https://www.postgresql.org/" class="link-success" target="_blank">PostgreSQL</a> and doesn't store any password information on the user as the authentication systems are responsible for confirming identities (please see the privacy policy for more information). The database stores only the most basic information that can be found readily avaiable on the internet.
 </p>
+<h5>The Discord bot</h5>
+<p>
+    The Discord bot is responsible for the front-end of the whole system. It is built using the <a href="https://github.com/Rapptz/discord.py" class="link-success" target="_blank">discord.py</a> Python library and is based on Discord bots that I (Joel Adams) have previously created. 
+</p>
+
+<h2>Credits</h2>
+All the artwork for the AberLink logo and its respective images were created by Oscar Adams. Please feel free to check out some of his amazing artwork here on <a href="https://www.instagram.com/yaboiioscarfam/" class="link-success" target="_blank">instagram</a>. 
 {% endblock %}
