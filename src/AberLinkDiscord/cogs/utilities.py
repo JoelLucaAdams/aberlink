@@ -33,9 +33,9 @@ class Utilities(commands.Cog):
         end_time = time()
         db_latency = PostgreSQL.get_connection_latency()
         db_poll = PostgreSQL.get_polling_status()
-        await message.edit(content=f'🏓 pong \n`DWSP latency: {str(round(ctx.bot.latency * 1000))}ms` ' +
+        await message.edit(content=f'🏓 pong \n{emojis["discord"]} `DWSP latency: {str(round(ctx.bot.latency * 1000))}ms` ' +
                                    f'`Response time: {str(int((end_time - start_time) * 1000))}ms` \n' +
-                                   f'`Database Polling status: {db_poll}` `Database latency: {db_latency}ms`')
+                                   f'{emojis["aberlink_database"]} `Database Polling status: {db_poll}` `Database latency: {db_latency}ms`')
 
 
     @commands.command(aliases=['s'])
