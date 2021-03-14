@@ -3,7 +3,7 @@
 {% block content %}
 <h1 style="text-align: center; padding: 30px;">Welcome {{ openidc_user.name }}!</h1>
 
-<div class="card-group justify-content-center" style="margin-left: auto; margin-right: auto;">
+<div class="d-flex card-group justify-content-center d-sm-flex" style="margin-left: auto; margin-right: auto;">
     {% for user in discord_users %}
     <div class="card text-black bg-light mb-3" style="max-width: 16rem;">
         <div class="card-body">
@@ -20,7 +20,7 @@
                 Discord account
             </h5>
             <p class="card-text">
-                The Discord account with the id {{ user.id }} is currently linked to your username.<br>
+                The Discord account with the id <a href="https://discord.id/?prefill={{ user.id }}" class="link-secondary tooltip-test" title="Discord ID lookup" target="_blank">{{ user.id }}</a> is currently linked to your username.<br>
                 <button type="button" id="discordDeleteButton" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                     data-bs-target="#discordDeleteButtonModal" value="{{ user.id }}" style="margin-top: 5px;">
                     Remove Discord Account Link
@@ -32,13 +32,13 @@
         </div>
     </div>
     {% empty %}
-    <p>
-        You don't seem to have any linked Discord accounts... Click the button to link a Discord account to your profile
+    <p style="text-align: center;">
+        You don't seem to have any linked Discord accounts. Click the button to link a Discord account to your profile
     </p>
     {% endfor %}
 </div>
 <div class="text-center" style="padding: 10px;">
-    <a class="btn" href="/oauth2/login" role="Link" style="background-color: #7289DA; color: white;">
+    <a class="btn" href="/oauth2/login" role="Link" style="background-color: #7289DA; color: white; padding: 5px;">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-discord"
             viewBox="0 0 16 16">
             <path
@@ -50,7 +50,7 @@
         </svg>
         Login with Discord
     </a>
-    <a class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#userDeleteButtonModal" value="{{ openidc_user.username }}">
+    <a class="btn btn-danger" style="padding: 5px;" data-bs-toggle="modal" data-bs-target="#userDeleteButtonModal" value="{{ openidc_user.username }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-triangle-fill" viewBox="0 0 16 16">
             <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
           </svg>
