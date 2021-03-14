@@ -16,4 +16,6 @@ defined arrangements.
 
 * **dev** - Contains spike work and information on connecting to databases.
 
+* **img** - Contains all the main images used for the project.
+
 * **Blog** - The blog can be found on this website here and is updated on the Monday of each week: <https://cs39440blog.wordpress.com/>
