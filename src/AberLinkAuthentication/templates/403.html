@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<img src="{% static '/admin/img/AberLink_403.png' %}" alt="AberLink error 403"
+    style="display: block; margin: auto; width: 30%; padding-top: 20px;">
+<div style="text-align: center;">
+    <h2>Hey, stop trying access things which you shouldn't have access to</h2>
+    <a role="button" class="btn btn-outline-success" href="/">Return to safety</a>
+</div>
+{% endblock %}

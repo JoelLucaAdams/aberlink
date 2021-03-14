@@ -154,3 +154,39 @@ def about_major_project_view(request):
         'title': 'Major Project'
     }
     return render(request, 'major_project.html', context)
+
+def error_400_view(request, exception):
+    """
+    returns the error 400 page
+    """
+    context = {
+        'title': 'Error 400'
+    }
+    return render(request, '400.html', context)
+
+def error_403_view(request, exception):
+    """
+    returns the error 403 page
+    """
+    context = {
+        'title': 'Error 403'
+    }
+    return render(request, '403.html', context)
+
+def error_404_view(request, exception):
+    """
+    returns the error 404 page
+    """
+    context = {
+        'title': 'Error 404'
+    }
+    return render(request, '404.html', context)
+
+def error_500_view(request, exception):
+    """
+    returns the error 500 page
+    """
+    context = {
+        'title': 'Error 500'
+    }
+    return render(request, '500.html', context)

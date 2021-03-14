@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<img src="{% static '/admin/img/AberLink_404.png' %}" alt="AberLink error 404"
+    style="display: block; margin: auto; width: 30%; padding-top: 20px;">
+<div style="text-align: center;">
+    <h2>Sorry, this page doesn't seem to exist...</h2>
+    <a role="button" class="btn btn-outline-success" href="/">Return to safety</a>
+</div>
+{% endblock %}

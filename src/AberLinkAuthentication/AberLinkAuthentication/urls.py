@@ -29,3 +29,8 @@ urlpatterns = [
     path('oauth2/login', views.discord_oauth2, name='Discord-login'),
     path('oauth2/login/redirect', views.discord_oauth2_redirect, name='Discord-response'),
 ]
+
+handler400 = 'login.views.error_400_view'
+handler403 = 'login.views.error_403_view'
+handler404 = 'login.views.error_404_view'
+handler500 = 'login.views.error_500_view'

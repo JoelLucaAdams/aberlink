@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<img src="{% static '/admin/img/AberLink_500.png' %}" alt="AberLink error 500"
+    style="display: block; margin: auto; width: 30%; padding-top: 20px;">
+<div style="text-align: center;">
+    <h2>We've got an internal server error which means I probably broke something. If this problem persists for more than a few hours please use the email provided in the 'contact us' button on the navigation bar</h2>
+    <a role="button" class="btn btn-outline-success" href="/">Return to safety</a>
+</div>
+{% endblock %}
