@@ -32,7 +32,6 @@ def openidc_response(request):
         'openidc_user': openidc_user,
         'discord_users': discord_users,
         'title': 'Home',
-        'discord_token': config['DISCORD_TOKEN'],
     }
     return render(request, 'home.html', context)
 
