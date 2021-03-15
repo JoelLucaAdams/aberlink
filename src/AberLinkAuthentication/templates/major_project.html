@@ -8,15 +8,16 @@
 
 <p>
     AberLink is a major project created by Joel Adams. It contains 2 sections; this website which is used to link up
-    discord accounts to students' accounts and a Discord bot called AberLink that is used for verifying students' Discord
+    discord accounts to students' accounts and a Discord bot called AberLink that is used for verifying students'
+    Discord
     accounts with their Aber accounts. This bot is also responsible for marking students' attendance during practicals
     that have the flag of "Discord" on their student record.
 </p>
 <p>
     The AberLink Discord bot is based off of two previous bots called <a
-    href="https://github.com/NealSnooke/Aber-Verify-Discord-Bot" class="link-success" target="_blank">Aber Verify
-    Bot</a> and <a href="https://github.com/NealSnooke/IAmHere-Discord-Bot" class="link-success" target="_blank">I
-    am here!</a>. These bots veirfied students' Discord accounts and helped to mark attendance during practicals
+        href="https://github.com/NealSnooke/Aber-Verify-Discord-Bot" class="link-success" target="_blank">Aber Verify
+        Bot</a> and <a href="https://github.com/NealSnooke/IAmHere-Discord-Bot" class="link-success" target="_blank">I
+        am here!</a>. These bots veirfied students' Discord accounts and helped to mark attendance during practicals
     respectively.
 </p>
 
@@ -24,17 +25,34 @@
 
 <h5>The Website</h5>
 <p>
-    The backend of the system uses <a href="https://httpd.apache.org/" class="link-success" target="_blank">Apache 2.0</a> and <a href="https://www.debian.org/" class="link-success" target="_blank"> Debian 10.8</a>. The website is developed in Python using the <a href="https://www.djangoproject.com/" class="link-success" target="_blank">Django</a> framework. It acts as a portal to sign Aberystwyth users in and link their accounts up to their Discord accounts for attendance. It contains two login systems; the <a href="https://openid.net/" class="link-success" target="_blank">OpenID Connect</a> system that is integrated directly into the Apache modifications which is responsible for verifying Aberystwyth uni accounts and the <a href="https://discord.com/" class="link-success" target="_blank">Discord authentication system</a> that returns information about Discord accounts.
+    The backend of the system uses <a href="https://httpd.apache.org/" class="link-success" target="_blank">Apache
+        2.0</a> and <a href="https://www.debian.org/" class="link-success" target="_blank"> Debian 10.8</a>. The website
+    is developed in Python using the <a href="https://www.djangoproject.com/" class="link-success"
+        target="_blank">Django</a> framework. It acts as a portal to sign Aberystwyth users in and link their accounts
+    up to their Discord accounts for attendance. It contains two login systems; the <a href="https://openid.net/"
+        class="link-success" target="_blank">OpenID Connect</a> system that is integrated directly into the Apache
+    modifications which is responsible for verifying Aberystwyth uni accounts and the <a href="https://discord.com/"
+        class="link-success" target="_blank">Discord authentication system</a> that returns information about Discord
+    accounts.
 </p>
 <h5>The database</h5>
 <p>
-    The database uses <a href="https://www.postgresql.org/" class="link-success" target="_blank">PostgreSQL</a> and doesn't store any password information on the user as the authentication systems are responsible for confirming identities (please see the privacy policy for more information). The database stores only the most basic information that can be found readily avaiable on the internet.
+    The database uses <a href="https://www.postgresql.org/" class="link-success" target="_blank">PostgreSQL</a> and
+    doesn't store any password information on the user as the authentication systems are responsible for confirming
+    identities (please see the privacy policy for more information). The database stores only the most basic information
+    that can be found readily avaiable on the internet.
 </p>
 <h5>The Discord bot</h5>
 <p>
-    The Discord bot is responsible for the front-end of the whole system. It is built using the <a href="https://github.com/Rapptz/discord.py" class="link-success" target="_blank">discord.py</a> Python library and is based on Discord bots that I (Joel Adams) have previously created. 
+    The Discord bot is responsible for the front-end of the whole system. It is built using the <a
+        href="https://github.com/Rapptz/discord.py" class="link-success" target="_blank">discord.py</a> Python library
+    and is based on Discord bots that I (Joel Adams) have previously created.
 </p>
 
 <h2>Credits</h2>
-All the artwork for the AberLink logo and its respective images were created by Oscar Adams. Please feel free to check out some of his amazing artwork here on <a href="https://www.instagram.com/yaboiioscarfam/" class="link-success" target="_blank">instagram</a>. 
+<p>
+    All the artwork for the AberLink logo and its respective images were created by Oscar Adams. Please feel free to
+    check out some of his amazing artwork here on <a href="https://www.instagram.com/yaboiioscarfam/"
+        class="link-success" target="_blank">instagram</a>.
+</p>
 {% endblock %}
