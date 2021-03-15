@@ -38,8 +38,11 @@ def openidc_response(request):
 def deleted_user(request):
     
     if request.method == 'POST':
-        user_id = request.POST.get('user_id')
-        OpenIDCUser.objects.filter(username=request.user.username).delete()
+        try:
+            request.POST.get('user_id')
+            OpenIDCUser.objects.filter(username=request.user.username).delete()
+        except KeyError:
+            pass
     context = {
         'title': 'Deleted user data'
     }
