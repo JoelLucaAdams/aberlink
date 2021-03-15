@@ -32,6 +32,7 @@ def openidc_response(request):
         'openidc_user': openidc_user,
         'discord_users': discord_users,
         'title': 'Home',
+        'discord_token': config['DISCORD_TOKEN'],
     }
     return render(request, 'home.html', context)
 
@@ -131,7 +132,7 @@ def exchange_code(code: str):
     except KeyError:
         raise PermissionDenied()
 
-    response = requests.get('https://discord.com/api/v6/users/@me', headers={
+    response = requests.get('https://discord.com/api/v8/users/@me', headers={
         'Authorization': 'Bearer %s' % access_token
     })
     user = response.json()
@@ -182,7 +183,7 @@ def error_404_view(request, exception):
     }
     return render(request, '404.html', context)
 
-def error_500_view(request, exception):
+def error_500_view(request):
     """
     returns the error 500 page
     """
