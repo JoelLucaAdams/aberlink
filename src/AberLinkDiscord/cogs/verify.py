@@ -82,7 +82,7 @@ class Verify(commands.Cog):
 
 
     @commands.command(aliases=['va'])
-    async def verify_alumni(self, ctx: Context):
+    async def verifyAlumni(self, ctx: Context):
         """
         Verifies alumni of the university
         """
@@ -153,7 +153,7 @@ class Verify(commands.Cog):
 
 
     @commands.command(aliases=['go'])
-    async def get_openid(self, ctx: Context):
+    async def getOpenid(self, ctx: Context):
         """
         Returns the users' aber username
         """
