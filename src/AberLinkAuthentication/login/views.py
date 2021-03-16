@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
+from django.db.models.query import QuerySet
 from AberLinkAuthentication.settings import config
 from .auth import DiscordAuthenticationBackend, OpenIDCAuthenticationBackend
 from .models import OpenIDCUser, DiscordUser
@@ -28,25 +29,16 @@ def openidc_response(request):
             pass
     # TODO: Should probably change to logging
     discord_users = DiscordUser.objects.filter(openidc=openidc_user.id)
+    
+    # Queries Discord to get users information and then sends to template
+    discord_users_info = get_discord_users(discord_users)
     context = {
         'openidc_user': openidc_user,
         'discord_users': discord_users,
         'title': 'Home',
+        'discord_user_info': discord_users_info,
     }
     return render(request, 'home.html', context)
-
-def deleted_user(request):
-    
-    if request.method == 'POST':
-        try:
-            request.POST.get('user_id')
-            OpenIDCUser.objects.filter(username=request.user.username).delete()
-        except KeyError:
-            pass
-    context = {
-        'title': 'Deleted user data'
-    }
-    return render(request, 'deleted_data.html', context)
 
 def discord_oauth2(request):
     """
@@ -139,6 +131,37 @@ def exchange_code(code: str):
     })
     user = response.json()
     return user
+
+
+def get_discord_users(discord_users: QuerySet):
+    """
+    uses bot authorisation to get Discord users' info
+    Returns list of Discord users
+    """
+    json_response = {}
+    for discord_user in discord_users:
+        response = requests.get(f'https://discord.com/api/v8/users/{discord_user.id}', headers={
+        'Authorization': f'Bot {config["DISCORD_TOKEN"]}'
+        })
+        user = response.json()
+        user = {user["id"] : response.json()}
+        json_response.update(user)
+    return json_response
+
+def deleted_user(request):
+    """
+    Displays the deleted user page and removes user from database (uses CASCADE)
+    """
+    if request.method == 'POST':
+        try:
+            request.POST.get('user_id')
+            OpenIDCUser.objects.filter(username=request.user.username).delete()
+        except KeyError:
+            pass
+    context = {
+        'title': 'Deleted user data'
+    }
+    return render(request, 'deleted_data.html', context)
 
 def privacy_policy_view(request):
     """
