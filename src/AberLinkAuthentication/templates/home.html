@@ -12,19 +12,17 @@
                 Discord account usernname
             </h5>
             <p class="card-text">
-                <script>
-                    json_data = JSON.parse(document.getElementById("discord_user_info").textContent)
-                    discordAvatar = json_data["{{user.id}}"].avatar
-                    discordUsername = json_data["{{user.id}}"].username + "#" + json_data["{{user.id}}"].discriminator
-                    document.getElementById("discordAvatar{{forloop.counter}}").src = `https://cdn.discordapp.com/avatars/{{user.id}}/${discordAvatar}.png?size=256`
-                    document.getElementById("discordUsername{{forloop.counter}}").textContent = `${discordUsername}`
-                </script>
                 The Discord account with the id <a href="https://discord.id/?prefill={{ user.id }}"
                     class="link-secondary tooltip-test" title="Discord ID lookup" target="_blank">{{ user.id }}</a> is
-                currently linked to your username.<br>
+                linked to your account.<br>
                 <button type="button" id="discordDeleteButton" class="btn btn-danger btn-sm" data-bs-toggle="modal"
                     data-bs-target="#discordDeleteButtonModal" value="{{ user.id }}" style="margin-top: 5px;">
-                    Remove Discord Account Link
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
+                    </svg>
+                    Remove link
                 </button>
             </p>
         </div>
@@ -32,6 +30,13 @@
             <small class="text-muted">Last login: {{ user.last_login }}</small>
         </div>
     </div>
+    <script>
+        json_data = JSON.parse(document.getElementById("discord_user_info").textContent)
+        discordAvatar = json_data["{{user.id}}"].avatar
+        discordUsername = json_data["{{user.id}}"].username + "#" + json_data["{{user.id}}"].discriminator
+        document.getElementById("discordAvatar{{forloop.counter}}").src = `https://cdn.discordapp.com/avatars/{{user.id}}/${discordAvatar}.png?size=256`
+        document.getElementById("discordUsername{{forloop.counter}}").textContent = `${discordUsername}`
+    </script>
     {% empty %}
     <p style="text-align: center;">
         You don't seem to have any linked Discord accounts. Click the button to link a Discord account to your profile
@@ -58,7 +63,7 @@
             <path
                 d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
         </svg>
-        Delete User Data
+        Delete user data
     </a>
 </div>
 
@@ -69,7 +74,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Remove Discord Account Link</h5>
+                <h5 class="modal-title">Remove Discord account link?</h5>
             </div>
             <div class="modal-body">
                 <!--Any content placed here is overwritten by the Javascript function below-->
@@ -81,7 +86,7 @@
                     {% csrf_token %}
                     <input id="discordIdText" type="hidden" name="discord_id">
                     {{ form }}
-                    <input class="btn btn-danger" type="submit" value="Remove Discord Account Link">
+                    <input class="btn btn-danger" type="submit" value="Remove link">
                     </input>
                 </form>
             </div>
@@ -95,7 +100,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete user data</h5>
+                <h5 class="modal-title">Delete user data?</h5>
             </div>
             <div class="modal-body">
                 <p>Are you sure you want to delete all your data?</p>
@@ -107,7 +112,7 @@
                     {% csrf_token %}
                     <input id="userIdText" type="hidden" name="user_id">
                     {{ form }}
-                    <input class="btn btn-danger" type="submit" value="Delete Account">
+                    <input class="btn btn-danger" type="submit" value="Delete data">
                     </input>
                 </form>
             </div>
@@ -122,7 +127,7 @@
     deleteDiscordAccountModal.addEventListener('show.bs.modal', function (event) {
         // Gets the button and it's data attribute and prints it out in the .modal-body
         let recipient = event.relatedTarget.getAttribute('value')
-        deleteDiscordAccountModal.querySelector('.modal-body').textContent = 'Are you sure you want to delete the link to the Discord account: ' + recipient
+        deleteDiscordAccountModal.querySelector('.modal-body').textContent = 'Are you sure you want to delete the link to the Discord account \'' + recipient + '\'?'
         document.getElementById('discordIdText').value = recipient
     })
 
