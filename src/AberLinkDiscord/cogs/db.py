@@ -67,6 +67,21 @@ class PostgreSQL():
         if row is not None:
             return {"id": row[0], "username": row[1], "name": row[2], "email": row[3], "usertype": row[4], "last_login": row[5], "is_active": row[6], "is_admin": row[7]}
 
+    def get_discord_accounts(openid_id: int):
+        """
+        Returns all the discord accounts that are linked to a aber account
+        e.g. {0: {"id": 1234153153152, "last_login": <datetime>, "openidc_id": 12}, 1: {"id": 6172675345676, "last_login": <datetime>, "openidc_id": 12}}
+        """
+        PostgreSQL.try_connection()
+        cur = CONN.cursor()
+
+        cur.execute(f"SELECT * FROM login_discorduser WHERE openidc_id={openid_id}")
+        rows = cur.fetchall()
+        accounts = {}
+        for index, row in enumerate(rows):
+            accounts.update({ index : {"id": row[0], "last_login": row[1], "openidc_id": row[2]}})
+        return accounts
+
 
     def get_connection_status():
         """
