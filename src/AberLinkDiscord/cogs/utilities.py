@@ -56,12 +56,23 @@ class Utilities(commands.Cog):
 
 
     @commands.command()
-    #@cog_ext.cog_subcommand(base="utilities", name="pog", guild_ids=guild_ids)
-    async def pog(self, ctx: Context):
+    #@cog_ext.cog_subcommand(base="utilities", name="bots", guild_ids=guild_ids)
+    async def bots(self, ctx: Context):
         '''
-        Responds with a pogalitious message
+        Displays a list of useful bots to add to your server
         '''
-        await ctx.send('certified poggers moment:tm:')
+        embed = Embed(title='Additional discord bots', description='Below is a list of discord bots that you should consider adding to your server', colour=discord.Color.blue())
+        embed.set_thumbnail(url='https://discord.com/assets/2c21aeda16de354ba5334551a883b481.png')
+        embed.add_field(name=f'{emojis["demohelper"]} DemoHelper', 
+        value='Discord invite: https://bit.ly/2Qj1A3W\n'
+                'Github link: https://github.com/AberDiscordBotsTeam/demoHelperBot', inline=False)
+        embed.add_field(name=f'{emojis["muddy_points"]} Muddy Points', 
+        value='Discord invite: https://bit.ly/3tCUNk1\n'
+                'Github link: N/A', inline=False)
+        embed.add_field(name=f'{emojis["simple_poll"]} Simple Poll', 
+        value='Discord invite: https://bit.ly/3eTkA3o\n'
+                'Github link: N/A', inline=False)
+        await ctx.send(embed=embed)
 
 
     @commands.command(aliases=['cm'])
