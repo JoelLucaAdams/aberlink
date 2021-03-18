@@ -1,11 +1,11 @@
 import discord
-from discord import Member, Embed
+from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
 from discord.utils import get
 
 from cogs import admin_roles, emojis
-from AberLink import logger as logging
+from AberLink import logger as logging, TOKEN
 from .db import PostgreSQL
 
 from time import time
@@ -67,7 +67,7 @@ class Verify(commands.Cog):
         await member.add_roles(verified, reason='Assigning user the verified role')
     
 
-    @commands.command()
+    @commands.command(aliases=['v'])
     async def verify(self, ctx: Context):
         """
         Confirms if user is verified or not
@@ -86,7 +86,8 @@ class Verify(commands.Cog):
         """
         Verifies alumni of the university
         """
-        await ctx.send('Unfortunately we can\'t automatically verify Alumni so please send an email to `afc@aber.ac.uk` including your discord name (e.g `JohnSmith#1234`) and we will add you. Include your name and if possible the year you graduated. It may take a day or two to do this if we are busy.')
+        embed = Embed(description='Unfortunately we can\'t automatically verify Alumni so please send an email to `afc@aber.ac.uk` including your discord name (e.g `JohnSmith#1234`) and we will add you. Include your name and if possible the year you graduated. It may take a day or two to do this if we are busy.', colour=discord.Color.red())
+        await ctx.send(embed=embed)
 
 
     @commands.command(aliases=['b'])
@@ -160,5 +161,19 @@ class Verify(commands.Cog):
         discord_user = await check_discord_user(ctx)
         if discord_user is None:
             return
+
         message = PostgreSQL.get_openid_user(discord_user["openidc_id"])
-        await ctx.send(f'username: {message["username"]}')
+        accounts = PostgreSQL.get_discord_accounts(discord_user["openidc_id"])
+
+        embed = Embed(title='Aber details', colour=discord.Color.gold())
+        embed.set_thumbnail(url=ctx.author.avatar_url)
+        embed.add_field(name='Name', value=message["name"], inline=False)
+        embed.add_field(name='Email', value=message["email"], inline=False)
+        embed.add_field(name='Last login', value=message["last_login"].strftime("%G-%m-%d %X"), inline=False)
+
+        users = ""
+        for index, _ in enumerate(accounts):
+            users += f'<@{accounts[index]["id"]}> - last login: {accounts[index]["last_login"].strftime("%G-%m-%d %X")}\n'
+        embed.add_field(name='Linked Discord accounts', value=f'{users}', inline=False)
+
+        await ctx.send(embed=embed)
