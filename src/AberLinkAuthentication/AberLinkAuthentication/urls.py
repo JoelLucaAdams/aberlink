@@ -19,11 +19,11 @@ from login import views
 
 urlpatterns = [
     path('', views.openidc_response, name='Home'),
-    path('deleted/', views.deleted_user, name='User-data-deleted'),
-    path('privacy-policy/', views.privacy_policy_view, name='privacy-policy'),
-    path('major-project/', views.about_major_project_view, name='major-project'),
+    path('deleted', views.deleted_user, name='User-data-deleted'),
+    path('privacy-policy', views.privacy_policy_view, name='privacy-policy'),
+    path('major-project', views.about_major_project_view, name='major-project'),
     # JSON response with user data for debugging
-    path('auth/user/', views.get_authenticated_user, name='logged-in-accounts'),
+    path('auth/user', views.get_authenticated_user, name='logged-in-accounts'),
     path('admin/', admin.site.urls, name='Admin'),  
     # Responsible for discord login
     path('oauth2/login', views.discord_oauth2, name='Discord-login'),
