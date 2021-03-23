@@ -42,7 +42,9 @@
 
 4. `sudo a2enmod ssl` - Enable the ssl mod for SSL to work on the website
 
-5. Open the conf file again (e.g. `aberlink.conf`) and change it match the domain name:
+5. `source /etc/apache2/envvars` - fixes errors in apache2
+
+6. Open the conf file again (e.g. `aberlink.conf`) and change it match the domain name:
 
 ```shell
 <VirtualHost *:443>
@@ -89,4 +91,4 @@
 
 ```
 
-6. `sudo apachectl restart` - Restart Apache2 to enable the new mods
+7. `sudo apachectl restart` - Restart Apache2 to enable the new mods
