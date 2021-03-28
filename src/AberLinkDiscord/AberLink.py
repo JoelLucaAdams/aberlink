@@ -60,6 +60,9 @@ async def on_command_error(ctx, error):
     """
     Handle the Error message in a nice way.
     """
+    # Ignores any further errors if custom command has an on_error function
+    if hasattr(ctx.command, 'on_error'):
+            return
     if isinstance(error, commands.errors.CheckFailure):
         await ctx.send(error)
     elif isinstance(error, commands.errors.MissingRequiredArgument):
