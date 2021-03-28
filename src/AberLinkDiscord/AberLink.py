@@ -70,7 +70,7 @@ async def on_command_error(ctx, error):
     elif isinstance(error, commands.errors.CommandInvokeError):
         await ctx.send(f'{emojis["aberlink_error"]} {error}')
     elif isinstance(error, commands.errors.BadArgument):
-        print(error)
+        await ctx.send(f'{emojis["aberlink_error"]} {error}')
     elif isinstance(error, commands.errors.CommandNotFound):
         pass
     else:
