@@ -1,0 +1,10 @@
+{
+    "SECRET_KEY": "",
+    "DATABASE_NAME": "",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "",
+    "PORT": "",
+    "DISCORD_CLIENT_SECRET": "",
+    "DISCORD_TOKEN": ""
+}

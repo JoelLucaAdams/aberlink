@@ -133,3 +133,28 @@ PORT=5432 # This is the default port
 3. `pipenv install` installs dependencies from the project into the file
 
 4. Make sure that that the venv file path is correct inside of the `aberlink.conf` file.
+
+## Django setup
+
+1. `sudo cp config/config.json /etc/config.json` - copy the template file for the django config and fill out the details below:
+
+```json
+{
+    "SECRET_KEY": "", //Send joa38 an email for the secret key
+    //Postgres database
+    "DATABASE_NAME": "",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "",
+    "PORT": "",
+    //Discord information (see section below for details)
+    "DISCORD_CLIENT_SECRET": "",
+    "DISCORD_TOKEN": ""
+}
+```
+
+The `DISCORD_CLIENT_SECRET` and `DISCORD_TOKEN` can be found by visitng the page created earlier for the discord bot.
+
+1. Navigate to the `General Information` tab and copy the client secret which is located below the Description on the right hand side. Copy and save this variable to the `DISCORD_TOKEN`
+
+2. Naviage to the `Bot` tab and copy the name token located below the username and save it to the `DISCORD_CLIENT_SECRET`
