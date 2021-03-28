@@ -12,7 +12,7 @@ This project will also contain a front-end Discord bot to verify users and monit
 relevant directories corresponding to their position in the package hierarchy or in other language
 defined arrangements.
 
-* **config** - Contains minutes from meetings.
+* **config** - Contains information on setting the service up.
 
 * **dev** - Contains spike work and information on connecting to databases.
 
