@@ -136,18 +136,16 @@ PORT=5432 # This is the default port
 
 ## Django setup
 
-1. `sudo cp config/config.json /etc/config.json` - copy the template file for the django config and fill out the details below:
+1. `sudo cp config/config.json /etc/config.json` - copy the template file for the django config and fill out the details below (email joa38 for `SECRET_KEY`):
 
 ```json
 {
-    "SECRET_KEY": "", //Send joa38 an email for the secret key
-    //Postgres database
+    "SECRET_KEY": "",
     "DATABASE_NAME": "",
     "USER": "",
     "PASSWORD": "",
     "HOST": "",
     "PORT": "",
-    //Discord information (see section below for details)
     "DISCORD_CLIENT_SECRET": "",
     "DISCORD_TOKEN": ""
 }
