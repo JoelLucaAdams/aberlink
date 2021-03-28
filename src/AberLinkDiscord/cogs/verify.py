@@ -2,17 +2,28 @@ import discord
 from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
+from discord.ext.commands.errors import CommandInvokeError
 from discord.utils import get
 
-from cogs import admin_roles, emojis
+from cogs import admin_roles, emojis, shelve_file
 from AberLink import logger as logging, TOKEN
 from .db import PostgreSQL
 
 from time import time
+import shelve
 
 def setup(bot):
     bot.add_cog(Verify(bot))
 
+
+def check_shelve_file(serverName: str):
+    """
+    Checks if the server has set the auto roles to false
+    """
+    with shelve.open(shelve_file) as db:
+        if str(serverName) in db:
+            data = db[str(serverName)]
+            return data
 
 async def check_verify_role(ctx: Context):
         """
@@ -44,14 +55,14 @@ class Verify(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-
+    @commands.bot_has_permissions(manage_nicknames=True, manage_roles=True)
     @commands.Cog.listener()
     async def on_member_join(self, member):
         """
         Triggered when a new member joins the guild and gives them the verified role
         """
         verified = get(member.guild.roles, name='verified')
-        user = PostgreSQL.get_discord_user(member.id)
+        db_discord_user = PostgreSQL.get_discord_user(member.id)
         # Checks if the verified role exists, if it doesn't a DM is sent to the server owner to configure it
         if verified is None:
             dm_channel = await member.guild.owner.create_dm()
@@ -59,26 +70,42 @@ class Verify(commands.Cog):
             return
 
         # Checks if the user exists in the database, if it doesn't a DM is sent to the user to tell them to get verified
-        if user is None:
+        if db_discord_user is None:
             dm_channel = await member.create_dm()
             await dm_channel.send("You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified")
             return
             
+        db_openid_user = PostgreSQL.get_openid_user(db_discord_user["openidc_id"])
+        email = db_openid_user["username"]
         await member.add_roles(verified, reason='Assigning user the verified role')
-    
 
+        if check_shelve_file(member.guild):
+            await member.edit(nick=f'{member.name} [{email}]', reason="Changing users\'s nickname")
+        
+
+    @commands.bot_has_permissions(manage_nicknames=True, manage_roles=True)
     @commands.command(aliases=['v'])
     async def verify(self, ctx: Context):
         """
         Confirms if user is verified or not
         """
         verified = await check_verify_role(ctx)
-        db_user = await check_discord_user(ctx)
-        if verified is None or db_user is None:
+        db_discord_user = await check_discord_user(ctx)
+        if verified is None or db_discord_user is None:
             return
+        db_openid_user = PostgreSQL.get_openid_user(db_discord_user["openidc_id"])
+        email = db_openid_user["username"]
         user = ctx.message.author
         await user.add_roles(verified, reason='Assigning user the verified role')
-        await ctx.send("You are now verified with AberLink:tm:")
+        await ctx.send("You are now verified with AberLink")
+         
+        if check_shelve_file(ctx.guild):
+            await user.edit(nick=f'{user.name} [{email}]', reason="Changing users\'s nickname")
+
+    @verify.error
+    async def verify_error(self, ctx, error):
+        if isinstance(error, CommandInvokeError):
+            await ctx.send(f"{ctx.author.mention} I can\'t change your name because you have higher permissions than me")
 
 
     @commands.command(aliases=['va'])

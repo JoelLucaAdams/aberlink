@@ -4,17 +4,18 @@ from discord.ext import commands
 from discord.ext.commands import Context
 #from discord_slash import cog_ext, SlashContext
 from AberLink import logger as logging
-from cogs import admin_roles, emojis, guild_ids
+from cogs import admin_roles, emojis, shelve_file, guild_ids
 from .db import PostgreSQL
 
 from time import time
 import asyncio
+import shelve
 
 def setup(bot):
     bot.add_cog(Utilities(bot))
 
 class Utilities(commands.Cog):
-    """
+    """ 
     General Utilities
     """
 
@@ -68,7 +69,7 @@ class Utilities(commands.Cog):
                 'Github link: https://github.com/AberDiscordBotsTeam/demoHelperBot', inline=False)
         embed.add_field(name=f'{emojis["muddy_points"]} Muddy Points', 
         value='Discord invite: https://bit.ly/3tCUNk1\n'
-                'Github link: N/A', inline=False)
+                'Github link: https://github.com/NealSnooke/Muddy-Points---Discord-Bot', inline=False)
         embed.add_field(name=f'{emojis["simple_poll"]} Simple Poll', 
         value='Discord invite: https://bit.ly/3eTkA3o\n'
                 'Github link: N/A', inline=False)
@@ -101,3 +102,36 @@ class Utilities(commands.Cog):
         elif str(reaction.emoji) == '👎':
             await msg.delete()
             await ctx.send('Messages have not been cleared')
+
+
+    @commands.command(aliases=['san'])
+    @commands.has_any_role(*admin_roles)
+    async def setAutoNicknames(self, ctx: Context, state: bool):
+        """
+        Change whether nicknames are automatically set
+        :param state: bool
+        """
+        #logging.info('{0}: #{1} setAddMessage to "{2}" by {3}'.format(ctx.guild, ctx.channel.name, message, ctx.message.author))
+        with shelve.open(shelve_file) as db:
+            db[str(ctx.guild)] = state
+            embed = Embed(description=f'Auto set user nickanmes has been set to `{state}`')
+        if state:
+            embed.colour = discord.Colour.green()
+        else:
+            embed.colour = discord.Colour.red()
+        await ctx.send(embed=embed)
+
+    @commands.command(aliases=['c'])
+    @commands.has_any_role(*admin_roles)
+    async def configurations(self, ctx: Context):
+        """
+        Displays the servers configurations
+        """
+        serverName = ctx.guild
+        with shelve.open(shelve_file) as db:
+            if str(serverName) in db:
+                data = db[str(serverName)]
+                pass
+        embed = Embed(description='Below is a list of configurations available in the bot', colour=discord.Colour.orange())
+        embed.add_field(name='Set Auto Nicknames:', value=f'{data}')
+        await ctx.send(embed=embed)

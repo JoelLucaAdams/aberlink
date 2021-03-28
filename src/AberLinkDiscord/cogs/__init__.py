@@ -11,5 +11,7 @@ emojis = {
     'simple_poll': '<:simple_poll:822074760686600213>'
     }
 
+shelve_file = 'shelve_file.shelve'
+
 # test server guild
 guild_ids = [802212304216260661]
