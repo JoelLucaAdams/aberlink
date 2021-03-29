@@ -6,6 +6,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import DefaultHelpCommand
 from dotenv import load_dotenv
+from pretty_help import PrettyHelp, Navigation
 #from discord_slash import SlashCommand
 from cogs import emojis
 from cogs.db import PostgreSQL
@@ -27,6 +28,7 @@ PostgreSQL.connect()
 
 # Initialise the Bot object with an accessible help Command object
 helpCommand = DefaultHelpCommand()
+#helpCommand = PrettyHelp()
 
 bot = commands.Bot(
     command_prefix="!",
@@ -41,8 +43,12 @@ bot = commands.Bot(
 bot.load_extension('cogs.utilities')
 bot.load_extension('cogs.verify')
 bot.load_extension('cogs.here')
+bot.load_extension('cogs.help')
 
 # Setup the General cog with the help command
+
+#nav = Navigation('⬆️', '⬇️')
+#bot.help_command = PrettyHelp(navigation=nav, color=discord.Color.dark_green())
 generalCog = bot.get_cog("Utilities")
 helpCommand.cog = generalCog
 
