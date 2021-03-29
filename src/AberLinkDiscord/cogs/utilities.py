@@ -16,7 +16,7 @@ def setup(bot):
 
 class Utilities(commands.Cog):
     """ 
-    General Utilities
+    Bot utilities
     """
 
     def __init__(self, bot):
@@ -125,13 +125,14 @@ class Utilities(commands.Cog):
     @commands.has_any_role(*admin_roles)
     async def configurations(self, ctx: Context):
         """
-        Displays the servers configurations
+        Displays the bots configurations in this server
         """
         serverName = ctx.guild
+        data = True  # Default value in case data doesn't exist
         with shelve.open(shelve_file) as db:
             if str(serverName) in db:
                 data = db[str(serverName)]
                 pass
         embed = Embed(description='Below is a list of configurations available in the bot', colour=discord.Colour.orange())
-        embed.add_field(name='Set Auto Nicknames:', value=f'{data}')
+        embed.add_field(name='Set Auto Nicknames:', value=f'`{data}`')
         await ctx.send(embed=embed)
