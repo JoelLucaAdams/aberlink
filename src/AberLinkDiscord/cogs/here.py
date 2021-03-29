@@ -14,7 +14,7 @@ def setup(bot):
 
 class Here(commands.Cog):
     """
-    Verification of aber users
+    Marking attendance of students during Discord practicals
     """
 
     def __init__(self, bot):

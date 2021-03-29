@@ -49,7 +49,7 @@ async def check_discord_user(ctx: Context):
 
 class Verify(commands.Cog):
     """
-    Verification of aber users
+    Verification of Aberystwyth University students
     """
 
     def __init__(self, bot):
