@@ -1,4 +1,13 @@
 {% extends "base.html" %}
+{% load static %}
+
+<head>
+    <meta content="Embed Title" property="og:title">
+    <meta content="AberLink registers Aberystwyth university accounts and their connected Discord accounts" property="og:description">
+    <meta content="https://mmp-joa38.dcs.aber.ac.uk" property="og:url">
+    <meta content="{% static '/admin/img/AberLink_database.png' %}" property="og:image">
+    <meta content="#ffcc00" data-react-helmet='true' name='theme-color'>
+</head>
 
 {% block content %}
 <h1 style="padding: 30px 0px 30px 0px; text-align: center;">Welcome {{ openidc_user.name }}!</h1>
