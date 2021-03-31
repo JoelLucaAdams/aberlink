@@ -4,9 +4,13 @@
 
 1. `sudo apt install apache2 -y` - Install apache2
 
-2. `sudo cp ~/aberlink/config/aberlink.conf /etc/apache2/sites-available/` - copy the config file to the directory
+2. `sudo apt install libapache2-mod-auth-openidc` - Installs library for running openid
 
-3. Edit the file to match the file structure, below is an example of what to change the settings to:
+3. Enable the following mods: `ssl`, `auth_openidc`, `wsgi`, `rewrite`
+
+4. `sudo cp ~/aberlink/config/aberlink.conf /etc/apache2/sites-available/` - copy the config file to the directory
+
+5. Edit the file to match the file structure, below is an example of what to change the settings to:
 
 ```shell
 <VirtualHost *:80>
@@ -20,9 +24,9 @@
 </VirtualHost>
 ```
 
-4. `sudo a2ensite aberlink` - Enable the website
+6. `sudo a2ensite aberlink` - Enable the website
 
-5. Go to `sudo nano /etc/apache2/apache2.conf` and add the following:
+7. Go to `sudo nano /etc/apache2/apache2.conf` and add the following:
 
 ```shell
 <Directory /home/joa38/aberlink/src/>
