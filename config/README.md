@@ -4,9 +4,13 @@
 
 1. `sudo apt install apache2 -y` - Install apache2
 
-2. `sudo cp ~/aberlink/config/aberlink.conf /etc/apache2/sites-available/` - copy the config file to the directory
+2. `sudo apt install libapache2-mod-auth-openidc` - Installs library for running openid
 
-3. Edit the file to match the file structure, below is an example of what to change the settings to:
+3. Enable the following mods: `ssl`, `auth_openidc`, `wsgi`, `rewrite`
+
+4. `sudo cp ~/aberlink/config/aberlink.conf /etc/apache2/sites-available/` - copy the config file to the directory
+
+5. Edit the file to match the file structure, below is an example of what to change the settings to:
 
 ```shell
 <VirtualHost *:80>
@@ -20,9 +24,9 @@
 </VirtualHost>
 ```
 
-4. `sudo a2ensite aberlink` - Enable the website
+6. `sudo a2ensite aberlink` - Enable the website
 
-5. Go to `sudo nano /etc/apache2/apache2.conf` and add the following:
+7. Go to `sudo nano /etc/apache2/apache2.conf` and add the following:
 
 ```shell
 <Directory /home/joa38/aberlink/src/>
@@ -101,7 +105,7 @@
 
 3. Create a discord bot token by visitng <https://discord.com/developers/applications> and creating a new bot called AberLink along with the supplied photo `/img/AberLink_logo_cropped.png`. Then head on over to the Bot panel and create a new bot with the same information as above. Finally copy the token underneath the bots name for the next section.
 
-4. While inside the folder `/aberlink/src/AberLinkDiscord` create a new file using `nano .env` and add the following:
+4. While inside the folder `/aberlink/src/AberLinkDiscord` create a new file using `nano .env` and add the following (or copy the example provided in this folder):
 
 ```shell
 DISCORD_TOKEN= # Discord token found on bot's page
