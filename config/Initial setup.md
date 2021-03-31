@@ -105,7 +105,7 @@
 
 3. Create a discord bot token by visitng <https://discord.com/developers/applications> and creating a new bot called AberLink along with the supplied photo `/img/AberLink_logo_cropped.png`. Then head on over to the Bot panel and create a new bot with the same information as above. Finally copy the token underneath the bots name for the next section.
 
-4. While inside the folder `/aberlink/src/AberLinkDiscord` create a new file using `nano .env` and add the following:
+4. While inside the folder `/aberlink/src/AberLinkDiscord` create a new file using `nano .env` and add the following (or copy the example provided in this folder):
 
 ```shell
 DISCORD_TOKEN= # Discord token found on bot's page
