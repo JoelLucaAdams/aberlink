@@ -6,16 +6,16 @@ This project will also contain a front-end Discord bot to verify users and monit
 
 ## Project sections
 
-* **docs** - Contains project documentation.
+* **docs** - Project documentation.
 
-* **src** - Contains the source code for the project, including any module tests, arranged into the
+* **src** - Source code for the project, including any module tests, arranged into the
 relevant directories corresponding to their position in the package hierarchy or in other language
 defined arrangements.
 
-* **config** - Contains information on setting the service up.
+* **config** - Information on setting the service up.
 
-* **dev** - Contains spike work and information on connecting to databases.
+* **dev** - Spike work and information on connecting to databases.
 
-* **img** - Contains all the main images used for the project.
+* **img** - Contains all the main artwork used for the project.
 
-* **Blog** - The blog can be found on this website here and is updated on the Monday of each week: <https://cs39440blog.wordpress.com/>
+* **Blog** - The blog can be found on this website here and is updated regularly each week: <https://cs39440blog.wordpress.com/>
