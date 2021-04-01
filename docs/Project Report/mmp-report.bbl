@@ -18,57 +18,82 @@
 \fi
 #2}}
 
-\bibitem{ProjectReportTechicalWork}
-N.~Taylor, ``{MMP\_S08 Project Report and Technical Work},''
-  \url{http://blackboard.aber.ac.uk/}, Feb. 2019, accessed February 2019.
- \begin{quotation}\noindent A document that outlines information about the
-  marking guide for the Project Report and Technical Work. This is published in
-  the Resources folder on Blackboard. \end{quotation}
+\bibitem{discord}
+\BIBentryALTinterwordspacing
+{Discord Inc.}, ``Discord,'' accessed January 2021. [Online]. Available:
+  \url{https://discord.com/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Discord is a voice, video or text communication
+  service used widely in the department of Computer Science at Aberywtysth
+  University. \end{quotation}
 
-\bibitem{NumericalRecipes}
-W.~Press \emph{et~al.}, \emph{{Numerical recipes in C}}.\hskip 1em plus 0.5em
-  minus 0.4em\relax Cambridge University Press Cambridge, 1992, pp. 349--361.
- \begin{quotation}\noindent This is my annotation. I can add in comments that
-  are in \textbf{bold} and \em{italics} and then other content. \end{quotation}
+\bibitem{aber_verify}
+\BIBentryALTinterwordspacing
+N.~Snooke, ``{AberVerify},'' Sept. 2020, accessed January 2021. [Online].
+  Available: \url{https://github.com/NealSnooke/Aber-Verify-Discord-Bot}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Discord bot for Aberystwyth user verification in
+  discord servers using email accounts (e.g. joa38@aber.ac.uk) and discord IDs
+  (e.g. JoelinRome\#4893). These accounts are then linked together using JSON
+  objects. This project is currently available through Github. \end{quotation}
 
-\bibitem{MarksPaper}
-M.~Neal, J.~Feyereisl, R.~Rascun\`{a}, and X.~Wang, ``{Don't touch me, I'm
-  fine: Robot autonomy using an artificial innate immune system},'' in
-  \emph{Proceedings of the 5th International Conference on Artificial Immune
-  Systems}.\hskip 1em plus 0.5em minus 0.4em\relax Springer, 2006, pp.
-  349--361.
- \begin{quotation}\noindent This paper... \end{quotation}
+\bibitem{i_am_here}
+\BIBentryALTinterwordspacing
+------, ``I am here,'' Sept. 2020, accessed January 2021. [Online]. Available:
+  \url{https://github.com/NealSnooke/IAmHere-Discord-Bot}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Discord bot for marking Aberystwyth students'
+  attendance during a practical. A student writes a message and the bot adds
+  them to a list of students that have attended the practical and emails the
+  lecturer at the end. This project is currently available through Github.
+  \end{quotation}
 
-\bibitem{HannahsPaper}
-H.~M. Dee and D.~C. Hogg, ``Navigational strategies in behaviour modelling,''
-  \emph{Artificial Intelligence}, vol. 173(2), pp. 329--342, 2009.
- \begin{quotation}\noindent This is my annotation. I should add in a
-  description here. \end{quotation}
+\bibitem{apache2}
+{Apache Software Foundation}, ``{Apache License, Version 2.0},''
+  \url{https://httpd.apache.org/}, accessed January 2021.
+ \begin{quotation}\noindent Apache2.0 is a open source linux package for
+  website hosting \end{quotation}
 
-\bibitem{FailBlog}
-Various, ``Fail blog,'' \url{http://www.failblog.org/}, Aug. 2011, accessed
-  August 2011.
- \begin{quotation}\noindent This is my annotation. I should add in a
-  description here. \end{quotation}
+\bibitem{discord.py}
+\BIBentryALTinterwordspacing
+{Danny (Rapptz) and Various}, ``discord.py,'' accessed January 2021. [Online].
+  Available: \url{https://github.com/Rapptz/discord.py}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Python API library for Discord currently available
+  through Github. \end{quotation}
 
-\bibitem{kittenpic_ref}
-S.~Duckworth, ``{A picture of a kitten at Hellifield Peel},''
-  \url{http://www.geograph.org.uk/photo/640959}, 2007, copyright Sylvia
-  Duckworth and licensed for reuse under a Creative Commons Attribution-Share
-  Alike 2.0 Generic Licence. Accessed August 2011.
- \begin{quotation}\noindent This is my annotation. I should add in a
-  description here. \end{quotation}
+\bibitem{psql}
+\BIBentryALTinterwordspacing
+{PostgreSQL Global Development Group}, ``{PostgreSQL},'' accessed January 2021.
+  [Online]. Available: \url{https://www.postgresql.org/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent PostgreSQL is a powerful, open source
+  object-relational database system with over 30 years of active development
+  that has earned it a strong reputation for reliability, feature robustness,
+  and performance. \end{quotation}
 
-\bibitem{apache_poi}
-{Apache Software Foundation}, ``{Apache POI - the Java API for Microsoft
-  Documents},'' \url{http://poi.apache.org}, 2014.
- \begin{quotation}\noindent This is my annotation. I should add in a
-  description here. \end{quotation}
+\bibitem{Django}
+\BIBentryALTinterwordspacing
+{Django Software Foundation}, ``Django,'' accessed January 2021. [Online].
+  Available: \url{https://www.djangoproject.com/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Django is a high-level Python Web framework that
+  encourages rapid development and clean, pragmatic design. \end{quotation}
 
-\bibitem{apache_license}
-------, ``{Apache License, Version 2.0},''
-  \url{http://www.apache.org/licenses/LICENSE-2.0}, 2004.
- \begin{quotation}\noindent This is my annotation. I should add in a
-  description here. \end{quotation}
+\bibitem{OpenID}
+\BIBentryALTinterwordspacing
+{OpenID Foundation}, ``{OpenID Connect},'' accessed January 2021. [Online].
+  Available: \url{https://openid.net/connect/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent OpenID connect is a identity layer on top of OAuth
+  2.0 and is responsible for simple user verification. It provides a basic
+  profile of the connected user to the client in a REST-like manner.
+  \end{quotation}
+
+\bibitem{debian}
+{Debian 10 (Buster)}, ``{Debian 10 (Buster)},''
+  \url{https://www.debian.org/releases/buster/}, accessed January 2021.
+ \begin{quotation}\noindent Debian 10 (Buster) is a Linux Distro and is used
+  throughout this project \end{quotation}
 
 \end{thebibliography}

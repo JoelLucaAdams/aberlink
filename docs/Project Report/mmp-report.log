@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.28)  31 MAR 2021 23:41
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/W32TeX) (preloaded format=pdflatex 2019.10.28)  1 APR 2021 18:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -522,6 +522,10 @@ l.105 \newpage
  (./Chapters_Engineering/chapter1.tex
 Chapter 1.
 
+LaTeX Warning: Citation `ProjectReportTechicalWork' on page 1 undefined on inpu
+t line 10.
+
+
 Package Fancyhdr Warning: \headheight is too small (0.0pt): 
 Make it at least 13.59999pt.
 We now make it that large for the rest of the document.
@@ -568,20 +572,33 @@ Chapter 5.
 
 ] (./mmp-report.bbl
 LaTeX Font Info:    Trying to load font information for OT1+ppl on input line 2
-3.
+4.
  (c:/texlive/2019/texmf-dist/tex/latex/psnfss/ot1ppl.fd
 File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
-)) [9
+) [9
 
 
-] [10
+]
+Underfull \hbox (badness 4036) in paragraph at lines 94--96
+[]\OT1/qhv/m/n/10.95 Debian 10 (Buster), ``De-bian 10 (Buster),'' []$\OT1/ppl/m
+/n/10.95 https : / / www . debian . org / releases /
+ []
+
+) [10] [11
 
 ]
 \openout2 = `Appendices/appendixA.aux'.
 
  (./Appendices/appendixA.tex
 Appendix A.
-) [11
+
+LaTeX Warning: Citation `apache_poi' on page 12 undefined on input line 12.
+
+
+LaTeX Warning: Citation `apache_license' on page 12 undefined on input line 13.
+
+
+) [12
 
 
 ]
@@ -589,7 +606,7 @@ Appendix A.
 
  (./Appendices/appendixB.tex
 Appendix B.
-) [12
+) [13
 
 
 
@@ -598,15 +615,19 @@ Appendix B.
 
  (./Appendices/appendixC.tex
 Appendix C.
+
+LaTeX Warning: Citation `NumericalRecipes' on page 14 undefined on input line 1
+1.
+
 LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 1
 3.
 (c:/texlive/2019/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-) [13
+) [14
 
 
 
-] [14]) [15]
+] [15]) [16]
 
 AED: lastpage setting LastPage
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 185.
@@ -621,27 +642,30 @@ Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 185.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 185.
 Package rerunfilecheck Info: File `mmp-report.out' has not changed.
 (rerunfilecheck)             Checksum: 615885C7BCA57D0A2E31077EACEF14D0;1629.
+
+
+LaTeX Warning: There were undefined references.
+
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 185.
  ) 
 Here is how much of TeX's memory you used:
- 8692 strings out of 492167
- 127634 string characters out of 6129158
- 230056 words of memory out of 5000000
- 12777 multiletter control sequences out of 15000+600000
- 42475 words of font info for 47 fonts, out of 8000000 for 9000
+ 8696 strings out of 492167
+ 127603 string characters out of 6129158
+ 230036 words of memory out of 5000000
+ 12780 multiletter control sequences out of 15000+600000
+ 39275 words of font info for 46 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,12n,50p,576b,442s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 53i,12n,50p,645b,504s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2019/texmf-dist/fonts/enc/dvips/base/8r.enc}{c:/texlive/2019/texm
 f-dist/fonts/enc/dvips/tex-gyre/q-rm.enc}<c:/texlive/2019/texmf-dist/fonts/type
 1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/
 tex-gyre/qhvb.pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/tex-gyre/qhvr.
-pfb><c:/texlive/2019/texmf-dist/fonts/type1/public/tex-gyre/qhvri.pfb><c:/texli
-ve/2019/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2019/texmf-di
-st/fonts/type1/urw/palatino/uplr8a.pfb>
-Output written on mmp-report.pdf (22 pages, 137986 bytes).
+pfb><c:/texlive/2019/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/
+2019/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb>
+Output written on mmp-report.pdf (23 pages, 123194 bytes).
 PDF statistics:
- 317 PDF objects out of 1000 (max. 8388607)
- 284 compressed objects within 3 object streams
- 62 named destinations out of 1000 (max. 500000)
+ 328 PDF objects out of 1000 (max. 8388607)
+ 295 compressed objects within 3 object streams
+ 64 named destinations out of 1000 (max. 500000)
  217 words of extra memory for PDF output out of 10000 (max. 10000000)
 

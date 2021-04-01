@@ -20,50 +20,55 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: StylesAndReferences/references.bib
+Warning--I didn't find a database entry for "ProjectReportTechicalWork"
+Warning--I didn't find a database entry for "apache_poi"
+Warning--I didn't find a database entry for "apache_license"
+Warning--I didn't find a database entry for "NumericalRecipes"
 -- IEEEannotU.bst version 1.2 (2017-02-05) by Neil Taylor, based on work by Michael Shell (IEEEtransS.bst) and Titus Barik (IEEEannot).
 -- http://www.ctan.org/tex-archive/macros/latex/contrib/supported/IEEEtran/
 -- See the "IEEEtran_bst_HOWTO.pdf" manual for usage information.
 ** Sorting version - not for use with work to be submitted to the IEEE.
 
 Done.
-You've used 8 entries,
+You've used 9 entries,
             4102 wiz_defined-function locations,
-            879 strings with 9320 characters,
-and the built_in function-call counts, 4621 in all, are:
-= -- 361
-> -- 78
-< -- 27
-+ -- 44
-- -- 13
-* -- 208
-:= -- 736
-add.period$ -- 17
-call.type$ -- 8
-change.case$ -- 10
-chr.to.int$ -- 69
-cite$ -- 8
-duplicate$ -- 346
-empty$ -- 421
-format.name$ -- 16
-if$ -- 1037
+            876 strings with 9910 characters,
+and the built_in function-call counts, 3558 in all, are:
+= -- 272
+> -- 36
+< -- 0
++ -- 18
+- -- 9
+* -- 159
+:= -- 673
+add.period$ -- 18
+call.type$ -- 9
+change.case$ -- 18
+chr.to.int$ -- 0
+cite$ -- 9
+duplicate$ -- 294
+empty$ -- 340
+format.name$ -- 9
+if$ -- 732
 int.to.chr$ -- 0
-int.to.str$ -- 8
-missing$ -- 65
-newline$ -- 52
-num.names$ -- 8
-pop$ -- 165
+int.to.str$ -- 9
+missing$ -- 72
+newline$ -- 70
+num.names$ -- 9
+pop$ -- 206
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 361
+skip$ -- 260
 stack$ -- 0
-substring$ -- 174
-swap$ -- 251
-text.length$ -- 4
+substring$ -- 27
+swap$ -- 165
+text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 6
 type$ -- 0
 warning$ -- 0
-while$ -- 19
-width$ -- 9
-write$ -- 97
+while$ -- 9
+width$ -- 10
+write$ -- 116
+(There were 4 warnings)

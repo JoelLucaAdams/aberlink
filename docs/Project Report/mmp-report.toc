@@ -20,8 +20,8 @@
 \contentsline {section}{\numberline {4.4}User Testing}{7}{section.4.4}% 
 \contentsline {chapter}{\numberline {5}Evaluation}{8}{chapter.5}% 
 \contentsline {chapter}{Annotated Bibliography}{9}{chapter.5}% 
-\contentsline {chapter}{Appendices}{9}{chapter*.8}% 
-\contentsline {chapter}{\numberline {A}Third-Party Code and Libraries}{11}{appendix.A}% 
-\contentsline {chapter}{\numberline {B}Ethics Submission}{12}{appendix.B}% 
-\contentsline {chapter}{\numberline {C}Code Examples}{13}{appendix.C}% 
-\contentsline {section}{\numberline {3.1}Random Number Generator}{13}{section.C.1}% 
+\contentsline {chapter}{Appendices}{10}{chapter*.8}% 
+\contentsline {chapter}{\numberline {A}Third-Party Code and Libraries}{12}{appendix.A}% 
+\contentsline {chapter}{\numberline {B}Ethics Submission}{13}{appendix.B}% 
+\contentsline {chapter}{\numberline {C}Code Examples}{14}{appendix.C}% 
+\contentsline {section}{\numberline {3.1}Random Number Generator}{14}{section.C.1}% 
