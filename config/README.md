@@ -162,3 +162,11 @@ The `DISCORD_CLIENT_SECRET` and `DISCORD_TOKEN` can be found by visitng the page
 1. Navigate to the `General Information` tab and copy the client secret which is located below the Description on the right hand side. Copy and save this variable to the `DISCORD_TOKEN`
 
 2. Naviage to the `Bot` tab and copy the name token located below the username and save it to the `DISCORD_CLIENT_SECRET`
+
+After setting up the config file open the command shell and type the following commands to configure the database for Django:
+
+1. `python3 manage.py makemigrations`
+
+2. `python3 manage.py sqlmigrate`
+
+3. `python3 manage.py migrate`
