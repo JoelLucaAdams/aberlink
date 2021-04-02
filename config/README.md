@@ -170,3 +170,5 @@ After setting up the config file open the command shell and type the following c
 2. `python3 manage.py sqlmigrate`
 
 3. `python3 manage.py migrate`
+
+Finally once everything has been ensured to be fully functioning open the file `src\AberLinkAuthentication\AberLinkAuthentication\settings.py` and find the line `DEBUG = True` and set the variable to `False`
