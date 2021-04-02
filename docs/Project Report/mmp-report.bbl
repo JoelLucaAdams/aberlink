@@ -1,0 +1,99 @@
+\begin{thebibliography}{1}
+\providecommand{\url}[1]{#1}
+\csname url@rmstyle\endcsname
+\providecommand{\newblock}{\relax}
+\providecommand{\bibinfo}[2]{#2}
+\providecommand\BIBentrySTDinterwordspacing{\spaceskip=0pt\relax}
+\providecommand\BIBentryALTinterwordstretchfactor{4}
+\providecommand\BIBentryALTinterwordspacing{\spaceskip=\fontdimen2\font plus
+\BIBentryALTinterwordstretchfactor\fontdimen3\font minus
+  \fontdimen4\font\relax}
+\providecommand\BIBforeignlanguage[2]{{%
+\expandafter\ifx\csname l@#1\endcsname\relax
+\typeout{** WARNING: IEEEtran.bst: No hyphenation pattern has been}%
+\typeout{** loaded for the language `#1'. Using the pattern for}%
+\typeout{** the default language instead.}%
+\else
+\language=\csname l@#1\endcsname
+\fi
+#2}}
+
+\bibitem{discord}
+\BIBentryALTinterwordspacing
+{Discord Inc.}, ``Discord,'' accessed January 2021. [Online]. Available:
+  \url{https://discord.com/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Discord is a voice, video or text communication
+  service used widely in the department of Computer Science at Aberywtysth
+  University. \end{quotation}
+
+\bibitem{aber_verify}
+\BIBentryALTinterwordspacing
+N.~Snooke, ``{AberVerify},'' Sept. 2020, accessed January 2021. [Online].
+  Available: \url{https://github.com/NealSnooke/Aber-Verify-Discord-Bot}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Discord bot for Aberystwyth user verification in
+  discord servers using email accounts (e.g. joa38@aber.ac.uk) and discord IDs
+  (e.g. JoelinRome\#4893). These accounts are then linked together using JSON
+  objects. This project is currently available through Github. \end{quotation}
+
+\bibitem{i_am_here}
+\BIBentryALTinterwordspacing
+------, ``I am here,'' Sept. 2020, accessed January 2021. [Online]. Available:
+  \url{https://github.com/NealSnooke/IAmHere-Discord-Bot}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Discord bot for marking Aberystwyth students'
+  attendance during a practical. A student writes a message and the bot adds
+  them to a list of students that have attended the practical and emails the
+  lecturer at the end. This project is currently available through Github.
+  \end{quotation}
+
+\bibitem{apache2}
+{Apache Software Foundation}, ``{Apache License, Version 2.0},''
+  \url{https://httpd.apache.org/}, accessed January 2021.
+ \begin{quotation}\noindent Apache2.0 is a open source linux package for
+  website hosting \end{quotation}
+
+\bibitem{discord.py}
+\BIBentryALTinterwordspacing
+{Danny (Rapptz) and Various}, ``discord.py,'' accessed January 2021. [Online].
+  Available: \url{https://github.com/Rapptz/discord.py}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Python API library for Discord currently available
+  through Github. \end{quotation}
+
+\bibitem{psql}
+\BIBentryALTinterwordspacing
+{PostgreSQL Global Development Group}, ``{PostgreSQL},'' accessed January 2021.
+  [Online]. Available: \url{https://www.postgresql.org/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent PostgreSQL is a powerful, open source
+  object-relational database system with over 30 years of active development
+  that has earned it a strong reputation for reliability, feature robustness,
+  and performance. \end{quotation}
+
+\bibitem{Django}
+\BIBentryALTinterwordspacing
+{Django Software Foundation}, ``Django,'' accessed January 2021. [Online].
+  Available: \url{https://www.djangoproject.com/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Django is a high-level Python Web framework that
+  encourages rapid development and clean, pragmatic design. \end{quotation}
+
+\bibitem{OpenID}
+\BIBentryALTinterwordspacing
+{OpenID Foundation}, ``{OpenID Connect},'' accessed January 2021. [Online].
+  Available: \url{https://openid.net/connect/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent OpenID connect is a identity layer on top of OAuth
+  2.0 and is responsible for simple user verification. It provides a basic
+  profile of the connected user to the client in a REST-like manner.
+  \end{quotation}
+
+\bibitem{debian}
+{Debian 10 (Buster)}, ``{Debian 10 (Buster)},''
+  \url{https://www.debian.org/releases/buster/}, accessed January 2021.
+ \begin{quotation}\noindent Debian 10 (Buster) is a Linux Distro and is used
+  throughout this project \end{quotation}
+
+\end{thebibliography}

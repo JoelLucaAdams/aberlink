@@ -4,8 +4,12 @@
 
 \section*{\centering Abstract}
 
-Include an abstract for your project. This should be approximately 300 words. 
+AberLink contains 2 components; this website which is used to link up Discord \cite{discord} accounts to students' accounts and a Discord bot called AberLink that is used for verifying students' Discord accounts. This bot is also responsible for marking students' attendance during practicals that have the flag of "Discord" on their student record.
 
-The abstract is an overview of the work you have done. Highlight the purpose of the work and the key outcomes of the work.
+This system was developed on the Linux distribution Debian 10 (Buster) \cite{debian}. It uses the open source HTTP server Apache2.0 \cite{apache2} to web-host along with the Python framework Django \cite{Django} for the website. The website is locked behind the Open-ID Connect \cite{OpenID} login system that only authenticates users with Aber accounts. Once logged in a user can link multiple Discord accounts to their Aber account. 
+
+Information is saved to a back-end  PostgreSQL \cite{psql} database using foreign keys to link the uni and Discord accounts together. A Discord bot (AberLink) using the python library Discord.py \cite{discord.py} then verifies Discord accounts by checking if that account is present in the database and then grant users access to the Discord server. AberLink also has an API endpoint for marking attendance on Student Record and uses the database to perform a reverse search on Discord users to get their uni information and send that to the endpoint.
+
+The AberLink Discord bot is based on two previous bots called Aber Verify Bot \cite{aber_verify} and I am here! \cite{i_am_here}. These bots verified students' Discord accounts and helped to mark attendance during practicals respectively but have been greatly modified.
 
 %TC:endignore
