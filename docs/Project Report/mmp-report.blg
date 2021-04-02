@@ -20,7 +20,12 @@ Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: StylesAndReferences/references.bib
-Warning--I didn't find a database entry for "ProjectReportTechicalWork"
+Repeated entry---line 31 of file StylesAndReferences/references.bib
+ : @misc{I_am_here
+ :                ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "discord"
+Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "apache_poi"
 Warning--I didn't find a database entry for "apache_license"
 Warning--I didn't find a database entry for "NumericalRecipes"
@@ -32,37 +37,37 @@ Warning--I didn't find a database entry for "NumericalRecipes"
 Done.
 You've used 9 entries,
             4102 wiz_defined-function locations,
-            876 strings with 9910 characters,
-and the built_in function-call counts, 3558 in all, are:
+            876 strings with 9875 characters,
+and the built_in function-call counts, 3567 in all, are:
 = -- 272
 > -- 36
 < -- 0
 + -- 18
 - -- 9
-* -- 159
-:= -- 673
+* -- 162
+:= -- 678
 add.period$ -- 18
 call.type$ -- 9
 change.case$ -- 18
 chr.to.int$ -- 0
 cite$ -- 9
-duplicate$ -- 294
-empty$ -- 340
+duplicate$ -- 293
+empty$ -- 339
 format.name$ -- 9
-if$ -- 732
+if$ -- 731
 int.to.chr$ -- 0
 int.to.str$ -- 9
 missing$ -- 72
-newline$ -- 70
+newline$ -- 72
 num.names$ -- 9
-pop$ -- 206
+pop$ -- 208
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 260
+skip$ -- 259
 stack$ -- 0
 substring$ -- 27
-swap$ -- 165
+swap$ -- 164
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 6
@@ -70,5 +75,5 @@ type$ -- 0
 warning$ -- 0
 while$ -- 9
 width$ -- 10
-write$ -- 116
-(There were 4 warnings)
+write$ -- 118
+(There was 1 error message)

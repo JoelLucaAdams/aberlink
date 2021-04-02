@@ -1,18 +1,27 @@
-\chapter{Background \& Objectives}
-
-This section should discuss your preparation for the project, including background reading, your analysis of the problem and the process or method you have followed to help structure your work.  It is likely that you will reuse part of your outline project specification, but as you write this report at the end of the project you should have more to discuss. 
-
-\textbf{Note}: 
-
-\begin{itemize}
-   \item All of the sections and text in this example are for illustration purposes. The main Chapters are a good starting point, but the content and actual sections that you include are likely to be different.
-   
-   \item Look at the document MMP\_SO8 Project Report and Technical Work \cite{ProjectReportTechicalWork} for additional guidance. 
-   
-\end {itemize}
+\chapter{Background \& Objectives} 
 
 \section{Background}
-What was your background preparation for the project? What similar systems did you assess? What was your motivation and interest in this project?
+
+My main motivation behind this project was that I wanted to create another Discord bot like DemoHelper \cite{demohelper} that aids the university with their online presence. The main idea behind this project was however from Dan Monaghan when we were discussing a system to link student accounts up to Discord accounts. For this project I also wanted it to be more of a challenge so I decided to build a website where users could login and save their information to create this link. As I had very little experience working with websites and frameworks they  were the primary focus of my research.
+
+Please see the dev folder of my GitLab repository for spike work I completed at the beginning of the project. Below are subsections breaking down my choices and decisions I made with choosing parts of the system.
+
+\textbf{Note:} This project is hopefully going to be deployed in the department so some choices have been made to accommodate ease of use for staff.
+
+\subsection{Web Hosting \& Containers}
+When considering web hosting I decided to rely on the containers provided by the university along with Apache2 \cite{apache2} mainly due to their convenience and ease of use. I did consider using Nginx instead of Apache2 but it didn't provide me with the level of documentation I wanted and there were far less tutorials on using the it.
+
+\subsection{Coding Languages}
+Over the summer of 2020 a new Discord bot appeared called DemoHelper \cite{demohelper} that was used to create and maintain a simple queue system in university practicals on Discord. Soon after it's initial creation I became involved in the project and learnt how to write and create my own Discord bots in Python based off of it that I slowly developed over the year. This lead to me having solid foundation of Python and is the reason behind me choosing this as my primary coding language this project. It also had a knock on effect for choosing the database and web framework that worked well or used Python. I also used HTML, CSS and some Javascript to develop the website pages.
+
+\subsection{Database}
+PostgreSQL \cite{psql} was used for the back-end database due to it's flexibility and use of  relational databases that I have previously worked with. It was also chosen due to it's support in Python and working with the website framework. I have considered other options such as MSSQL or NoSQL but settled on PostgreSQL as the university already is familiar with it and has database hosting already setup.
+
+\subsection{Website Frameworks}
+For the website building I went through a few different popular options such as Flask but decided against using them as they didn't scale well for my project's scope. Django \cite{Django} was the perfect framework as it has vast documentation, many tutorials so easy to learn and built in support for user handling or custom models. It is also useful as it has a prebuilt Admin page that allows admins to view all of the user accounts that are logged in so saves me the hassle of designing more webpages.
+
+\subsection{Discord bot}
+The Discord bot was an easy choice as I had already developed several bots using the Discord.py \cite{discord.py} framework and decided to stick with it.
 
 \section{Analysis}
 Taking into account the problem and what you learned from the background work, what was your analysis of the problem? How did your analysis help to decompose the problem into the main tasks that you would undertake? Were there alternative approaches? Why did you choose one approach compared to the alternatives? 
