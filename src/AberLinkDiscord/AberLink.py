@@ -22,7 +22,7 @@ logger.addHandler(handler)
 # load the private discord token from .env file.
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
-WEBSITE = os.getenv('WEBSITE')
+WEBSITE = os.getenv('WEBSITE_URL')
 
 # Initialise the database connection
 PostgreSQL.connect()
