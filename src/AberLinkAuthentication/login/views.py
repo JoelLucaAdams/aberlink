@@ -109,7 +109,7 @@ def exchange_code(code: str):
         'client_secret': config['DISCORD_CLIENT_SECRET'],
         'grant_type': 'authorization_code',
         'code': code,
-        'redirect_uri': 'https://mmp-joa38.dcs.aber.ac.uk/oauth2/login/redirect',
+        'redirect_uri': f'{config["WEBSITE_URL"]}oauth2/login/redirect',
         'scope': 'identify'
     }
     headers = {

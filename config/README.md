@@ -141,7 +141,7 @@ WEBSITE= # The website for AberLinkAuthentication
 
 ## Django setup
 
-1. `sudo cp config/config.json /etc/config.json` - copy the template file for the django config and fill out the details below (email joa38 for `SECRET_KEY`):
+1. `sudo cp config/config.json /etc/config.json` - copy the template file for the django config and fill out the details below (email joa38@aber.ac.uk for `SECRET_KEY`):
 
 ```json
 {
@@ -152,9 +152,12 @@ WEBSITE= # The website for AberLinkAuthentication
     "HOST": "",
     "PORT": "",
     "DISCORD_CLIENT_SECRET": "",
-    "DISCORD_TOKEN": ""
+    "DISCORD_TOKEN": "",
+    "WEBSITE_URL": ""
 }
 ```
+
+Note: The `WEBSITE_URL` is the name of the website that is going to be used. e.g. `https://joa38-mmp.dcs.aber.ac.uk`
 
 The `DISCORD_CLIENT_SECRET` and `DISCORD_TOKEN` can be found by visitng the page created earlier for the discord bot.
 

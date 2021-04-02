@@ -29,7 +29,9 @@ SECRET_KEY = config["SECRET_KEY"]
 DEBUG = True
 
 # Change this host here to the website url e.g. "mmp-joa38.dcs.aber.ac.uk"
-ALLOWED_HOSTS = ["mmp-joa38.dcs.aber.ac.uk"]
+# Loading the website url from the config file and stripping it of the https:// and / characters
+WEBSITE_URL = (config["WEBSITE_URL"].replace("https://", "")).replace("/", "")
+ALLOWED_HOSTS = [WEBSITE_URL]
 
 
 # Application definition
@@ -46,7 +48,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #'login.apps.LoginConfig',
     'login'
 ]
 

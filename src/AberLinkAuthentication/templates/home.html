@@ -117,7 +117,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" data-bs-dismiss="modal">Cancel</button>
                 <!--Creates a form and adds the discord id to a hidden form and sends with csrf_token to database via POST request-->
-                <form action="deleted/" method="post">
+                <form action="deleted" method="post">
                     {% csrf_token %}
                     <input id="userIdText" type="hidden" name="user_id">
                     {{ form }}
@@ -140,11 +140,11 @@
         document.getElementById('discordIdText').value = recipient
     })
 
-    let userDiscordAccountModal = document.getElementById('userDeleteButtonModal')
-    userDiscordAccountModal.addEventListener('show.bs.modal', function (event) {
+    let userAccountModal = document.getElementById('userDeleteButtonModal')
+    userAccountModal.addEventListener('show.bs.modal', function (event) {
         // Gets the button and it's data attribute and prints it out in the .modal-body
         let recipient = event.relatedTarget.getAttribute('value')
-        userDiscordAccountModal.querySelector('.modal-body').textContent = 'Are you sure you want to delete all the data for \'' + recipient + '\'?'
+        userAccountModal.querySelector('.modal-body').textContent = 'Are you sure you want to delete all the data for \'' + recipient + '\'?'
         document.getElementById('userIdText').value = recipient
     })
 </script>
