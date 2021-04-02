@@ -114,6 +114,7 @@ USER= # Postgres user
 PASSWORD= # Postgres password
 HOST= # Postgres host
 PORT=5432 # This is the default port
+WEBSITE= # The website for AberLinkAuthentication
 ```
 
 5. Check that the .env file has been configured correctly by typing in the command `pipenv run python3 -m AberLink`.

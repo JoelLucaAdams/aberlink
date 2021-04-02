@@ -4,6 +4,7 @@ from discord.ext.commands import Context
 
 from cogs import admin_roles, emojis
 from AberLink import logger as logging
+from AberLink import WEBSITE
 from .db import PostgreSQL
 
 from datetime import datetime
@@ -32,7 +33,7 @@ class Here(commands.Cog):
 
         # Gets openid user from Discord id
         if discord_user is None:
-            await dm_channel.send('You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified')
+            await dm_channel.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified')
             return
         openid_user = PostgreSQL.get_openid_user(discord_user["openidc_id"])
 

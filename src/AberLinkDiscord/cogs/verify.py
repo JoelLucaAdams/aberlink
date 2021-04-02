@@ -4,6 +4,7 @@ from discord.ext import commands
 from discord.ext.commands import Context
 from discord.ext.commands.errors import CommandInvokeError
 from discord.utils import get
+from AberLink import WEBSITE
 
 from cogs import admin_roles, emojis, shelve_file
 from AberLink import logger as logging, TOKEN
@@ -42,7 +43,7 @@ async def check_discord_user(ctx: Context):
     """
     user = PostgreSQL.get_discord_user(ctx.message.author.id)
     if user is None:
-        await ctx.send('You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified')
+        await ctx.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified')
         return
     return user
 
@@ -72,7 +73,7 @@ class Verify(commands.Cog):
         # Checks if the user exists in the database, if it doesn't a DM is sent to the user to tell them to get verified
         if db_discord_user is None:
             dm_channel = await member.create_dm()
-            await dm_channel.send("You have not been verified yet. Please visit https://mmp-joa38.dcs.aber.ac.uk/ to get verified")
+            await dm_channel.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified')
             return
             
         db_openid_user = PostgreSQL.get_openid_user(db_discord_user["openidc_id"])
