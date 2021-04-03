@@ -24,14 +24,97 @@ For the website building I went through a few different popular options such as 
 The Discord bot was an easy choice as I had already developed several bots using the Discord.py \cite{discord.py} framework and decided to stick with it.
 
 \section{Analysis}
-Taking into account the problem and what you learned from the background work, what was your analysis of the problem? How did your analysis help to decompose the problem into the main tasks that you would undertake? Were there alternative approaches? Why did you choose one approach compared to the alternatives? 
+%Taking into account the problem and what you learned from the background work, what was your analysis of the problem? How did your analysis help to decompose the problem into the main tasks that you would undertake? Were there alternative approaches? Why did you choose one approach compared to the alternatives? 
+%
+%There should be a clear statement of the objectives of the work, which you will evaluate at the end of the work. 
+%
+%In most cases, the agreed objectives or requirements will be the result of a compromise between what would ideally have been produced and what was determined to be possible in the time available. A discussion of the process of arriving at the final list is usually appropriate.
+%
+%As mentioned in the lectures, think about possible security issues for the project topic. Whilst these might not be relevant for all projects, do consider if there are relevant for your project. Where there are relevant security issues, discuss how they will this affect the work that you are doing. Carry forward this discussion into relevant areas for design, implementation and testing.
 
-There should be a clear statement of the objectives of the work, which you will evaluate at the end of the work. 
+\subsection{Objectives}
+After completing the spike work and prior research the next step was breaking the project down into sections and deliverables. Below is a list of the items that were used as milestones for the project.
 
-In most cases, the agreed objectives or requirements will be the result of a compromise between what would ideally have been produced and what was determined to be possible in the time available. A discussion of the process of arriving at the final list is usually appropriate.
+\begin{itemize}
+	\item \textbf{Research \& Discussion with IS/CS-support.}
+	\begin{itemize}
+		\item Discuss how to access uni data and how to sign users in who are only on the uni network using OpenID Connect \cite{OpenID}.
+		\item How to build the attendance API so that it is secure and only marks students for current practicals.
+		\item Setting up PSQL \cite{psql} and how to make it secure from outside attacks.
+	\end{itemize}
+%	 The first step of the project was to discuss with university the access that can be granted to the different APIs including the attendance API, the OpenID connect configuration and the Discord OAuth2 login. We settled on a container that I could use to test and server host on and a database using PSQL \cite{psql}.
+	
+	\item \textbf{Version control, documentation and setup.}
+	\begin{itemize}
+		\item Create a container on the uni network to remain secure and locked under VPN access.
+		\item Documentation and version control using git on the university's GitLab upon the departments request so that it can be easily redeployed as a complete service later on.
+		\item A blog (usually bi-weekly) to document the process and progress of this project.
+	\end{itemize}
+%	 A container called \url{http://mmp-joa38.dcs.aber.ac.uk/} was set up to build and run the project. This is a good idea as the container is now secured underneath the Aber DCS network and requires the VPN to access. Documentation and version control is done on DCS' GitLab as the goal of this project is to make it easily available for the uni to redeploy on it. I then setup a Wordpress website to host my blog on that can be found here \url{https://cs39440blog.wordpress.com/} and is updated on average once every few days.
+	
+	\item \textbf{Creation of Python back-end for website and the database.}
+	\begin{itemize}
+		\item Build the website using the Python framework Django \cite{Django}.
+		\item Establish a PSQL \cite{psql} database for data storage.
+	\end{itemize}
+%	 The website was built using the Python framework Django \cite{Django} due to it's history of being secure and difficult to breach. The PSQL \cite{psql} database was then setup on DCS' network and 
+	
+	\item \textbf{Re-writing `AberVerify` and `I am here` into single Discord bot.}
+	\begin{itemize}
+		\item Recreate the two mentioned bots in Python instead of JavaScript.
+		\item Make the bot use a Discord users information to lookup their Aber ID in the database using relational keys.
+		\item Make the bot update attendance using the uni provided API endpoint.
+	\end{itemize}
+%	 The bot will perform the previously stated tasks of verification using the login system with PSQL and it will update attendance by sending and receiving responses from the university.
+	
+	\item \textbf{Interface for lecturers and students on website.}
+	\begin{itemize}
+		\item Create webpages for users to add Discord accounts, view the module servers they are in and the one's that they aren't. 
+		\item Create Admin pages only visible to staff to view all the connected students, remove them and configure their roles in servers for which they have administrative privileges.
+	\end{itemize}
+%	 Allows students to view which servers they are in and links to join module servers they are not in. Lecturers can view servers for which they have administrative privileges and can configure student's roles online by creating a new table that links students to roles in the server.
+	
+	\item \textbf{Resource links and further webpages.} 
+	\begin{itemize}
+		\item Create a Discord bot function to get information such as the Aber account that is linked to the Discord account.
+		\item Discord bot function to display other useful discord bots that can be added to the server. e.g. DemoHelper \cite {demohelper}
+		\item Create webpages to display information such as the 'privacy policy', 'ethics form', 'blog' and 'about this project'.
+	\end{itemize}
+%	If there is remaining time in the project more features will be added to the bot including links to resources in the department and across the university (e.g. link to blackboard, student record, abersu, etc.). The bot may also contain a command to display users' Discord usernames and Aber usernames to confirm that the link has worked correctly (this would only display the current users' information and not other users' identities).
+	
+	\item \textbf{Further potential work}
+	\begin{itemize}
+		\item Integrate DemoHelper Discord bot into AberLink
+		\item Add multiple language support
+	\end{itemize}
+\end{itemize}
 
-As mentioned in the lectures, think about possible security issues for the project topic. Whilst these might not be relevant for all projects, do consider if there are relevant for your project. Where there are relevant security issues, discuss how they will this affect the work that you are doing. Carry forward this discussion into relevant areas for design, implementation and testing.
+\subsection{Possible Security Issues}
+Throughout this project I have attempted to minimise the amount of security risks that can occur. The main identified weakpoints are as follows:
 
+\begin{itemize}
+	\item \textbf{Direct Database Access} - This is the first point of attack that could be used to get access to Discord and Aber account details. This has been secured by using a PostgreSQL \cite{psql} database that is located in Departments servers so it is already behind a very secure and up to date firewall. To access the database you also need to have a registered Aber account and be using the campus WiFi or the uni's VPN so that adds another layer of security. If the user however has access to both of these then brute forcing the PSQL login system is difficult as it has many security levels and incoming connections are monitored by the university.
+	\item \textbf{Unauthorized Admin Access} - This is the possibility that the user will try and brute force access to the admin page of the website. Before they attempt this they would need to get past the website's OpenID Connect \cite{OpenID} authentication system that requires an Aberystwyth account to authenticate. The website also has another layer of security as it requires the user to be connected to the campus' internet or be logged in on the VPN. If they get past both methods there is no easy way to spoof the system to gain access to the administrator panel as the backend uses cookies to keep the user authenticated.
+	\item \textbf{Accessing Database Credentials through Back-end Code} - All database credentials have been hidden in files that are not stored in the git repository and are loaded from JSON and .env files. This is good practice and creates a simple way for maintainers to setup and change variables such as database passwords easily instead of going through source code and manually editing it.
+	\item \textbf{Accessing Data through AberLink Discord Bot} - The Discord bot doesn't contain any sensitive data, it merely queries the database using generic queries that are changed depending on the input variable. It can however be used to gain an understanding of the database model that is used.
+	\item \textbf{Worst Case Scenario} - If the user someone gains unauthorized access to the data they will only be collecting a list of emails and linked Discord accounts. No password data is ever stored in the database because  OpenID Connect \cite{OpenID} is used to authenticate Aber accounts and Discord accounts are linked using OAuth2 \cite{oauth2}. This means that no password data is ever exchanged with the database or website.
+\end{itemize}
+
+%\subsubsection{Direct Database Access}
+%This is the first point of attack that could be used to get access to Discord and Aber account details. This has been secured by using a PostgreSQL \cite{psql} database that is located in Departments servers so it is already behind a very secure and up to date firewall. To access the database you also need to have a registered Aber account and be using the campus WiFi or the uni's VPN so that adds another layer of security. If the user however has access to both of these then brute forcing the PSQL login system is difficult as it has many security levels and incoming connections are monitored by the university.
+%
+%\subsubsection{Unauthorized Admin Access}
+%This is the possibility that the user will try and brute force access to the admin page of the website. Before they attempt this they would need to get past the website's OpenID Connect \cite{OpenID} authentication system that requires an Aberystwyth account to authenticate. The website also has another layer of security as it requires the user to be connected to the campus' internet or be logged in on the VPN. If they get past both methods there is no easy way to spoof the system to gain access to the administrator panel as the backend uses cookies to keep the user authenticated.
+%
+%\subsubsection{Accessing Database Credentials through Back-end Code}
+%All database credentials have been hidden in files that are not stored in the git repository and are loaded from JSON and .env files. This is good practice and creates a simple way for maintainers to setup and change variables such as database passwords easily instead of going through source code and manually editing it.
+%
+%\subsubsection{Accessing Data through AberLink Discord Bot}
+%The Discord bot doesn't contain any sensitive data, it merely queries the database using generic queries that are changed depending on the input variable. It can however be used to gain an understanding of the database model that is used.
+%
+%\subsubsection{Worst Case Scenario}
+%If the user someone gains unauthorized access to the data they will only be collecting a list of emails and linked Discord accounts. No password data is ever stored in the database because  OpenID Connect \cite{OpenID} is used to authenticate Aber accounts and Discord accounts are linked using OAuth2 \cite{oauth2}. This means that no password data is ever exchanged with the database or website.
+ 
 \section{Process}
 You need to describe briefly the life cycle model or research method that you used. You do not need to write about all of the different process models that you are aware of. Focus on the process model that you have used. It is possible that you needed to adapt an existing process model to suit your project; clearly identify what you used and how you adapted it for your needs.
 

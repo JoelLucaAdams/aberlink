@@ -24,8 +24,6 @@ Repeated entry---line 31 of file StylesAndReferences/references.bib
  : @misc{I_am_here
  :                ,
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "discord"
-Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "apache_poi"
 Warning--I didn't find a database entry for "apache_license"
 Warning--I didn't find a database entry for "NumericalRecipes"
@@ -35,45 +33,45 @@ Warning--I didn't find a database entry for "NumericalRecipes"
 ** Sorting version - not for use with work to be submitted to the IEEE.
 
 Done.
-You've used 9 entries,
+You've used 11 entries,
             4102 wiz_defined-function locations,
-            876 strings with 9875 characters,
-and the built_in function-call counts, 3567 in all, are:
-= -- 272
-> -- 36
+            886 strings with 10088 characters,
+and the built_in function-call counts, 4336 in all, are:
+= -- 330
+> -- 44
 < -- 0
-+ -- 18
-- -- 9
-* -- 162
-:= -- 678
-add.period$ -- 18
-call.type$ -- 9
-change.case$ -- 18
++ -- 22
+- -- 11
+* -- 197
+:= -- 827
+add.period$ -- 22
+call.type$ -- 11
+change.case$ -- 22
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 293
-empty$ -- 339
-format.name$ -- 9
-if$ -- 731
+cite$ -- 11
+duplicate$ -- 356
+empty$ -- 412
+format.name$ -- 11
+if$ -- 888
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 72
-newline$ -- 72
-num.names$ -- 9
-pop$ -- 208
+int.to.str$ -- 11
+missing$ -- 88
+newline$ -- 86
+num.names$ -- 11
+pop$ -- 258
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 259
+skip$ -- 313
 stack$ -- 0
-substring$ -- 27
-swap$ -- 164
+substring$ -- 33
+swap$ -- 197
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 6
 type$ -- 0
 warning$ -- 0
-while$ -- 9
-width$ -- 10
-write$ -- 118
+while$ -- 11
+width$ -- 13
+write$ -- 142
 (There was 1 error message)

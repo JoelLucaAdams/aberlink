@@ -1,4 +1,4 @@
-\begin{thebibliography}{1}
+\begin{thebibliography}{10}
 \providecommand{\url}[1]{#1}
 \csname url@rmstyle\endcsname
 \providecommand{\newblock}{\relax}
@@ -18,9 +18,19 @@
 \fi
 #2}}
 
+\bibitem{discord}
+\BIBentryALTinterwordspacing
+{Discord Inc.}, ``Discord,'' accessed January 2021. [Online]. Available:
+  \url{https://discord.com/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent Discord is a voice, video and text communication
+  platform. \end{quotation}
+
 \bibitem{debian}
-{Debian 10 (Buster)}, ``{Debian 10 (Buster)},''
-  \url{https://www.debian.org/releases/buster/}, accessed April 2021.
+\BIBentryALTinterwordspacing
+{Debian}, ``{Debian 10 (Buster)},'' accessed April 2021. [Online]. Available:
+  \url{https://www.debian.org/releases/buster/}
+\BIBentrySTDinterwordspacing
  \begin{quotation}\noindent Debian 10 (Buster) is a Linux Distro and is used
   throughout this project \end{quotation}
 
@@ -96,5 +106,13 @@ N.~Snooke, ``{AberVerify},'' Sept. 2020, accessed April 2021. [Online].
 \BIBentrySTDinterwordspacing
  \begin{quotation}\noindent DemoHelper is a Discord bot created to manage
   demonstrating online for students on Discord. \end{quotation}
+
+\bibitem{oauth2}
+\BIBentryALTinterwordspacing
+{Blaine Cook}, ``{OAuth 2.0},'' accessed April 2021. [Online]. Available:
+  \url{https://oauth.net/2/}
+\BIBentrySTDinterwordspacing
+ \begin{quotation}\noindent OAuth 2.0 is the industry-standard protocol for
+  authorization. \end{quotation}
 
 \end{thebibliography}
