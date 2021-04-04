@@ -62,16 +62,16 @@ def get_authenticated_user(request):
             'email': openidc_user.email,
             'usertype': openidc_user.usertype,
             'last_login': openidc_user.last_login
-        }
+        },
+        "discord_accounts": []
     }
-    for index, user in enumerate(discord_users):
-        user = {f"Discord_{index}": {
+    for user in discord_users:
+        user = {
             "id": user.id,
             'last_login': user.last_login,
             'openidc_id': user.openidc_id
             }
-        }
-        json_object.update(user)
+        json_object["discord_accounts"].append(user)
         
     return JsonResponse(json_object)
 
