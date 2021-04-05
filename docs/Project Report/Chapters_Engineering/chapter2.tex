@@ -1,14 +1,87 @@
 %\addcontentsline{toc}{chapter}{Development Process}
 \chapter{Design}
 
-You should concentrate on the more important aspects of the design. It is essential that an overview is presented before going into detail. As well as describing the design adopted it must also explain what other designs were considered and why they were rejected.The design should describe what you expected to do, and might also explain areas that you had to revise after some investigation.Typically, for an object-oriented design, the discussion will focus on the choice of objects and classes and the allocation of methods to classes. The use made of reusable components should be described and their source referenced. Particularly important decisions concerning data structures usually affect the architecture of a system and so should be described here.How much material you include on detailed design and implementation will depend very much on the nature of the project. It should not be padded out. Think about the significant aspects of your system. For example, describe the design of the user interface if it is a critical aspect of your system, or provide detail about methods and data structures that are not trivial. Do not spend time on long lists of trivial items and repetitive descriptions. If in doubt about what is appropriate, speak to your supervisor. You should also identify any support tools that you used. You should discuss your choice of implementation tools - programming language, compilers, database management system, program development environment, etc.Some example sub-sections may be as follows, but the specific sections are for you to define. 
+%You should concentrate on the more important aspects of the design. It is essential that an overview is presented before going into detail. As well as describing the design adopted it must also explain what other designs were considered and why they were rejected.
+%
+%The design should describe what you expected to do, and might also explain areas that you had to revise after some investigation.
+%
+%Typically, for an object-oriented design, the discussion will focus on the choice of objects and classes and the allocation of methods to classes. The use made of reusable components should be described and their source referenced. Particularly important decisions concerning data structures usually affect the architecture of a system and so should be described here.
+%
+%How much material you include on detailed design and implementation will depend very much on the nature of the project. It should not be padded out. Think about the significant aspects of your system. For example, describe the design of the user interface if it is a critical aspect of your system, or provide detail about methods and data structures that are not trivial. Do not spend time on long lists of trivial items and repetitive descriptions. If in doubt about what is appropriate, speak to your supervisor.
+% 
+%You should also identify any support tools that you used. You should discuss your choice of implementation tools - programming language, compilers, database management system, program development environment, etc.
+%
+%Some example sub-sections may be as follows, but the specific sections are for you to define. 
 
 \section{Overall Architecture}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/aberlink-flowchart-3}
+	\caption{Architecture diagram of the overall system}
+	\label{fig:architecture}
+\end{figure}
 
-\section{Some detailed design}
+\section{Website Architecture and Design}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/Architecture-website}
+	\caption{Architecture diagram of website}
+	\label{fig:architecture-web}
+\end{figure}
 
-\subsection{Even more detail}
+\section{Discord Bot Architecture and Design}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/Architecture-discord}
+	\caption{Architecture diagram of Discord bot}
+	\label{fig:architecture-dis}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\linewidth]{Figures/aberlink-sequence}
+	\caption{Sequence diagram for Discord bot to database}
+	\label{fig:architecture-dis}
+\end{figure}
+
+\section{Database design}
+\begin{table}[H]
+	\centering
+	\small
+	\setlength\tabcolsep{2pt}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|}
+		\hline
+		id & username & name                & email            & usertype & last\_login                   & is\_active & is\_admin \\
+		\hline
+		1  & joa38    & Joel Adams          & joa38@aber.ac.uk & staff    & datetime & t          & t         \\
+		2  & jet39    & Jenny Thyer         & jet39@aber.ac.uk & student  & datetime & t          & f         \\
+		3  & maw86    & Michael Antony West & maw86@aber.ac.uk & student  & datetime & t          & f       \\
+		\hline 
+	\end{tabular}
+	\caption{Aberystwyth user table}
+	\label{tab:aber-table}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\small
+	\setlength\tabcolsep{2pt}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		id                 & last\_login                   & openidc\_id \\
+		\hline
+		727834884915331144 & 2021-02-18 16:43:47.067328+00 & 1           \\
+		284352754321719296 & 2021-02-18 16:43:47.067328+00 & 1           \\
+		246998944964542464 & 2021-02-04 11:14:40.057891+00 & 2           \\
+		282248714955784192 & 2021-02-12 17:35:23.044226+00 & 3           \\
+		\hline
+	\end{tabular}
+	\caption{Discord user table}
+	\label{tab:dis-table}
+\end{table}
 
 \section{User Interface}
+\subsection{Website}
+\subsection{Discord bot}
 
 \section{Other relevant sections}
