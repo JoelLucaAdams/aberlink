@@ -29,6 +29,17 @@
 	\label{fig:architecture-web}
 \end{figure}
 
+The website is built using the Python framework Django \cite{Django}. This framework has been used to generate a template of the code required and only requires minimal tweaking to setup. When you visit the website you then get redirected to the OpenID Connect \cite{OpenID} authentication framework which helps to prevent unwanted access by users who aren't permitted to view the website. Once authenticated the users data is then saved to the database and they can then add Discord accounts by using the button displayed on the screen. This then redirects them to Discord's OAuth2 authentication page and once they've logged in with a discord account then it redirects them back to the my website and saves that information to the database as well. I have included a flow chart below to explain the process.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Figures/website-flowchart}
+	\caption{Website flowchart for authentication of accounts}
+	\label{fig:architecture-web-flow}
+\end{figure}
+
+The website can be found here \href{https://mmp-joa38.dcs.aber.ac.uk/}{https://mmp-joa38.dcs.aber.ac.uk/} and is only accessible over VPN.
+
 \section{Discord Bot Architecture and Design}
 \begin{figure}[H]
 	\centering
@@ -159,22 +170,39 @@ Below is an example of the data stored in the database.
 \section{User Interface}
 
 \subsection{Website}
+Before beginning work on the website I designed some website mock-ups that I have used as reference when working on the design of the webpages and are pictured below.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-0}
+	\caption{Website mock-up for 0 users}
+	\label{fig:web-mock-0}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-1}
+	\caption{Website mock-up for 1 user}
+	\label{fig:web-mock-1}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-2}
+	\caption{Website mock-up for 2 users}
+	\label{fig:web-mock-2}
+\end{figure}
+
 
 \subsection{Discord bot}
 Discord provides its own interface for Discord bots and doesn't vary much from the regular interface provided to users. Discord bots however have the additional feature of being able to use Embeds which contain far better formatting than regular messages and are used extensively throughout AberLink. Below are some examples of the output of bot commands that I have created.
 \begin{figure}[H]
 	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering
-		\includegraphics[width=1.2\textwidth]{Figures/test-2}
-		\caption{Discord embed example for getting users information}
-		\label{fig:dis-go}
-	\end{minipage}\hfill
-	\begin{minipage}{0.45\textwidth}
-		\centering
-		\includegraphics[width=1.2\textwidth]{Figures/test}
-		\caption{Discord embed example for source command}
-		\label{fig:dis-source}
-	\end{minipage}
+	\includegraphics[width=0.8\textwidth]{Figures/test-2}
+	\caption{Discord embed example for getting users information}
+	\label{fig:dis-go}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Figures/test}
+	\caption{Discord embed example for source command}
+	\label{fig:dis-source}
 \end{figure}
 
