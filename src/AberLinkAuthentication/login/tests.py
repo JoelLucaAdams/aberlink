@@ -92,5 +92,5 @@ class TestModels(TestCase):
         self.assertEquals(self.openidc_user2.username, "abc123")
         self.assertEquals(self.openidc_user2.name, "Bob Ross")
         self.assertEquals(self.openidc_user2.email, "abc123@aber.ac.uk")
-        self.assertEquals(self.openidc_user2.usertype, "undergrad")
+        self.assertEquals(self.openidc_user2.usertype, "staff")
         self.assertEquals(self.openidc_user2.is_admin, True)
