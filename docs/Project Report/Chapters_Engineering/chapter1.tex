@@ -110,12 +110,12 @@ Throughout this project I have attempted to minimise the amount of security risk
 %\subsubsection{Worst Case Scenario}
 %If the user someone gains unauthorized access to the data they will only be collecting a list of emails and linked Discord accounts. No password data is ever stored in the database because  OpenID Connect \cite{OpenID} is used to authenticate Aber accounts and Discord accounts are linked using OAuth2 \cite{oauth2}. This means that no password data is ever exchanged with the database or website.
  
-\section{Process}
+\section{Process}\label{sec1:pro}
 For this project I found that Extreme Programming (XP) would best fit my project as early on I discovered that I worked best by breaking the project down into deliverables and then into components of work. You can see from the above section \ref{sec1:obj} the list of objectives that I was working towards. Below are a list of the processes that I have followed or worked around in XP:
 \begin{itemize}
 	\item \textbf{Project iterations} - These usually last around one week, however sometimes last longer due to unforeseen issues (see later in this document for details).
 	\item \textbf{Pair Programming} - Due to the nature of this project being independent pair programming was not a viable approach. To compensate for this every morning after code was written I would go back through and review the code adding comments or refactoring the code.
-	\item \textbf{TDD vs BDD vs DDD} - My style of coding usually revolves around writing code to pass some specific goal that has been set followed by user testing and finally unit testing (when applicable). Development Driven Development (DDD) definitely fits my style best for this project.
+	\item \textbf{TDD vs BDD vs FDD} - My style of coding usually revolves around writing code to pass some specific goal that has been set followed by user testing and finally unit testing (when applicable). Feature Driven Development (FDD) definitely fits my style best for this project.
 	\item \textbf{When do iterations run?} - These run usually from Monday to Friday as I try to keep my weekends free to work on other projects and think over the next project iteration.
 	\item \textbf{Where are requirements recorded?} - The project requirements can be found in the above section \ref{sec1:obj} and in the next chapter of this document. There is also a board of issues on the GitLab page that can be used to review the timestamps and work completed.
 \end{itemize}

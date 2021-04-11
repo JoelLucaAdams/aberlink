@@ -1,29 +1,82 @@
 \chapter{Testing}
 
-Detailed descriptions of every test case are definitely not what is required here. What is important is to show that you adopted a sensible strategy that was, in principle, capable of testing the system adequately even if you did not have the time to test the system fully.
+%Detailed descriptions of every test case are definitely not what is required here. What is important is to show that you adopted a sensible strategy that was, in principle, capable of testing the system adequately even if you did not have the time to test the system fully.
 
-Provide information in the body of your report and the appendix to explain the testing that has been performed. How does this testing address the requirements and design for the project?
+%Provide information in the body of your report and the appendix to explain the testing that has been performed. How does this testing address the requirements and design for the project?
 
-How comprehensive is the testing within the constraints of the project?  Are you testing the normal working behaviour? Are you testing the exceptional behaviour, e.g. error conditions? Are you testing security issues if they are relevant for your project? 
+%How comprehensive is the testing within the constraints of the project?  Are you testing the normal working behaviour? Are you testing the exceptional behaviour, e.g. error conditions? Are you testing security issues if they are relevant for your project? 
 
-Have you tested your system on ``real users''? For example, if your system is supposed to solve a problem for a business, then it would be appropriate to present your approach to involve the users in the testing process and to record the results that you obtained. Depending on the level of detail, it is likely that you would put any detailed results in an appendix.
+%Have you tested your system on ``real users''? For example, if your system is supposed to solve a problem for a business, then it would be appropriate to present your approach to involve the users in the testing process and to record the results that you obtained. Depending on the level of detail, it is likely that you would put any detailed results in an appendix.
 
-Whilst testing with ``real users'' can be useful, don't see it as a way to shortcut detailed testing of your own. Think about issues discussed in the lectures about until testing, integration testing, etc. User testing without sensible testing of your own is not a useful activity.
+%Whilst testing with ``real users'' can be useful, don't see it as a way to shortcut detailed testing of your own. Think about issues discussed in the lectures about until testing, integration testing, etc. User testing without sensible testing of your own is not a useful activity.
 
-The following sections indicate some areas you might include. Other sections may be more appropriate to your project. 
+%The following sections indicate some areas you might include. Other sections may be more appropriate to your project.   
 
 \section{Overall Approach to Testing}
+As previously mentioned in section \ref{sec1:pro} I have used a Feature Driven Development (FDD) for this project to develop and test features as I developed the project. I worked in one week iteration windows to build and test the software as I went; this included all of the testing sections mentioned below apart from automated testing. This was completed at the end of the project instead.
+
+%Testing has been difficult as many of the systems that I have used are very tricky to test automatically as half of my code is just API calls. 
+
 
 \section{Automated Testing}
+Automated testing has been difficult for this project as mentioned above. I was originally planning on including automated testing and building DevOps frameworks in Git, however as I ended up using the universities GitLab then there was no access to dedicated pipelines to build and run the code.  
 
-\subsection{Unit Tests}
+The Discord.py Python framework doesn't contain any unit testing and there are no third party libraries which sufficiently perform this job. For the Django framework however there are some unit tests built into it so I have tried to use some of these and they are detailed further on this section. Django tests are used to cover both the website and the database. 
 
-\subsection{User Interface Testing}
+\section{Unit Tests}
 
-\subsection{Stress Testing}
+\subsection{Website \& Database}
+Django provides some useful documentation (\href{https://docs.djangoproject.com/en/3.1/topics/testing/}{https://docs.djangoproject.com/en/3.1/topics/testing/}) for creating unit tests and I have used these tests where I deemed most appropriate. All of the following tests can be found here \verb|src\AberLinkAuthentication\login\tests.py|. 
 
-\subsection{Other types of testing}
+I've created two testing classes here; one called TestUrls and one called TestModels. These are responsible for testing that the urls are correctly found and that adding new users to the database works as intended. Included below is an example of each test:
 
-\section{Integration Testing}
+\begin{figure}[H]
+    \begin{verbatim}
+        def test_url_discord_redirect(self):
+            url = reverse('Discord-response')
+            self.assertEquals(resolve(url).func, 
+            views.discord_oauth2_redirect)
+    \end{verbatim}
+    \caption{Django URL render test}
+    \label{fig:django-url}
+\end{figure}
+As seen above the test function simply gets the name of the url 'Discord-response' and then checks that it returns the correct Python function (view) to render that page
+
+\begin{figure}[H]
+    \begin{verbatim}
+        def test_model_openidc_user_staff(self):
+        self.openidc_user2 = OpenIDCUser.objects.create(
+            username="abc123",
+            name="Bob Ross",
+            email="abc123@aber.ac.uk",
+            usertype="staff"
+        )
+        self.assertEquals(self.openidc_user2.username, "abc123")
+        self.assertEquals(self.openidc_user2.name, "Bob Ross")
+        self.assertEquals(self.openidc_user2.email, 
+        "abc123@aber.ac.uk")
+        self.assertEquals(self.openidc_user2.usertype, "staff")
+        self.assertEquals(self.openidc_user2.is_admin, True)
+    \end{verbatim}
+    \caption{Django database render test}
+    \label{fig:django-database}
+\end{figure}
+This function creates a new user object and then checks to make sure that the user has been given the admin and has the usertype of staff.
+
+\subsection{Discord}
+Unit testing in Discord.py is impossible as there is no included framework for it and there are no external libraries capable of testing to check that it works.
+
+\section{User Interface Testing}
+Testing the user interface for the AberLink is mostly straight forward as Discord has full control over the UI.
+
+When I came to building the UI of the website I decided to rely on the CSS library Bootstrap \cite{bootstrap} as it is built from the ground up with responsive design in mind. This meant that website would scale very nicely and uniformly depending on screen size. I have however conducted testing and scaling of all the website pages on mobile devices, iPads and laptops with screens ranging from 11in to 40in.
 
 \section{User Testing}
+Throughout this project I have worked with the mindset that you develop small sections of code and then review what effect they have on the system. This helps to catch errors as it is much easier to backtrack through small sections of code.
+For user testing I sent a message in the comp sci server asking if students could try and login to the website and break it. This turned out to work very well and 
+
+\section{Stress Testing}
+Yes.
+
+\section{Integration Testing}
+1+1=2
