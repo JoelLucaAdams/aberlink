@@ -12,71 +12,123 @@
 
 %The following sections indicate some areas you might include. Other sections may be more appropriate to your project.   
 
-\section{Overall Approach to Testing}
 As previously mentioned in section \ref{sec1:pro} I have used a Feature Driven Development (FDD) for this project to develop and test features as I developed the project. I worked in one week iteration windows to build and test the software as I went; this included all of the testing sections mentioned below apart from automated testing. This was completed at the end of the project instead.
+
+The Discord.py Python framework doesn't contain any unit testing and there are no third party libraries which sufficiently perform this job. For the Django framework however there are some unit tests built into it so I have tried to use some of these and they are detailed further on this section. Django tests are used to cover both the website and the database. 
 
 %Testing has been difficult as many of the systems that I have used are very tricky to test automatically as half of my code is just API calls. 
 
+\section{Sample Data}
+I have considered using sample data for my project however deemed it to be impossible as due to the implementation of authentication. As stated previously the website uses the OpenID Connect \cite{OpenID} system to authenticate and log users in; as I don't have a dummy dataset that can authenticate with that system there is no other way for me to authenticate users and perform sample testing. The only workaround that I have found for this system has been to rely on automated and user testing.
 
 \section{Automated Testing}
 Automated testing has been difficult for this project as mentioned above. I was originally planning on including automated testing and building DevOps frameworks in Git, however as I ended up using the universities GitLab then there was no access to dedicated pipelines to build and run the code.  
 
-The Discord.py Python framework doesn't contain any unit testing and there are no third party libraries which sufficiently perform this job. For the Django framework however there are some unit tests built into it so I have tried to use some of these and they are detailed further on this section. Django tests are used to cover both the website and the database. 
+\subsection{Unit Tests}
 
-\section{Unit Tests}
-
-\subsection{Website \& Database}
+\subsubsection{Website \& Database}
 Django provides some useful documentation (\href{https://docs.djangoproject.com/en/3.1/topics/testing/}{https://docs.djangoproject.com/en/3.1/topics/testing/}) for creating unit tests and I have used these tests where I deemed most appropriate. All of the following tests can be found here \verb|src\AberLinkAuthentication\login\tests.py|. 
 
 I've created two testing classes here; one called TestUrls and one called TestModels. These are responsible for testing that the urls are correctly found and that adding new users to the database works as intended. Included below is an example of each test:
 
 \begin{figure}[H]
-    \begin{verbatim}
-        def test_url_discord_redirect(self):
-            url = reverse('Discord-response')
-            self.assertEquals(resolve(url).func, 
-            views.discord_oauth2_redirect)
-    \end{verbatim}
-    \caption{Django URL render test}
-    \label{fig:django-url}
+\begin{lstlisting}[language=Python]
+def test_url_discord_redirect(self):
+    url = reverse('Discord-response')
+    self.assertEquals(resolve(url).func, views.discord_oauth2_redirect)
+\end{lstlisting}
+\caption{Django URL render test}
+\label{fig:django-url}
 \end{figure}
 As seen above the test function simply gets the name of the url 'Discord-response' and then checks that it returns the correct Python function (view) to render that page
 
 \begin{figure}[H]
-    \begin{verbatim}
-        def test_model_openidc_user_staff(self):
-        self.openidc_user2 = OpenIDCUser.objects.create(
-            username="abc123",
-            name="Bob Ross",
-            email="abc123@aber.ac.uk",
-            usertype="staff"
-        )
-        self.assertEquals(self.openidc_user2.username, "abc123")
-        self.assertEquals(self.openidc_user2.name, "Bob Ross")
-        self.assertEquals(self.openidc_user2.email, 
-        "abc123@aber.ac.uk")
-        self.assertEquals(self.openidc_user2.usertype, "staff")
-        self.assertEquals(self.openidc_user2.is_admin, True)
-    \end{verbatim}
-    \caption{Django database render test}
-    \label{fig:django-database}
+\begin{lstlisting}[language=Python]
+def test_model_openidc_user_staff(self):
+    self.openidc_user2 = OpenIDCUser.objects.create(
+        username="abc123",
+        name="Bob Ross",
+        email="abc123@aber.ac.uk",
+        usertype="staff"
+    )
+    self.assertEquals(self.openidc_user2.username, "abc123")
+    self.assertEquals(self.openidc_user2.name, "Bob Ross")
+    self.assertEquals(self.openidc_user2.email, 
+    "abc123@aber.ac.uk")
+    self.assertEquals(self.openidc_user2.usertype, "staff")
+    self.assertEquals(self.openidc_user2.is_admin, True)
+\end{lstlisting}
+\caption{Django database render test}
+\label{fig:django-database}
 \end{figure}
 This function creates a new user object and then checks to make sure that the user has been given the admin and has the usertype of staff.
 
-\subsection{Discord}
+\subsubsection{Discord}
 Unit testing in Discord.py is impossible as there is no included framework for it and there are no external libraries capable of testing to check that it works.
 
-\section{User Interface Testing}
-Testing the user interface for the AberLink is mostly straight forward as Discord has full control over the UI.
+\subsection{Stress Testing}
+To test the websites capacity to deal with 100s of requests I used ApacheBenchmark \cite{apacheBenchmark} which is a built in Apache2 \cite{apache2} library used to request a webpage and measure response time. To test this I temporarily disabled the OpenID Connect \cite{OpenID} authentication system so that HTML gets served to tge incoming requests. Due to the nature of my websites implementation I cannot query the main page because the user is not authenticated however I can query one of the subpages that doesn't require authentication. I used the following line of code to complete the request and uses 1000 requests with 100 concurrent threads to attempt to tank website performance:
 
-When I came to building the UI of the website I decided to rely on the CSS library Bootstrap \cite{bootstrap} as it is built from the ground up with responsive design in mind. This meant that website would scale very nicely and uniformly depending on screen size. I have however conducted testing and scaling of all the website pages on mobile devices, iPads and laptops with screens ranging from 11in to 40in.
+\verb|ab -n 1000 -c 100 https://mmp-joa38.dcs.aber.ac.uk/privacy-policy|
+
+From this command I received the following output which shows that the website is capable at easily handling this many requests simultaneously. The longest response time for serving the requests was 642ms which is still adequately fast for the average user and shows that Django handles requests reasonable well. It can also serve on average 174 requests per second and with the department I can't see more than 300 requests happening at the exact same time.
+
+%\begin{figure}[hbt!]
+\begin{verbatim}
+Server Software:        Apache/2.4.38
+Server Hostname:        mmp-joa38.dcs.aber.ac.uk
+Server Port:            443
+SSL/TLS Protocol:       TLSv1.2,ECDHE-RSA-AES256-GCM-SHA384,2048,256
+Server Temp Key:        X25519 253 bits
+TLS Server Name:        mmp-joa38.dcs.aber.ac.uk
+
+Document Path:          /privacy-policy
+Document Length:        12448 bytes
+
+Concurrency Level:      100
+Time taken for tests:   5.719 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      12734000 bytes
+HTML transferred:       12448000 bytes
+Requests per second:    174.86 [#/sec] (mean)
+Time per request:       571.882 [ms] (mean)
+Time per request:       5.719 [ms] (mean, across all concurrent requests)
+Transfer rate:          2174.50 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        9  422 105.1    458     547
+Processing:     7   86  61.1     67     404
+Waiting:        6   83  60.1     64     381
+Total:         42  508  96.3    531     642
+
+Percentage of the requests served within a certain time (ms)
+  50%    531
+  66%    550
+  75%    560
+  80%    565
+  90%    574
+  95%    583
+  98%    593
+  99%    602
+ 100%    642 (longest request)
+\end{verbatim}
+%\caption{Output from running Apache Benchmark on the website}
+%\label{fig:ab}
+%\end{figure}
+
+\section{User Interface Testing}
+Testing the user interface for the AberLink is mostly straight forward as Discord has full control over the UI so I've had to do no testing on that front.
+
+When I came to building the UI of the website I decided to rely on the CSS library Bootstrap \cite{bootstrap} as it is built from the ground up with responsive design in mind. This meant that website would scale very nicely and uniformly depending on screen size. I have however conducted testing and scaling of all the website pages on mobile devices, iPads and laptops with screens ranging from 11in to 40in using Safari, Chrome, Edge and Firefox. I have also tested the website on HTML validation website \href{https://validator.w3.org/}{https://validator.w3.org/} and fixed the warnings and errors where possible.
 
 \section{User Testing}
 Throughout this project I have worked with the mindset that you develop small sections of code and then review what effect they have on the system. This helps to catch errors as it is much easier to backtrack through small sections of code.
-For user testing I sent a message in the comp sci server asking if students could try and login to the website and break it. This turned out to work very well and 
 
-\section{Stress Testing}
-Yes.
+For user testing I asked in the comp sci server if students could try and login to the website and break it. This turned out to work very well and helps to find a few errors that I had previously missed in the code.
 
 \section{Integration Testing}
-1+1=2
+Following the FDD approach I ran integration tests on this project as it contained many working parts. I used the Figure \ref{fig:architecture} as a reference guide when performing these tests.
+
+For the AberLink Discord bot I only had two components to test; the bot requests and responses from the database for the commands I had. I used some user tests to verify that all these commands worked and attempted to account for all possible scenarios.
