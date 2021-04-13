@@ -8,9 +8,22 @@
 
 3. Enable the following mods: `ssl`, `auth_openidc`, `wsgi`, `rewrite`
 
-4. `sudo cp ~/aberlink/config/aberlink.conf /etc/apache2/sites-available/` - copy the config file to the directory
+4. `sudo nano /etc/apache2/auth_openidc.conf` and copy the following to the file
 
-5. Edit the file to match the file structure, below is an example of what to change the settings to:
+```shell
+OIDCProviderMetadataURL https://openidc.dcs.aber.ac.uk/auth/realms/MMP-IMPACS/.well-known/openid-configuration
+OIDCClientID MMP-IMPACS 
+OIDCRedirectURI /oauth2callback #Replace with link to website e.g. "discord.dcs.aber.ac.uk/oauth2callback"
+OIDCCryptoPassphrase some-random-string-for-encrypting-cookies
+OIDCScope "openid basic"
+OIDCRemoteUserClaim preferred_username
+OIDCSessionInactivityTimeout 86400
+
+```
+
+5. `sudo cp ~/aberlink/config/aberlink.conf /etc/apache2/sites-available/` - copy the config file to the directory
+
+6. Edit the file to match the file structure, below is an example of what to change the settings to:
 
 ```shell
 <VirtualHost *:80>
@@ -24,9 +37,9 @@
 </VirtualHost>
 ```
 
-6. `sudo a2ensite aberlink` - Enable the website
+7. `sudo a2ensite aberlink` - Enable the website
 
-7. Go to `sudo nano /etc/apache2/apache2.conf` and add the following:
+8. Go to `sudo nano /etc/apache2/apache2.conf` and add the following:
 
 ```shell
 <Directory /home/joa38/aberlink/src/>
