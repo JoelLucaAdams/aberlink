@@ -1,5 +1,7 @@
 # Building the project
 
+This directory contains some sample config files that can be used a reference for setting up the project. Feel free to use them and change the variables accordingly.
+
 ## Setting up Apache2
 
 1. `sudo apt install apache2 -y` - Install apache2
