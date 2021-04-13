@@ -2,20 +2,20 @@
 
 \section{Background}
 
-This project required a substantial amount of discussion with IS and CS-support due to the sensitivity of this project and the data that it interacts with/stores. As meetings can sometimes take weeks to organise and further weeks to decide what the student can use I began work on the background and spike work as soon as possible. By the end of the first week I had already had completed much of the spike work required to form the Project Outline and send it out to IS and CS-support. The blog post also has some details about the first week of research here \href{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}.
+This project required a substantial amount of discussion with IS and CS-support due to the sensitivity of this project and the data that it interacts with/stores. As meetings can sometimes take weeks to organise and further weeks to decide what can be used I began work on the background and spike work as soon as possible. By the end of the first week I had already had completed most of the spike work required to form the Project Outline and send it out to IS and CS-support. This blog post also has some details about the first week of research here \href{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}.
 
-\textbf{Note:} The dev folder of the technical submission also contains spike work that is not listed below and I encourage that you have a look there too.
+\textbf{Note:} The dev folder of the technical submission also contains spike work that may not be listed below and I encourage that you have a look there too when reviewing this section.
 
 \subsection{Research}\label{sec1:Research}
-\textbf{Web Hosting \& Containers} - This was definitely one of the sections that I had the least experience working with but thanks to help from CS-support they guided me through the process and setup a Debian 10 (Buster) \cite{debian} container. Linux is definitely the best OS for this project as it is flexible and has many useful libraries for my project. This came preloaded with Apache2 \cite{apache2} which is used to host websites so was the logical choice for me to work with. NGINX \cite{nginx} was also considered for this project but was scrapped in favour of Apache2 due to the support from CS-support and documentation available online. 
+\textbf{Web Hosting \& Containers} - This was definitely one of the sections that I had the least experience working with but thanks to help from CS-support they guided me through the process and setup a Debian 10 (Buster) \cite{debian} container. Debian is definitely the best OS for this project as it is flexible and has many useful libraries for my project. This came preloaded with Apache2 \cite{apache2} which is used to host websites so was the logical choice for me to work with. NGINX \cite{nginx} was also considered for this project but was scrapped in favour of Apache2 due to the assistance available from CS-support and online documentation. 
 
-\textbf{Coding Languages} -  Over the summer I worked on the DemoHelper \cite{demohelper} project and learnt how to create my own Discord bots in Python. This spawned many Discord bot projects that can be seen in the comp sci server. This helped me to bluid up a solid foundation of Python and is the reason behind me choosing this as my primary coding language this project. It also had a knock on effect for choosing the database and web framework that worked well or used Python. I also used HTML, CSS and some Javascript to develop the website pages.
+\textbf{Coding Languages} -  Over the summer I worked on the DemoHelper \cite{demohelper} project and learnt how to create my own Discord bots in Python. This spawned many Discord bot projects that can be seen in the comp sci server. From these projects I gained a solid foundation of Python and is the reason behind me choosing this as my primary coding language this project. It also had a knock on effect for choosing the database and web framework that worked well or used Python. I also used HTML, CSS and some Javascript to develop the website pages.
 
-\textbf{Databases} - Early on I decided that a relational database was best suited for the data as I am only storing simple user information. The data would be split up into two tables; one for Aberystwyth user information that would act as the primary login system and a table for storing Discord account information. These would then be linked using a primary key in the Aberystwyth user table and then a foreign key in the Discord user table. The system would also be designed to allow users to have multiple Discord accounts so the database used a one-to-many relationship. 
+\textbf{Databases} - Early on I decided that a relational database was best suited for the data as I am only storing simple user information. The data would be split up into two tables; one for Aberystwyth user information and one for storing Discord account information. These would then be linked using a primary key in the Aberystwyth user table and then a foreign key in the Discord user table. The system would also be designed to allow users to have multiple Discord accounts so the database used a one-to-many relationship. 
 
 There are a few databases out there that support these features but PostgreSQL (PSQL) \cite{psql} was used as I am already familiar with using it in a second year project and it has native support for the web framework that I will discuss later.
 
-\textbf{Website Frameworks} - For the website framework I wanted to use something that would scale easily, have lots of documentation and preferably be written in Python. There are lots of frameworks that fit this category such as Flask and web2py but I settled on Django. I chose this because it came with integrated features such as custom user models, pre-made admin pages and authentication support. It also came with built in support to write data to and read from PSQL \cite{psql} so that was a big bonus too.
+\textbf{Website Frameworks} - For the website framework I wanted to use something that would scale easily, have lots of documentation and preferably be written in Python. There are lots of frameworks that fit this category such as Flask and web2py but I settled on Django. I chose this because it came with integrated features such as custom user models, pre-made admin pages and authentication support. It also came with built in features to write data to and read from PSQL \cite{psql} so that was a big bonus too.
 
 
 \section{Analysis}
@@ -33,9 +33,9 @@ After completing the spike work and prior research the next step was breaking th
 \begin{itemize}
 	\item \textbf{Research \& Discussion with IS/CS-support.}
 	\begin{itemize}
-		\item Discuss how to access uni data and how to sign users in who are only on the uni network using OpenID Connect \cite{OpenID}.
-		\item How to build the attendance API so that it is secure and only marks students for current practicals.
-		\item Setting up PSQL \cite{psql} and how to make it secure from outside attacks.
+		\item Discuss how to access uni data and how to login users who are only on the uni network using OpenID Connect \cite{OpenID}.
+		\item Build the attendance API so that it is secure and only marks students for current practical and not previous practicals.
+		\item Setup PSQL \cite{psql} and make it secure from outside attacks.
 	\end{itemize}
 %	 The first step of the project was to discuss with university the access that can be granted to the different APIs including the attendance API, the OpenID connect configuration and the Discord OAuth2 login. We settled on a container that I could use to test and server host on and a database using PSQL \cite{psql}.
 	
@@ -92,7 +92,7 @@ Throughout this project I have attempted to minimise the amount of security risk
 	\item \textbf{Unauthorized Admin Access} - This is the possibility that the user will try and brute force access to the admin page of the website. Before they attempt this they would need to get past the website's OpenID Connect \cite{OpenID} authentication system that requires an Aberystwyth account to authenticate. The website also has another layer of security as it requires the user to be connected to the campus' internet or be logged in on the VPN. If they get past both methods there is no easy way to spoof the system to gain access to the administrator panel as the backend uses cookies to keep the user authenticated.
 	\item \textbf{Accessing Database Credentials through Back-end Code} - All database credentials have been hidden in files that are not stored in the git repository and are loaded from JSON and .env files. This is good practice and creates a simple way for maintainers to setup and change variables such as database passwords easily instead of going through source code and manually editing it.
 	\item \textbf{Accessing Data through AberLink Discord Bot} - The Discord bot doesn't contain any sensitive data, it merely queries the database using generic queries that are changed depending on the input variable. It can however be used to gain an understanding of the database model that is used.
-	\item \textbf{Worst Case Scenario} - If the user someone gains unauthorized access to the data they will only be collecting a list of emails and linked Discord accounts. No password data is ever stored in the database because  OpenID Connect \cite{OpenID} is used to authenticate Aber accounts and Discord accounts are linked using OAuth2 \cite{oauth2}. This means that no password data is ever exchanged with the database or website.
+	\item \textbf{Worst Case Scenario} - If the user somehow gains unauthorized access to the data they will only be collecting a list of emails and linked Discord accounts. No password data is ever stored in the database because  OpenID Connect \cite{OpenID} is used to authenticate Aber accounts and Discord accounts are linked using OAuth2 \cite{oauth2}. This means that no password data is ever exchanged from the authentication systems to the website or database.
 \end{itemize}
 
 %\subsubsection{Direct Database Access}
@@ -111,13 +111,79 @@ Throughout this project I have attempted to minimise the amount of security risk
 %If the user someone gains unauthorized access to the data they will only be collecting a list of emails and linked Discord accounts. No password data is ever stored in the database because  OpenID Connect \cite{OpenID} is used to authenticate Aber accounts and Discord accounts are linked using OAuth2 \cite{oauth2}. This means that no password data is ever exchanged with the database or website.
  
 \section{Process}\label{sec1:pro}
-For this project I found that Extreme Programming (XP) would best fit my project as early on I discovered that I worked best by breaking the project down into deliverables and then into components of work. You can see from the above section \ref{sec1:obj} the list of objectives that I was working towards. Below are a list of the processes that I have followed or worked around in XP:
+For this project I found that Extreme Programming (XP) would best fit my project as early on I discovered that I worked best by breaking the project down into deliverables and then into components of work. You can see from the above section \ref{sec1:obj} the list of objectives (Functional Requirements) that I was working towards. Below are a list of the processes that I have followed or worked around in XP:
 \begin{itemize}
-	\item \textbf{Project iterations} - These usually last around one week, however sometimes last longer due to unforeseen issues (see later in this document for details).
+	\item \textbf{Project iterations} - These usually last around one week, however sometimes last longer due to unforeseen issues.
 	\item \textbf{Pair Programming} - Due to the nature of this project being independent pair programming was not a viable approach. To compensate for this every morning after code was written I would go back through and review the code adding comments or refactoring the code.
 	\item \textbf{TDD vs BDD vs FDD} - My style of coding usually revolves around writing code to pass some specific goal that has been set followed by user testing and finally unit testing (when applicable). Feature Driven Development (FDD) definitely fits my style best for this project.
 	\item \textbf{When do iterations run?} - These run usually from Monday to Friday as I try to keep my weekends free to work on other projects and think over the next project iteration.
-	\item \textbf{Where are requirements recorded?} - The project requirements can be found in the above section \ref{sec1:obj} and in the next chapter of this document. There is also a board of issues on the GitLab page that can be used to review the timestamps and work completed.
+	\item \textbf{Where are requirements recorded?} - The project requirements can be found in the above section \ref{sec1:obj} and in the next section of this document \ref{sec1:fr}. There is also a board of issues on the GitLab page that can be used to review the timestamps for when work was completed.
 \end{itemize}
 
+\section{Functional Requirements}\label{sec1:fr}
+
+\begin{itemize}
+	\item \textbf{FR1} - Authenticate Aber User accounts and return useful Metadata
+	\begin{itemize}
+		\item \textbf{FR1.1} - Only authenticate Aber accounts and reject all other accounts.
+		\item \textbf{FR1.2} - Return Aber user information along with the usertype.
+		\item \textbf{FR1.3} - Make users with "staff" usertype have administrative privileges.
+	\end{itemize}
+
+	\item \textbf{FR2} - Authenticate Discord users accounts and link to Aber account
+	\begin{itemize}
+		\item \textbf{FR2.1} - Once authenticated with Discord metadata is returned about account.
+		\item \textbf{FR2.2} - Discord account gets saved and linked to the Aber account using the primary key.
+		\item \textbf{FR2.3} - Multiple accounts can be linked to the same Aber account.
+	\end{itemize}
+
+	\item \textbf{FR3} - Home webpage
+	\begin{itemize}
+		\item \textbf{FR3.1} - Webpage displays Aber username and full name.
+		\item \textbf{FR3.2} - Webpage displays linked Discord accounts.
+		\item \textbf{FR3.3} - Discord ID's of linked accounts are sent to Discord API to get profile picture and username.
+	\end{itemize}
+
+	\item \textbf{FR4} - Admin webpage
+	\begin{itemize}
+		\item \textbf{FR4.1} - Webpage only allows accounts which have the "is\_admin" permission.
+		\item \textbf{FR4.2} - Webpage displays a list of Aber user accounts.
+		\item \textbf{FR4.3} - Webpage displays a list of Discord user accounts that are linked to Aber accounts.
+		\item \textbf{FR4.4} - Webpage doesn't allow Admins to change any of the accounts data apart from their admin access.
+		\item \textbf{FR4.5} - Webpage allows admins to delete a user or Discord account entry.
+	\end{itemize}
+
+	\item \textbf{FR5} - Discord bot verification
+	\begin{itemize}
+		\item \textbf{FR5.1} - Bot can configure a server for verification.
+		\item \textbf{FR5.2} - Bot can very students when command is called or when the user joins and is already authenticated.
+		\item \textbf{FR5.3} - Bot has a message for Alumni verification.
+		\item \textbf{FR5.4} - After user is verified their Aber email gets appended to their username. e.g JoelinRome\#4893 becomes JoelinRome [joa38].
+	\end{itemize}
+
+	\item \textbf{FR6} - Discord bot attendance
+	\begin{itemize}
+		\item \textbf{FR6.1} - Bot can get a users information from database using a reverse lookup using Discord ID and get Aber and linked Discord accounts.
+		\item \textbf{FR6.2} - Bot can mark students attendance in practicals by doing a reverse lookup of their aber username and sending it to an API endpoint. Then send the user a DM with the status of their attendance e.g. Attended module CS10000 at 11:00 on 13/04/2021.
+	\end{itemize}
+
+	\item \textbf{FR7} - Discord bot utilities
+	\begin{itemize}
+		\item \textbf{FR7.1} - Bot has a config file to choose wether a users name gets modified to include their Aber email at the end.
+		\item \textbf{FR7.2} - Bot will display the current server configurations.
+		\item \textbf{FR7.3} - Bot can clear all messages from a channel.
+		\item \textbf{FR7.4} - Bot displays a source command showing where source code can be found.
+		\item \textbf{FR7.5} - Bot displays a list of other useful bots that should be added to the server e.g. DemoHelper \cite{demohelper}.
+		\item \textbf{FR7.6} - Bot can be pinged to get latency and check wether databse connection is working correctly.
+	\end{itemize}
+
+	\item \textbf{FR8} - Discord bot database connections
+	\begin{itemize}
+		\item \textbf{FR8.1} - Connects to database and returns information on connection.
+		\item \textbf{FR8.2} - Can reconnect to database in case of database disconnect during uptime.
+		\item \textbf{FR8.3} - Python function to get a Discord user's information using their Discord ID.
+		\item \textbf{FR8.4} - Python function to get a Aber user's information using their aber email.
+		\item \textbf{FR8.5} - Python function to get database information e.g. connection status, latency and polling.
+	\end{itemize}
+\end{itemize}
 
