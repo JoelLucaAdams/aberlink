@@ -21,42 +21,56 @@
 	\label{fig:architecture}
 \end{figure}
 
-Below is a diagram displaying the overall file structure used for the project and was inspired by the second year group project. It has a config folder which describes how to setup the whole project, a folder called dev which contains all of the projects spikework and a folder called docs that contains the latex documents required for this project such as this document. There is also a folder called src that contains two sub folders AberLinkAuthentication and AberLinkDiscord. These two folders are in charge of the website and Discord bot respectively and have been split up as the underlying architecture for each one is vastly different and helps greatly with code maintainability.
+As seen above here is a brief overview of the main components used in this project which I go into more detail later on in this document. Below is a list of the main folders and the files contained within them. The folder structure is based largely off of the second year group project folder structure.
 
-\begin{figure}[H]
-\begin{forest}
-	for tree={
-		font=\ttfamily,
-		grow'=0,
-		child anchor=west,
-		parent anchor=south,
-		anchor=west,
-		calign=first,
-		edge path={
-			\noexpand\path [draw, \forestoption{edge}]
-			(!u.south west) +(7.5pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
-		},
-		before typesetting nodes={
-			if n=1
-			{insert before={[,phantom]}}
-			{}
-		},
-		fit=band,
-		before computing xy={l=15pt},
-	}
-	[aberlink
-	[config]
-	[dev]
-	[docs]
-	[src
-	[AberLinkAuthentication]
-	[AberLinkDiscord]
-	]
-	]
-\end{forest}
-\caption{Tree diagram showing overall folder structure}
-\label{fig:architecture-tree}
-\end{figure}
+\begin{itemize}
+	\item \textbf{config} - Describes how to setup the project; a bash script for installing the relevant dependencies, a README.md for manual configuration of the project and example configuration files for Apache2 \cite{apache2}, authentication \cite{libapache2-mod-auth-openidc}, Discord bot and Django \cite{Django}.
+	\item \textbf{dev} - Contains the spike work completed throughout this project and I strongly encourage that you review it when reading through this document.
+	\item \textbf{docs} - Contains the documents created for this project; including this document, the project outline, the ethics for and the usability form.
+	\item \textbf{src} - Contains the source code required to run this project. There are two folders for easier maintainability; a folder for the website and a folder for the Discord bot.
+	\begin{itemize}
+		\item \textbf{AberLinkAuthentication} - A folder containing all the website resources and the Django \cite{Django} code. It also contains a virtual environment \cite{pipenv} folder that is not stored in git because dependencies update all the time.
+		\item \textbf{AberLinkDiscord} - A folder containing the Discord bot. 
+	\end{itemize}
+\end{itemize}
+
+
+% Below is a diagram displaying the overall file structure used for the project and was inspired by the second year group project. It has a config folder which describes how to setup the whole project, a folder called dev which contains all of the projects spike work and a folder called docs that contains the latex documents required for this project such as this document. There is also a folder called src that contains two sub folders AberLinkAuthentication and AberLinkDiscord. These two folders are in charge of the website and Discord bot respectively and have been split up as the underlying architecture for each one is vastly different and helps greatly with code maintainability.
+
+% \begin{figure}[H]
+% \begin{forest}
+% 	for tree={
+% 		font=\ttfamily,
+% 		grow'=0,
+% 		child anchor=west,
+% 		parent anchor=south,
+% 		anchor=west,
+% 		calign=first,
+% 		edge path={
+% 			\noexpand\path [draw, \forestoption{edge}]
+% 			(!u.south west) +(7.5pt,0) |- node[fill,inner sep=1.25pt] {} (.child anchor)\forestoption{edge label};
+% 		},
+% 		before typesetting nodes={
+% 			if n=1
+% 			{insert before={[,phantom]}}
+% 			{}
+% 		},
+% 		fit=band,
+% 		before computing xy={l=15pt},
+% 	}
+% 	[aberlink
+% 	[config]
+% 	[dev]
+% 	[docs]
+% 	[src
+% 	[AberLinkAuthentication]
+% 	[AberLinkDiscord]
+% 	]
+% 	]
+% \end{forest}
+% \caption{Tree diagram showing overall folder structure}
+% \label{fig:architecture-tree}
+% \end{figure}
 
 \section{Website Architecture and Design}
 \begin{figure}[H]
@@ -71,7 +85,7 @@ The website is built using the Python framework Django \cite{Django}. This frame
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Figures/website-flowchart}
-	\caption{Website flowchart for authentication of accounts}
+	\caption{Website flowchart for authentication of accounts and display of user data}
 	\label{fig:architecture-web-flow}
 \end{figure}
 
@@ -85,7 +99,7 @@ The website can be found here \href{https://mmp-joa38.dcs.aber.ac.uk/}{https://m
 	\label{fig:architecture-dis}
 \end{figure}
 
-The Discord bot (AberLink) is interactable through the Discord application available on mobile, desktop and website. AberLink has many commands which can be easily found by typing the !help command in Discord on a server where the bot is present. The basic premise however is that it can access the database to retrieve information about a user; it never saves any information to the database however. The file structure goes as follows:
+The Discord bot (AberLink) is usable through the Discord application available on mobile, desktop and their \href{https://discord.com/app}{website}. AberLink has many commands which can be easily found by typing the `!help' command in Discord on a server where the bot is present or via a direct message to the bot. The basic premise however is that it can access the database to retrieve information about a user but it never saves any information to the database however. The file structure is displayed below.
 
 \begin{figure}[H]
 \begin{forest}
@@ -125,17 +139,17 @@ The Discord bot (AberLink) is interactable through the Discord application avail
 \label{fig:dis-tree}
 \end{figure}
 
-As seen above in the file structure the main file that is used to run the program called AberLink.py, initialising the bot instance and loading all the files from the cogs folder. Discord.py \cite{discord.py} uses a smart system where code is not written into the main file (in this case AberLink) but instead separated out into components or 'cogs' as they're called here. The .env file is used to to store sensitive variables such as the Discord token required to run the bot and the data used to connect to the database server. This file is also not uploaded to git so the data is never exposed to the wider web and is only stored locally. The Pipfile is used to store the dependencies required to setup the bot such as discord.py, requests and the version of Python required to run the bot. It can be initialised using the Python virtual environment pipenv.
+As seen above in the file structure the main file that is used to run the program called AberLink.py, initialising the bot instance and loading all the files from the cogs folder. Discord.py \cite{discord.py} uses a smart system where code is not written into the main file (in this case AberLink.py) but instead broken down into components or 'cogs' as they're called here. The .env file is used to to store sensitive variables such as the Discord token required to run the bot and the data used to connect to the database server. This file is also not uploaded to git so the data is never exposed to the wider web and is only stored locally. The Pipfile is used to store the dependencies required to setup the bot such as discord.py \cite{discord.py}, requests \cite{requests}, psycopg2 \cite{psycopg2} and the version of Python required to run the bot. The Pipfile can be initialised using the Python virtual environment pipenv \cite{pipenv}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/discord-uml}
-	\caption{Discord UML diagram}
+	\caption{AberLinkDiscord UML diagram}
 	\label{fig:discord-uml}
 \end{figure}
 
 \subsection{Database Interaction}
-Below is a sequence diagram explaining how AberLink connects to database and sends requests back and forth. It uses the Python library psycopg2 to connect and send SQL requests back and forth; the detail of which can be found in the db.py file. Once connected to the database if an error occurs while making a request then the code executes a function (try\_connection()) to reconnect to the database.
+Below is a sequence diagram explaining how AberLink connects to the database and sends requests back and forth. It uses the Python library psycopg2 \cite{psycopg2} to connect and send SQL requests back and forth; the details of which can be found in the db.py file. Once connected to the database if an error occurs while making a request then the code executes a function (try\_connection()) to reconnect to the database. Please see Appendix A for more details on psycopg2.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\linewidth]{Figures/aberlink-sequence}
@@ -144,18 +158,18 @@ Below is a sequence diagram explaining how AberLink connects to database and sen
 \end{figure}
 
 \subsection{Complicated Behaviours}
-Most of the Discord bot code is relatively straight forward however there is one function in particular that needs some explanation called build() located in /cogs/verify.py. This function and command is used in discord to configure the server for verification and uses the following steps:
+Most of the Discord bot code is relatively straight forward however there is one function in particular that needs some explanation called build() located in AberLinkDiscord/cogs/verify.py. This function and Discord command is used to configure a Discord server for verification. Below is a list of steps that the command executes.
 
 \begin{enumerate}
-	\item Begins by simulating that the bot is typing
-	\item Then searches for the @everyone and verify roles, the verify\_channel
-	\item The @everyone role is then stripped of it's permissions entirely so as to stop channel viewing
-	\item If the verify role doesn't exist then it is created and it is set with all the default permissions that @everyone used to have
-	\item The bot is then given the verify role so that they can view the server channels
-	\item If the verify channel doesn't exist then it is created and a message is pinned to the channel asking users to type !verify to verify their accounts
-	\item The verify channel then adds the ability for the @everyone role to view and type in the channel to get verified
-	\item The verify channel then removes the ability for the verified role to see the channel
-	\item Finally once completed the bot stops typing and sends the message "authentication complete"
+	\item Begins by simulating that the bot is typing giving the user visual feedback that the command is running as this function usually takes 500ms to 1s.
+	\item It then attempts to search for the @everyone role, verify role and \#verify\_channel so that it can update their permissions.
+	\item The @everyone role is then stripped of it's permissions entirely as it is the only role that is given by default to new joining users. By removing all permissions the new user cannot view any channels.
+	\item It then gets the verify role and if it doesn't exist then it is created and given all the default permissions that @everyone used to have. This basically makes it so that users that have the verified role can do everything that the @everyone role can no longer do.
+	\item The bot is then given the verify role so that they can view the server channels and interact with members that have the new verified role.
+	\item If the \#verify\_channel doesn't exist then it is created and a message is pinned to the channel asking users to type !verify to verify their accounts.
+	\item The \#verify\_channel is then configured so that users with the @everyone role can view and type in the channel to get verified.
+	\item The \#verify\_channel then removes the ability for the verified role to see the channel and therefore sets up a barrier where @everyone and verified can no longer see eachother.
+	\item Finally once completed the bot stops typing and sends a message containing all the changes which have been made and the time spent making said changes.
 \end{enumerate}
 
 \section{Database design}
@@ -167,11 +181,13 @@ Below is the Entity Relationship diagram that describes how the database works. 
 	\caption{Entity relationship diagram for database}
 	\label{fig:database-er}
 \end{figure}
-The \textbf{OpenIDCUser} is the main university account that the user authenticates with and is called so because it uses the OpenID Connect \cite{OpenID} system to authenticate users. The username, name and email are determined from the OpenID Connect response and are all unique. The usertype is also determined by the response and is used to determine if the user will be given administration privileges e.g. if usertype=staff then admin=True. Due to Django's custom user models it requires that the authenticated account has a is\_active column that is kept true unless the account is marked as deactivated.
+The \textbf{OpenIDCUser} is the main university account that the user authenticates with and is called so because it uses the OpenID Connect \cite{OpenID} system to authenticate users. The username, name and email are determined from the OpenID Connect response and are all unique. The usertype is also determined by the response and is used to determine if the user will be given administration privileges e.g. if usertype=``staff" then admin=True or if usertype=``student" then admin=False. Due to Django's custom user models it requires that the authenticated account has a is\_active column that is kept true unless the account is marked as deactivated and cannot be used on the website.
 
-The \textbf{DiscordUser} is simple and contains a unique Discord id that is a snowflake, a technology invented by twitter to keep id's unique. It also contains a last\_login date to help with possible problems down the line and lastly a openidc\_id that is a foreign key from the OpenIDCUser's id.
+The \textbf{DiscordUser} is simple and contains a unique Discord id that is a snowflake; a technology invented by twitter to keep id's unique. It also contains a last\_login date to identify when the account was last authenticated with and lastly a openidc\_id that is a foreign key from the OpenIDCUser's id.
 
-Below is an example of the data stored in the database.
+Below are examples of the records that are stored in the database tables. 
+
+\textbf{Note}: The column last\_login in the table \ref{tab:aber-table} contains the word datetime but should have a datetime object as seen in table \ref{tab:dis-table}. It has been removed so that the table fits nicely in this document.
 
 \begin{table}[H]
 	\centering
@@ -211,7 +227,7 @@ Below is an example of the data stored in the database.
 \section{User Interface}
 
 \subsection{Website}
-Before beginning work on the website I designed some website mock-ups that I have used as reference when working on the design of the webpages and are pictured below.
+Before beginning work on the website I designed some website mock-ups that I have used as reference when working on the design of the webpages. I created these mockups using the popular design application Figma \cite{figma} and they are located below.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-0}
@@ -233,17 +249,17 @@ Before beginning work on the website I designed some website mock-ups that I hav
 
 
 \subsection{Discord bot}
-Discord provides its own interface for Discord bots and doesn't vary much from the regular interface provided to users. Discord bots however have the additional feature of being able to use Embeds which contain far better formatting than regular messages and are used extensively throughout AberLink. Below are some examples of the output of bot commands that I have created.
+Discord provides its own interface for Discord bots and doesn't vary much from the regular interface provided to users. Discord bots however have the additional feature of being able to use Embeds which contain far better formatting than regular messages and are used extensively throughout AberLink. Below are some examples of the output of bot commands that I have created using Embeds.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Figures/test-2}
-	\caption{Discord embed example for getting users information}
+	\caption{Discord Embed example for getting users information}
 	\label{fig:dis-go}
 \end{figure}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Figures/test}
-	\caption{Discord embed example for source command}
+	\caption{Discord Embed example for source command}
 	\label{fig:dis-source}
 \end{figure}
 
