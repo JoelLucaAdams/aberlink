@@ -28,7 +28,7 @@ class OpenIDCUser(AbstractBaseUser):
         SUMMER = 'summer'
         WEB = 'web'
         TEMPORARY = 'temporary'
-        UNKOWN = 'unknown'
+        UNKNOWN = 'unknown'
 
     id = models.AutoField(auto_created=True, primary_key=True, serialize=False)
     username = models.CharField(max_length=40)
