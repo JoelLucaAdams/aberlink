@@ -91,7 +91,7 @@ The website is built using the Python framework Django \cite{Django}. This frame
 
 The website can be found here \href{https://mmp-joa38.dcs.aber.ac.uk/}{https://mmp-joa38.dcs.aber.ac.uk/} and is only accessible over VPN.
 
-\section{Discord Bot Architecture and Design}
+\section{Discord Bot Architecture and Design}\label{sec2:discord}
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.9\linewidth]{Figures/Architecture-discord}
@@ -172,7 +172,7 @@ Most of the Discord bot code is relatively straight forward however there is one
 	\item Finally once completed the bot stops typing and sends a message containing all the changes which have been made and the time spent making said changes.
 \end{enumerate}
 
-\section{Database design}
+\section{Database design}\label{sec2:database}
 Below is the Entity Relationship diagram that describes how the database works. The tables were created in Django which then remodels the psql \cite{psql} database to fit those requirements. 
 
 \begin{figure}[H]
