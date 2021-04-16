@@ -1,0 +1,98 @@
+\chapter{Functional Requirements Table}
+
+%\begin{table}[H]
+\begin{longtable}{| c | c | p{10cm} |}
+\hline
+Functional Requirement & Passed? & How? \\
+\hline
+FR1 & \color{ForestGreen}Yes & Passed all requirements. Using functions from file \textit{AberLinkAuthentication/login/views.py}\\
+\hline
+FR1.1 & \color{ForestGreen}Yes &  OpenID Connect only authenticates aber users.\\
+\hline
+FR1.2 & \color{ForestGreen}Yes & function \textit{openidc\_response()} gets metadata from OpenID Connect login and usertype.\\
+\hline
+FR1.3 & \color{ForestGreen}Yes & \textit{openidc\_response()} gets user information and logs user in or creates a new account with the correct privileges.\\
+\hline
+FR2 & \color{ForestGreen}Yes & Passed all requirements. Using functions from file \textit{AberLinkAuthentication/login/views.py}\\
+\hline
+FR2.1 & \color{ForestGreen}Yes & \textit{discord\_oauth2\_redirect()} gets metadata by getting authorization from url code and calls \textit{exchange\_code()} to query Discord API for metadata on user.\\
+\hline
+FR2.2 & \color{ForestGreen}Yes & \textit{discord\_oauth2\_redirect()} contains a line to get the openidc\_user account and link the Discord account to it using the foreign key relationship.\\
+\hline
+FR2.3 & \color{ForestGreen}Yes & Tested connecting 3 Discord accounts to the same openidc\_user with no errors.\\
+\hline
+FR3 & \color{orange}Partially & Most requirements passed. Using functions from file \textit{AberLinkAuthentication/login/views.py}\\
+\hline
+FR3.1 & \color{ForestGreen}Yes & \textit{openidc\_response()} displays main webpage along with information on the linked user from the metadata.\\
+\hline
+FR3.2 & \color{ForestGreen}Yes & \textit{openidc\_response()}  displays linked Discord accounts linked to Openidc\_user account.\\
+\hline
+FR3.3 & \color{ForestGreen}Yes & \textit{openidc\_response()} contains function \textit{get\_discord\_users()} that calls Discord API using the Discord IDs to get profile picture and username.\\
+\hline
+FR3.4 & \color{red}No & Realised that feature would require information to be stored about module servers and also know which modules a user takes. This information is neither accessible nor easy to maintain so feature scrapped.\\
+\hline
+FR4 & \color{orange}Partially & Most requirements passed. Using functions from file \textit{AberLinkAuthentication/login/admin.py}\\
+\hline
+FR4.1 & \color{ForestGreen}Yes & When user is logged in Django checks that they have \textit{is\_admin} permissions set to True before they can access admin webpages. If they don't option is greyed out and not clickable. Manually typing in Admin link results in message telling user that they do not have permissions.\\
+\hline
+FR4.2 & \color{ForestGreen}Yes & \textit{OpenIDCAdmin()} displays table containing aber (openidc) accounts.\\
+\hline
+FR4.3 & \color{ForestGreen}Yes & \textit{DiscordAdmin()} displays table containing Discord accounts and their linked openidc accounts.\\
+\hline
+FR4.4 & \color{ForestGreen}Yes & Both \textit{DiscordAdmin()} and \textit{OpenIDCAdmin()} contain the line \textit{readonly\_fields} that disallow admins to change this information. Visually on website Admins can only give users admin permissions.\\
+\hline
+FR4.5 & \color{ForestGreen}Yes & Admins can delete users accounts; both openidc and Discord.\\
+\hline
+FR4.6 & \color{ForestGreen}Yes & Admins cannot add new Aber or Discord accounts manually.\\
+\hline
+FR4.7 & \color{red}No & Feature scrapped due to complexity of the design and would also not work well in Python but would be better attempted in Node.js or React. Also would require more Discord API calls to get server information and configure servers.\\
+\hline
+FR5 & \color{ForestGreen}Yes & Passed all requirements. Using functions from file \textit{AberLinkDiscord/cogs/verify.py}\\
+\hline
+FR5.1 & \color{ForestGreen}Yes & \textit{build()} sets server up for verification properly creating new roles, a verify channel and pins a message. See \ref{sec2:comp-behaviour} for more details.\\
+\hline
+FR5.2 & \color{ForestGreen}Yes & \textit{verify.py/verify()} allows uses to call a command and manually verify, alternatively users are automatically verified when they join using \textit{on\_member\_join()}.\\
+\hline
+FR5.3 & \color{ForestGreen}Yes & \textit{verifyAlumni()} is a callable command that tells alumni how to verify by send an email to afc@aber.ac.uk.\\
+\hline
+FR5.4 & \color{ForestGreen}Yes & Both \textit{verify()} and \textit{on\_member\_join()} contain a function called \textit{check\_shelve\_file()} that checks to see if the server has auto nickname enabled.\\
+\hline
+FR6 & \color{ForestGreen}Yes & Passed all requirements. Using functions from file \textit{AberLinkDiscord/cogs/here.py}\\
+\hline
+FR6.1 & \color{ForestGreen}Yes & \textit{here()} calls functions from AberLinkDiscord/cogs/db.py to do reverse lookup using discord ID to get Aber username.\\
+\hline
+FR6.2 & \color{ForestGreen}Yes & \textit{here()} gets information as described in FR6.1 and sends it to the university API endpoint \url{https://integration.aber.ac.uk/joa38/submit.php}. Information is then returned to the function and the user is sent a direct message about their status.\\
+\hline
+FR7 & \color{orange}Partially & Most requirements passed. Using files from path \textit{AberLinkDiscord/cogs/}\\
+\hline
+FR7.1 & \color{ForestGreen}Yes & File called \textit{shelve\_file.shelve.db} exists or is created and is used in function \textit{verify.py/verify()} to check whether to give nickname automatically.\\
+\hline
+FR7.2 & \color{ForestGreen}Yes & Function called \textit{utilities.py/configurations()} displays configurations available for the current server.\\
+\hline
+FR7.3 & \color{ForestGreen}Yes & Function called \textit{utilities.py/ClearMessages()} clears the last 14 days of messages.\\
+\hline
+FR7.4 & \color{ForestGreen}Yes & Function called \textit{utilities.py/source()} displays message containing link to source code and website.\\
+\hline
+FR7.5 & \color{ForestGreen}Yes & Function called \textit{utilities.py/bots()} displays message with useful bots that can be added to server.\\
+\hline
+FR7.6 & \color{ForestGreen}Yes & Function called \textit{utilities.py/ping()} displays bot and message edit latency. It also gets information on the database connection from functions in \textit{db.py}.\\
+\hline
+FR7.7 & \color{red}No & Feature was not added after chat with personal tutor explaining that links can change and might break over time so terrible for maintainability.\\
+\hline
+FR8 & \color{ForestGreen}Yes & Passed all requirements. Using functions from class \textit{AberLinkDiscord/cogs/db.py}\\
+\hline
+FR8.1 & \color{ForestGreen}Yes & \textit{connect()} connects to the database, returns information on connection and defines global variable for connection.\\
+\hline
+FR8.2 & \color{ForestGreen}Yes & \textit{try\_connection()} reconnects to database if connection is lost.\\
+\hline
+FR8.3 & \color{ForestGreen}Yes & \textit{get\_discord\_user()} gets Discord information from database using Discord ID.\\
+\hline
+FR8.4 & \color{ForestGreen}Yes & \textit{get\_openid\_user()} gets information from database about aber account using their generated ID.\\
+\hline
+FR8.5 & \color{ForestGreen}Yes & \textit{get\_connection\_status()}, \textit{get\_polling\_status()} and \textit{get\_connection\_latency()} get information from database.\\
+\hline
+
+\caption{Functional Requirements testing table}
+\label{tab:fr-test}
+\end{longtable}
+%\end{table}
