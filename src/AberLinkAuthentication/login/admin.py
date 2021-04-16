@@ -38,7 +38,7 @@ class UserChangeForm(forms.ModelForm):
         model = OpenIDCUser
         fields = ('id', 'username', 'name', 'email', 'usertype', 'is_admin', 'last_login')
 
-class UserAdmin(UserAdmin):
+class OpenIDCAdmin(UserAdmin):
     form = UserChangeForm
 
     list_display = ('username', 'name', 'email', 'usertype', 'is_admin', 'last_login')
@@ -62,7 +62,7 @@ class UserAdmin(UserAdmin):
     def has_add_permission(self, request, obj=None):
         return False
 
-admin.site.register(OpenIDCUser, UserAdmin)
+admin.site.register(OpenIDCUser, OpenIDCAdmin)
 admin.site.register(DiscordUser, DiscordAdmin)
 
 admin.site.unregister(Group)
