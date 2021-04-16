@@ -17,16 +17,19 @@
 \usepackage{StylesAndReferences/mmp-report}
 
 \usepackage{cite}
-\usepackage{hyperref}
+\usepackage{url}
+\PassOptionsToPackage{hyphens}{url}\usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{forest}
 \usepackage{listings}
 \usepackage{xcolor}
+\usepackage{longtable}
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+\definecolor{ForestGreen}{RGB}{34,139,34}
 
 \lstdefinestyle{mystyle}{
     %backgroundcolor=\color{backcolour},   
@@ -164,7 +167,8 @@
 % include any appendices here
 \include{Appendices/appendixA}
 \include{Appendices/appendixB}
-\include{Appendices/appendixC}
+%\include{Appendices/appendixC}
+\include{Appendices/appendixD}
 
 \fancypagestyle{plain}{%
    \fancyhead{} %[C]{Annotated Bibliography}
