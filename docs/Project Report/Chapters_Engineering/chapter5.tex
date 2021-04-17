@@ -1,22 +1,43 @@
 \chapter{Evaluation}
 
-Examiners expect to find a section addressing questions such as:
+% Examiners expect to find a section addressing questions such as:
 
-\begin{itemize}
-   \item Were the requirements correctly identified? 
-   \item Were the design decisions correct?
-   \item Could a more suitable set of tools have been chosen?
-   \item How well did the software meet the needs of those who were expecting to use it?
-   \item How well were any other project aims achieved?
-   \item If you were starting again, what would you do differently?
-\end{itemize}
+% \begin{itemize} 
+%    \item Were the requirements correctly identified? 
+%    \item Were the design decisions correct?
+%    \item Could a more suitable set of tools have been chosen?
+%    \item How well did the software meet the needs of those who were expecting to use it?
+%    \item How well were any other project aims achieved?
+%    \item If you were starting again, what would you do differently?
+% \end{itemize}
 
-Other questions can be addressed as appropriate for a project. 
+% Other questions can be addressed as appropriate for a project. 
 
-The questions are an indication of issues you should consider. They are not intended as a specification of a list of sections.
+% The questions are an indication of issues you should consider. They are not intended as a specification of a list of sections.
 
-The evaluation is regarded as an important part of the project report; it should demonstrate that you are capable not only of carrying out a piece of work but also of thinking critically about how you did it and how you might have done it better. This is seen as an important part of an honours degree. 
+% The evaluation is regarded as an important part of the project report; it should demonstrate that you are capable not only of carrying out a piece of work but also of thinking critically about how you did it and how you might have done it better. This is seen as an important part of an honours degree. 
 
-There will be good things in the work and aspects of the work that could be improved. As you write this section, identify and discuss the parts of the work that went well and also consider ways in which the work could be improved. 
+% There will be good things in the work and aspects of the work that could be improved. As you write this section, identify and discuss the parts of the work that went well and also consider ways in which the work could be improved. 
 
-In the latter stages of the module, we will discuss the evaluation. That will probably be around week 9, although that differs each year. 
+% In the latter stages of the module, we will discuss the evaluation. That will probably be around week 9, although that differs each year. 
+
+\section{Were the requirements correctly identified?}
+I believe that the requirements for this project have been correctly identified and have fit the scope well, however, as previously explained in section \ref{sec4:fr} the scope of the project was reduced slightly. The rest of the requirements were achieved to their fullest.
+
+\section{Were the design decisions correct?}
+Most of the design decisions were correct, however, as detailed in section \ref{sec3:database} I didn't account for Django creating its own tables used for running the website. 
+
+I also didn't know that Django is unhappy with using non-numerical primary keys hence my original table design in section \ref{sec2:database} failed and I had to use automatically generated numbers for the primary key of the Aber users account table as seen in section \ref{sec3:unforeseen}.
+
+\section{Could a more suitable set of tools have been chosen?}
+I believe that my choice of software tools was very good for this project and very manageable. I believe that if I attempted this project again I would attempt to try building up the website using a tool like React or Node.js instead of Django. These tools would give me more versatility and allow me to experiment further with the website but would be considerably harder to work with. I can however see one pitfall which is that the administration pages created by Django by default would have to be built from the ground up in JavaScript.
+
+\section{How well did the software meet the needs of those who were expecting to use it?}
+
+\section{Time Management of the project}
+The project was managed very well and I completed to coding of the project well in advance so had lots of time to tidy up the project and add new quality of life features. Please see section \ref{sec3:pp} for more information on project iterations.
+
+\section{Project Meetings and Blog}
+Project meetings usually occurred once a week and alternated between group meetings and individual meetings. The individual meetings were really helpful as they acted as a reason for me to have a working example available for each meeting. I also had a few other meetings with other members of staff from the university to discuss what could be used in the project and policies that I had to follow. 
+
+The project blog was updated roughly once a week however during the earlier sections of the project it was updated once every few days due to a higher amount of work being performed. The blog can be found here \href{https://cs39440blog.wordpress.com/}{https://cs39440blog.wordpress.com/}.
