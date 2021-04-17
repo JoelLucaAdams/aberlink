@@ -56,7 +56,7 @@ The website pages also use a third party library called bootstrap \cite{bootstra
 \subsection{Discord Bot}
 The Discord bot (AberLink) implementation is exactly as described in the section \ref{sec2:discord} of the design. AberLink uses the Python library Discord.py \cite{discord.py} to make calls to and from the Discord API and to interact with the database it uses the Python library Psycopg2 \cite{psycopg2}. Both of these pieces of software are open-source and free to use in personal projects. 
 
-\subsection{Database}
+\subsection{Database}\label{sec3:database}
 The Database implementation was relatively straight forward as Django \cite{Django} generates all of the required tables for the project to function once you define the models. I've included the model used to generate OpenID Connect \cite{OpenID} aber user model below. In this figure you can see that there are two classes; OpenIDCUserManager to create a new database object and OpenIDCUser to make the database model. 
 
 The OpenIDCUserManager class has three main parameters; one to call itself, a user which is a JSON object and password which is defaulted to None as no password data is stored. The information from the user object is passed throughout the code and is used to decide if the user should have admin permissions. The user is then saved to the database.
@@ -192,13 +192,13 @@ Most of the planned requirements haven't changed during implementation however s
 
 In the final section of section \ref{sec1:obj} \textbf{Further potential work} I have decided against integrating DemoHelper into AberLink as this would greatly increase it's complexity and make it much more difficult to maintain. I have also not added Welsh language support as I do not speak the language fluently nor understand it.
 
-\subsection{Review Against Project Process}
+\subsection{Review Against Project Process}\label{sec3:pp}
 
 Below is included a table describing the iterations and what was completed each one. These iterations were based on the list of objectives created in section \ref{sec1:obj} and span over the course of two months. For more detail please see the wordpress blog here \href{https://cs39440blog.wordpress.com/}{https://cs39440blog.wordpress.com/}.
 
 \begin{longtable}[H]{| c | c | p{9cm} |}
 \hline
-Week & Time taken (days) & What happened? \\
+Iteration & Time taken (days) & What happened? \\
 \hline
 1 & 5 & Research into services required to run the project and basic setup of uni container. Lots of meetings to discuss what data I can use and began setup of API endpoint for attendance. \\
 \hline
@@ -220,7 +220,7 @@ Week & Time taken (days) & What happened? \\
 \hline
 10 & 5 & Added Discord bot functionality to add configurations to a server and feature to automatically change Discord users nickname to append aber email.\\
 \hline
-11-12 & 7 & Working on LaTeX document for project report. \\
+11 & 16 & Working on LaTeX document for project report. \\
 \hline
 \caption{Project iterations and what occurred}
 \label{tab:project-iterations}
