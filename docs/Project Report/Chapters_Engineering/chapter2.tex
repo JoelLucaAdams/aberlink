@@ -157,6 +157,19 @@ Below is a sequence diagram explaining how AberLink connects to the database and
 	\label{fig:architecture-dis-seq}
 \end{figure}
 
+\subsection{Discord Commands Interactions}
+Discord has two main methods for interacting with Discord bots. The first is by simply typing the command along with the prefix e.g. \verb|!help| would display the information for the help command. This option has been around since the beginning of Discord bots and is a reliable and simple to use method however the end user needs to remember what the commands are to use them. 
+
+The new workaround for this system is to use `slash commands' which are a new feature in Discord that allow the user to type a `/' and Discord then displays a list of available commands that can be used. This feature is incredible and would be very useful to implement if it was not for the current lack of support in relevant libraries. Discord.py \cite{discord.py} does not support the feature at all as it would require an entire library re-write so external libraries have emerged to support this feature such as discord-py-slash-command \cite{discord.py-slash}. These libraries however are currently very early in development and therefore subject to change and restructuring. As this project will be deployed after it's creation then we want it to be robust and not break after a new update to the slash commands library.
+
+Despite it's infancy, there is basic support for slash commands in AberLink but are commented out. Below is a screenshot to show a working example of the AberLink source command appearing as a Discord `/' command.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/discord-slash.png}
+	\caption{Sequence diagram for Discord bot to database}
+	\label{fig:architecture-dis-seq}
+\end{figure}
+
 \subsection{Complicated Behaviours}\label{sec2:comp-behaviour}
 Most of the Discord bot code is relatively straight forward however there is one function in particular that needs some explanation called build() located in AberLinkDiscord/cogs/verify.py. This function and Discord command is used to configure a Discord server for verification. Below is a list of steps that the command executes.
 
