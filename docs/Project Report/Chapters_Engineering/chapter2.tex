@@ -21,11 +21,11 @@
 	\label{fig:architecture}
 \end{figure}
 
-As seen above here is a brief overview of the main components used in this project which I go into more detail later on in this document. Below is a list of the main folders and the files contained within them. The folder structure is based largely off of the second year group project folder structure.
+As seen above here is a brief overview of the main components used in this project which are discussed in more detail later on in this document. Below is a list of the main folders and the files contained within them. The folder structure is based largely off of the second year group project folder structure.
 
 \begin{itemize}
 	\item \textbf{config} - Describes how to setup the project; a bash script for installing the relevant dependencies, a README.md for manual configuration of the project and example configuration files for Apache2 \cite{apache2}, authentication \cite{libapache2-mod-auth-openidc}, Discord bot and Django \cite{Django}.
-	\item \textbf{dev} - Contains the spike work completed throughout this project and I strongly encourage that you review it when reading through this document.
+	\item \textbf{dev} - Contains the spike work completed throughout this project and some information on errors encountered throughout this project and how they were overcome.
 	\item \textbf{docs} - Contains the documents created for this project; including this document, the project outline, the ethics for and the usability form.
 	\item \textbf{src} - Contains the source code required to run this project. There are two folders for easier maintainability; a folder for the website and a folder for the Discord bot.
 	\begin{itemize}
@@ -80,7 +80,7 @@ As seen above here is a brief overview of the main components used in this proje
 	\label{fig:architecture-web}
 \end{figure}
 
-The website is built using the Python framework Django \cite{Django}. This framework has been used to generate a template of the code required and only requires minimal tweaking to setup. When you visit the website you then get redirected to the OpenID Connect \cite{OpenID} authentication framework which helps to prevent unwanted access by users who aren't permitted to view the website. Once authenticated the users data is then saved to the database and they can then add Discord accounts by using the button displayed on the screen. This then redirects them to Discord's OAuth2 authentication page and once they've logged in with a discord account then it redirects them back to the my website and saves that information to the database as well. I have included a flow chart below to explain the process.
+The website is built using the Python framework Django \cite{Django}. This framework has been used to generate a template of the code required and only requires minimal tweaking to setup. When you visit the website you then get redirected to the OpenID Connect \cite{OpenID} authentication framework which helps to prevent unwanted access by users who are not permitted to view the website. Once authenticated the users data is then saved to the database and they can then add Discord accounts by using the button displayed on the screen. This then redirects them to Discord's OAuth2 authentication page and once they have logged in with a discord account then it redirects them back to the my website and saves that information to the database as well. Included below is a flow chart explaining the process works.
 
 \begin{figure}[H]
 	\centering
@@ -139,7 +139,7 @@ The Discord bot (AberLink) is usable through the Discord application available o
 \label{fig:dis-tree}
 \end{figure}
 
-As seen above in the file structure the main file that is used to run the program called AberLink.py, initialising the bot instance and loading all the files from the cogs folder. Discord.py \cite{discord.py} uses a smart system where code is not written into the main file (in this case AberLink.py) but instead broken down into components or 'cogs' as they're called here. The .env file is used to to store sensitive variables such as the Discord token required to run the bot and the data used to connect to the database server. This file is also not uploaded to git so the data is never exposed to the wider web and is only stored locally. The Pipfile is used to store the dependencies required to setup the bot such as discord.py \cite{discord.py}, requests \cite{requests}, psycopg2 \cite{psycopg2} and the version of Python required to run the bot. The Pipfile can be initialised using the Python virtual environment pipenv \cite{pipenv}.
+As seen above in the file structure the main file that is used to run the program called AberLink.py, initialising the bot instance and loading all the files from the cogs folder. Discord.py \cite{discord.py} uses a smart system where code is not written into the main file (in this case AberLink.py) but instead broken down into components or `cogs' as they are called here. The .env file is used to to store sensitive variables such as the Discord token required to run the bot and the data used to connect to the database server. This file is also not uploaded to git so the data is never exposed to the wider web and is only stored locally. The Pipfile is used to store the dependencies required to setup the bot such as discord.py \cite{discord.py}, requests \cite{requests}, psycopg2 \cite{psycopg2} and the version of Python required to run the bot. The Pipfile can be initialised using the Python virtual environment pipenv \cite{pipenv}.
 
 \begin{figure}[H]
 	\centering
@@ -160,9 +160,9 @@ Below is a sequence diagram explaining how AberLink connects to the database and
 \subsection{Discord Commands Interactions}
 Discord has two main methods for interacting with Discord bots. The first is by simply typing the command along with the prefix e.g. \verb|!help| would display the information for the help command. This option has been around since the beginning of Discord bots and is a reliable and simple to use method however the end user needs to remember what the commands are to use them. 
 
-The new workaround for this system is to use `slash commands' which are a new feature in Discord that allow the user to type a `/' and Discord then displays a list of available commands that can be used. This feature is incredible and would be very useful to implement if it was not for the current lack of support in relevant libraries. Discord.py \cite{discord.py} does not support the feature at all as it would require an entire library re-write so external libraries have emerged to support this feature such as discord-py-slash-command \cite{discord.py-slash}. These libraries however are currently very early in development and therefore subject to change and restructuring. As this project will be deployed after it's creation then we want it to be robust and not break after a new update to the slash commands library.
+The new workaround for this system is to use `slash commands' which are a new feature in Discord that allow the user to type a `/' and Discord then displays a list of available commands that can be used. This feature is incredible and would be very useful to implement if it was not for the current lack of support in relevant libraries. Discord.py \cite{discord.py} does not support the feature at all as it would require an entire library re-write so external libraries have emerged to support this feature such as discord-py-slash-command \cite{discord.py-slash}. These libraries however are currently very early in development and therefore subject to change and restructuring. As this project will be deployed after its creation then we want it to be robust and not break after a new update to the slash commands library.
 
-Despite it's infancy, there is basic support for slash commands in AberLink but are commented out. Below is a screenshot to show a working example of the AberLink source command appearing as a Discord `/' command.
+Despite its infancy, there is basic support for slash commands in AberLink but are commented out. Below is a screenshot to show a working example of the AberLink source command appearing as a Discord `/' command.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/discord-slash.png}
@@ -176,10 +176,10 @@ Most of the Discord bot code is relatively straight forward however there is one
 \begin{enumerate}
 	\item Begins by simulating that the bot is typing giving the user visual feedback that the command is running as this function usually takes 500ms to 1s.
 	\item It then attempts to search for the @everyone role, verify role and \#verify\_channel so that it can update their permissions.
-	\item The @everyone role is then stripped of it's permissions entirely as it is the only role that is given by default to new joining users. By removing all permissions the new user cannot view any channels.
-	\item It then gets the verify role and if it doesn't exist then it is created and given all the default permissions that @everyone used to have. This basically makes it so that users that have the verified role can do everything that the @everyone role can no longer do.
+	\item The @everyone role is then stripped of its permissions entirely as it is the only role that is given by default to new joining users. By removing all permissions the new user cannot view any channels.
+	\item It then gets the verify role and if it does not exist then it is created and given all the default permissions that @everyone used to have. This basically makes it so that users that have the verified role can do everything that the @everyone role can no longer do.
 	\item The bot is then given the verify role so that they can view the server channels and interact with members that have the new verified role.
-	\item If the \#verify\_channel doesn't exist then it is created and a message is pinned to the channel asking users to type !verify to verify their accounts.
+	\item If the \#verify\_channel does not exist then it is created and a message is pinned to the channel asking users to type !verify to verify their accounts.
 	\item The \#verify\_channel is then configured so that users with the @everyone role can view and type in the channel to get verified.
 	\item The \#verify\_channel then removes the ability for the verified role to see the channel and therefore sets up a barrier where @everyone and verified can no longer see eachother.
 	\item Finally once completed the bot stops typing and sends a message containing all the changes which have been made and the time spent making said changes.
@@ -201,7 +201,7 @@ The \textbf{DiscordUser} is simple and contains a unique Discord id that is a sn
 \section{User Interface}\label{sec2:ui}
 
 \subsection{Website}
-Before beginning work on the website I designed some website mock-ups that I have used as reference when working on the design of the webpages. I created these mockups using the popular design application Figma \cite{figma} and they are located below.
+Before beginning work on the website, some website mock-ups were designed and used as reference when working on the look and feel of the webpages. These mockups were created using the popular design application Figma \cite{figma} and they are located below.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-0}
@@ -223,7 +223,7 @@ Before beginning work on the website I designed some website mock-ups that I hav
 
 
 \subsection{Discord bot}
-Discord provides its own interface for Discord bots and doesn't vary much from the regular interface provided to users. Discord bots however have the additional feature of being able to use Embeds which contain far better formatting than regular messages and are used extensively throughout AberLink. Below are some examples of the output of bot commands that I have created using Embeds.
+Discord provides its own interface for Discord bots and does not vary much from the regular interface provided to users. Discord bots however have the additional feature of being able to use Embeds which contain far better formatting than regular messages and are used extensively throughout AberLink. Below are some examples of the output of bot commands that use Discord Embeds.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Figures/test-2}
@@ -239,9 +239,9 @@ Discord provides its own interface for Discord bots and doesn't vary much from t
 
 \section{Version Control System and IDE}
 
-Over the last year of working in Python I have used JetBrains Python IDE PyCharm \cite{pycharm} to code my Python projects but recently switched to Visual Studio Code \cite{vsc} due to the amount of extensions it supports and the versatility it has. I chose this because it has extensions for querying a psql \cite{psql} database, compile Python programs, use virtual environments and write LaTeX documents like this one. It was also chosen as it allows you to remotely connect to a host over SSH which is very useful as I have developed the majority of this program on a Linux (Debian 10 Buster \cite{debian}) container. This last feature is not supported in PyCharm hence my choice of Visual Studio Code.
+Over the last year of working in Python I have used JetBrains Python IDE PyCharm \cite{pycharm} to code my Python projects but recently switched to Visual Studio Code \cite{vsc} due to the amount of extensions it supports and the versatility it has. It was chosen because it has extensions for querying a psql \cite{psql} database, compile Python programs, use virtual environments and write LaTeX documents like this one. It also allows you to remotely connect to a server or container over SSH which is very useful as the majority of the project was developed on a Linux (Debian 10 Buster \cite{debian}) container located in the university \href{https://mmp-joa38.dcs.aber.ac.uk/}{https://mmp-joa38.dcs.aber.ac.uk/}. PyCharm does not support this feature and was one of the key features why it was ruled out for this project.
 
-For Version Control system I have used the GitLab instance provided by the university to store my code. I have also added mirroring of the project to another repository called aberlink on my primary GitHub account in case of emergencies. I've included below an example of the commits that are made to the repository.
+GitLab was chosen for the version control system using the instance provided by the university to store my code \href{https://gitlab.dcs.aber.ac.uk/}{https://gitlab.dcs.aber.ac.uk/}. Mirroring has also been setup so that the project is copied to another repository called aberlink on my primary GitHub account in case of emergencies or loss of data. Included below is an example of the commits that are made to the repository.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\textwidth]{Figures/gitlab.png}	
