@@ -131,22 +131,19 @@ For user testing I asked in the comp sci server if students could try and login 
 \subsection{Attendance API Endpoint Testing}
 The supplied API for attendance has been tested using user testing and the university provided me with 3 different endpoints to test. They are listed below along their responses.
 
-https://integration.aber.ac.uk/joa38/good.php
-
 \begin{verbatim}
+https://integration.aber.ac.uk/joa38/good.php
 {"status_updated":"true","request":"200","module_code":"CS32120"}    
 \end{verbatim}
 
-https://integration.aber.ac.uk/joa38/bad.php
-
 \begin{verbatim}
+https://integration.aber.ac.uk/joa38/bad.php
 {"status_updated":"false","request":"400",
 "error_message":"Unknown user or no event"}
 \end{verbatim}
 
-https://integration.aber.ac.uk/joa38/submit.php
-
 \begin{verbatim}
+https://integration.aber.ac.uk/joa38/submit.php
 Actual live endpoint. Returns either of the two JSON messages 
 above along with the corrected module_code
 \end{verbatim}
