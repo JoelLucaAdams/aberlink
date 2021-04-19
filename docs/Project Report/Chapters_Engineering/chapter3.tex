@@ -7,14 +7,14 @@
 %You can conclude this section by reviewing the end of the implementation stage against the planned requirements. 
 
 \section{Code Implementation \& Third-Party libraries}
-As seen below the Website and Discord bot have been split up into two separate sections because during implementation I decided to make the systems separate. This helps with code maintainability, readability and allows the administrator who sets up this project to deploy the website and bot services on different containers or networks. For more information of third party libraries please see appendix A.
+As seen below the Website and Discord bot have been split up into two separate sections because during implementation to help keep the systems separate. This helps with code maintainability, readability and allows the administrator who sets up this project to deploy the website and bot services on different containers or networks. For more information of third party libraries please see appendix A.
 
 \subsection{Website Building and Final Design}
-To create and run the website I've used a set of different libraries to perform certain tasks. Firstly I've used the Apache2 \cite{apache2} web hosting framework to host the website along with the library libapache2-mod-auth-openidc to reroute all incoming traffic to OpenID Connect \cite{OpenID} for user authentication. On top of these I have used the linux tool certbot \cite{certbot} to create a Let's Encrypt certificate for the website to enable HTTPS. 
+To create and run the website a set of libraries and Linux packages are used to perform certain tasks. Firstly, the Linux package Apache2 \cite{apache2} is used as the web hosting framework got the website along with the library libapache2-mod-auth-openidc to reroute all incoming traffic to OpenID Connect \cite{OpenID} for user authentication. On top of these the linux tool certbot \cite{certbot} is used to create a Let's Encrypt certificate for the website to enable HTTPS. 
 
-As discussed previously in this document in section \ref{sec1:Research} there were many libraries that were considered when deciding on the website framework. Django \cite{Django} was the framework of choice and it is open-source and free to use on personal projects. It is also very useful as it generates the majority of the code required to create and run a website so most of the code used will be picked up by the system for UAP. Apart from the general template I created a "Django Application" called login that contains the files and code which is used to run the website. I can confirm that the folder, login, is all my own code and shouldn't fall under UAP.
+As discussed previously in this document in section \ref{sec1:Research} there were many libraries that were considered when deciding on the website framework. Django \cite{Django} was the framework of choice and it is open-source and free to use on personal projects. It is also very useful as it generates the majority of the code required to create and run a website so most of the code used will be picked up by the system for UAP. Apart from the generated template, a "Django Application" called login that contains the files and code which is used to run the website. I can confirm that the folder, login, is all my own code and should not fall under UAP.
 
-The website pages also use a third party library called bootstrap \cite{bootstrap} that is used to generate responsive mobile-first CSS for the website. The final design of the website ended up being very similar to that of the mockups I made in section \ref{sec2:ui} and included below are some images from the final website.
+The website pages also use a third party library called bootstrap \cite{bootstrap} that is used to generate responsive mobile-first CSS for the website. The final design of the website ended up being very similar to that of the mockups made in section \ref{sec2:ui} and included below are some images from the final website.
 
 \textbf{Note}: The navigation bars in the images below are smaller than the mockups due to the change in screen size. These images were taken on a 27inch monitor whereas the mockups were made for a 15inch monitor.
 
@@ -55,6 +55,101 @@ The website pages also use a third party library called bootstrap \cite{bootstra
 
 \subsection{Discord Bot}
 The Discord bot (AberLink) implementation is exactly as described in the section \ref{sec2:discord} of the design. AberLink uses the Python library Discord.py \cite{discord.py} to make calls to and from the Discord API and to interact with the database it uses the Python library Psycopg2 \cite{psycopg2}. Both of these pieces of software are open-source and free to use in personal projects. 
+
+\subsubsection{Setup and Configuration}
+The bot contains a main file called AberLink.py that configures the bot giving it all the required permissions/settings to run. It loads the sensitive credentials from a .env file using the Python library dotenv \cite{dotenv}. This file contains key-value pairs that hold the Discord bot token that is accessible from the Discord developer portal \href{https://discord.com/developers/applications}{https://discord.com/developers/applications} and information required for the bot to connect to the database.
+
+\begin{figure}[H]
+	\begin{lstlisting}[language=Python]
+# load the private discord token from .env file.
+load_dotenv()
+TOKEN = os.getenv('DISCORD_TOKEN')
+WEBSITE = os.getenv('WEBSITE_URL')
+
+# Initialise the database connection
+PostgreSQL.connect()
+
+# Initialise the Bot object with an accessible help Command object
+helpCommand = DefaultHelpCommand()
+
+bot = commands.Bot(
+    command_prefix="!",
+    help_command=helpCommand,
+    intents=discord.Intents.all(),
+)
+
+bot.run(TOKEN)
+\end{lstlisting}
+\caption{Snippet of code from AberLink.py main Discord bot file}
+\label{fig:discord-main-file}
+\end{figure}
+
+As seen in the figure above the key value pair for the \verb|DISCORD_TOKEN| is loaded in from the file and then used at the end of the code extract to run the bot. In the middle we see in important section called \verb|commands.Bot| that tells the bot key information such as which prefix to use that determines how a command is called. E.g. \verb|!| means that a command is invoked using \verb|!<command_name>|, by changing this then the command is invoked using that prefix. It is also not limited to a single character so can be \verb|AberLink| and then command would be invoked using \verb|AberLink<command_name>|.
+
+\subsubsection{Discord Command Example}
+
+The bot creates commands that can be used in a Discord server using the Discord.py \cite{discord.py} library. Below is an example of the ping command that is used as a way to check that the bot is alive. Discord.py turns this Python function into a Discord command when the decorator \verb|@commands.command(aliases=['p'])| is used where the \verb|aliases=['p']| parameter indicates an alias that can be used to call the command. The function then starts a timer using time() and stops after the first message is sent, then the message is edited to include the latency taken to edit and modify the message. Included in this response is also information on the database such as the latency, polling status and response time.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=Python]
+@commands.command(aliases=['p'])
+async def ping(self, ctx: Context):
+	"""
+	Returns latency and response time of Discord and the database
+	"""
+	start_time = time()
+	message = await ctx.send(f' pong `DWSP latency: {str(round(ctx.bot.latency * 1000))}ms`')
+	end_time = time()
+	db_latency = PostgreSQL.get_connection_latency()
+	db_poll = PostgreSQL.get_polling_status()
+	await message.edit(content=f' pong \n{emojis["discord"]} `DWSP latency: {str(round(ctx.bot.latency * 1000))}ms` ' +
+    f'`Response time: {str(int((end_time - start_time) * 1000))}ms` \n' +
+    f'{emojis["aberlink_database"]} `Database Polling status: {db_poll}` `Database latency: {db_latency}ms`')
+
+\end{lstlisting}
+\caption{Example of AberLink's ping command code}
+\label{fig:discord-command-ping-code}
+\end{figure}
+
+The commands response is then sent to the Discord channel with a response that looks similar to the one pictured below.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/discord-ping-command.png}
+	\caption{Example of ping command in Discord}
+	\label{fig:discord-command-ping}
+\end{figure}
+
+\subsubsection{How do I access a list of the commands in AberLink?}
+The Discord.py library contains a useful function called \verb|DefaultHelpCommand()| that will generate an automatic list of commands available in your program by analysing each function that has the command decorator \verb|@commands.command()|. The list of commands is then accessible through Discord using the command prefix plus the keyword help which in this case would be !help. Below is an example of the current output from the help command at time of this screenshot.  
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/discord-help.png}
+	\caption{Example of Discord help command to display list of Discord commands for AberLink}
+	\label{fig:discord-help}
+\end{figure}
+
+\subsubsection{Error handling}
+Discord.py includes a decorator called \verb|@Bot.event()| that goes inside of the AberLink.py file for dealing with bot events. This paired with a function called \verb|on_command_error()| deals with error messages. Below is an example of some of the if statements that deal with bot errors. The final else if command to check if the command is not found is extremely important as it tells the bot to ignore any commands that does not exist in the case where two Discord bots use the same command prefix but have different commands.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=Python]
+if isinstance(error, commands.errors.CheckFailure):
+	await ctx.send(error)
+elif isinstance(error, commands.errors.MissingRequiredArgument):
+	await ctx.send('You are missing a required argument.')
+elif isinstance(error, commands.errors.CommandNotFound):
+	pass
+\end{lstlisting}
+\caption{Example of AberLink's on\_command\_error() checking statements}
+\label{fig:discord-error-checking}
+\end{figure}
+
+\subsubsection{Server Configurations}
+AberLink contains a feature called autoSetNickname that will automatically assign nicknames to users when they join or verify on the server by appending their aber username to the end of their name. e.g. JoelinRome\#4893 becomes JoelinRome [joa38]. This was added to help lecturers easily identify which student is which and if the student is uncomfortable with this they can always manually change it back. 
+
+Some lecturers might not enjoy this feature and prefer to turn it off so included is a micro database using the python module \cite{shelve} that creates a file stored in the same directory as the Python file. This basically creates a file that can be accessed at any time and acts as persistent storage. It contains key value pairs e.g. \verb|{server_id : true}| that store a boolean on whether the automatic naming feature is enabled or disabled. 
 
 \subsection{Database}\label{sec3:database}
 The Database implementation was relatively straight forward as Django \cite{Django} generates all of the required tables for the project to function once you define the models. I've included the model used to generate OpenID Connect \cite{OpenID} aber user model below. In this figure you can see that there are two classes; OpenIDCUserManager to create a new database object and OpenIDCUser to make the database model. 
@@ -109,7 +204,7 @@ class OpenIDCUser(AbstractBaseUser):
 \label{fig:django-database-code}
 \end{figure}
 
-The tables generated for the database are pictured below and they do differ quite drastically from the tables discussed during the design section \ref{sec2:database}. This is because I was not originally accounting for the tables that get automatically generated by Django \cite{Django} that are required for the application to run. I have included information below the figure to explain what the tables mean.
+The tables generated for the database are pictured below and they do differ quite drastically from the tables discussed during the design section \ref{sec2:database} of this document. This is because I was not originally accounting for the tables that get automatically generated by Django \cite{Django} that are required for the application to run. Below the figure is information to explain what the Django generated tables mean.
 
 \begin{figure}[H]
 	\centering
@@ -175,10 +270,10 @@ Below are examples of the records that are stored in the database tables.
 \end{table}
 
 \section{Configuration and Setup}
-After completion of this project there is a plan to setup this service permanently for the department so I have created a folder called \textit{config} containing information on how to set up this project. This folder contains a README.md file that explains how and what is needed to be configured to get the system up and running properly. I have also added a bash script called setup.sh that installs and the relevant dependencies and sets up the virtual environments for the projects. Also included are a few example configuration files for Apache2 \cite{apache2}, Django \cite{Django}, OpenID Connect authentication \cite{OpenID} and Discord.py \cite{discord.py}.
+After completion of this project there is a plan to setup this service permanently for the department so a folder was created called \textit{config} containing information on how to set up this project. This folder contains a README.md file that explains how and what is needed to be configured to get the system up and running properly. it also contains a bash script called setup.sh that installs and the relevant dependencies and sets up the virtual environments for the projects. Also included are a few example configuration files for Apache2 \cite{apache2}, Django \cite{Django}, OpenID Connect authentication \cite{OpenID} and Discord.py \cite{discord.py}.
 
 \section{Unforeseen Issues}\label{sec3:unforeseen}
-An issue that I encountered was with creating the custom user model in Django that would have been used to model the database. The documentation and videos I found online about implementing user models were rather cryptic and difficult to understand, however I eventually found a video explaining how to implement a good custom user model. Once this was completed I realised that Django isn't happy with modelling the primary key of a table using a char so I had to switch to using an int. This turned out to be a good idea as Aberystwyth university tends to recycle old emails so over the next 5 years there could be an issue where the database would try and create a new entry in the database with the same email.
+An issue that was encountered was with creating the custom user model in Django that would have been used to model the database. The documentation and videos found online about implementing user models were rather cryptic and difficult to understand, however after much research a video explaining how to implement a good custom user model was found that resolved the issues. Once this was completed I realised that Django is not happy with modelling the primary key of a table using a char so switched over to using an int. This turned out to be a good idea as Aberystwyth university tends to recycle old emails so over the next 5 years there could be an issue where the database would try and create a new entry in the database with the same email.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Figures/database-er-1}
@@ -188,9 +283,9 @@ An issue that I encountered was with creating the custom user model in Django th
 
 \section{Review}
 \subsection{Review Against Planned Requirements}\label{sec3:pr}
-Most of the planned requirements haven't changed during implementation however some of the promised tasks have only been partially fulfilled. Please see Appendix \ref{tab:fr-test} for a table of the functional requirements specified in \ref{sec1:fr}. For more information on requirements that did not pass please see \ref{sec4:fr}.
+Most of the planned requirements have not changed during implementation however some of the promised tasks have only been partially fulfilled. Please see Appendix \ref{tab:fr-test} for a table of the functional requirements specified in \ref{sec1:fr}. For more information on requirements that did not pass please see \ref{sec4:fr}.
 
-In the final section of section \ref{sec1:obj} \textbf{Further potential work} I have decided against integrating DemoHelper into AberLink as this would greatly increase it's complexity and make it much more difficult to maintain. I have also not added Welsh language support as I do not speak the language fluently nor understand it.
+In the final section of section \ref{sec1:obj} \textbf{Further potential work} I have decided against integrating DemoHelper into AberLink as this would greatly increase its complexity and make it much more difficult to maintain. Welsh language support has also not been implemented as I do not speak the language nor understand it well enough.
 
 \subsection{Review Against Project Process}\label{sec3:pp}
 
@@ -200,7 +295,7 @@ Below is included a table describing the iterations and what was completed each 
 \hline
 Iteration & Time taken (days) & What happened? \\
 \hline
-1 & 5 & Research into services required to run the project and basic setup of uni container. Lots of meetings to discuss what data I can use and began setup of API endpoint for attendance. \\
+1 & 5 & Research into services required to run the project and basic setup of uni container. Lots of meetings to discuss what data can be used/stored and began setup of API endpoint for attendance. \\
 \hline
 2 & 5 & Setup HTTPS on container, installed Django \cite{Django} and created basic website using it. Linked up Django to database and created basic Discord login system. \\
 \hline
@@ -226,7 +321,7 @@ Iteration & Time taken (days) & What happened? \\
 \label{tab:project-iterations}
 \end{longtable}
 
-I've included a graph below of my GitLab commits over time below to help backup my table described above. 
+Included is a graph of my GitLab commits over time below to help backup my table described above. 
 
 \begin{figure}[H]
 	\centering
