@@ -41,7 +41,7 @@ class Here(commands.Cog):
         data = {'username': openid_user["username"]}
         api_response = requests.post(url, json=data).json()
 
-        # If evaluates to true send user messaage with timestamp
+        # If evaluates to true send user message with timestamp
         if eval(api_response["status_updated"].title()):
             current_time = datetime.now()
             current_time = current_time.strftime("%d/%m/%Y %H:%M:%S")
