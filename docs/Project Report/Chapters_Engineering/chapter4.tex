@@ -16,8 +16,6 @@ As previously mentioned in section \ref{sec1:pro} a Feature Driven Development (
 
 The Discord.py Python framework does not contain any unit testing and there are no third party libraries which sufficiently perform this job. For the Django framework however there are some unit tests built in so they have been used in this project and are detailed further on in section \ref{sec4:unit-web}. These Django tests are used to cover both the website and the database as the website cannot be tested by itself. 
 
-%Testing has been difficult as many of the systems that I have used are very tricky to test automatically as half of my code is just API calls. 
-
 \section{Sample Data}
 Sample data was considered for this project however it would be very difficult to implement because the OpenID Connect \cite{OpenID} system used to authenticate and log users in relies on a proper database to pull user data from. The university was not comfortable with creating and supplying fake user accounts that would authenticate with this system as the database where these would be used is currently live. This would mean that they could be stolen and used to access live systems such as Student Record or blackboard. The alternative to this would mean that a mock database would be needed which would take up a considerable work to create. The workaround for this system is far simpler and involved asking both staff and students to try out the system and test it until it breaks. The outcomes of this are detailed in section \ref{sec4:user-tesing}.
 
@@ -29,7 +27,7 @@ Automated testing has been difficult for this project as mentioned above. Origin
 \subsubsection{Website \& Database}\label{sec4:unit-web}
 Django provides some useful documentation (\href{https://docs.djangoproject.com/en/3.1/topics/testing/}{https://docs.djangoproject.com/en/3.1/topics/testing/}) for creating unit tests for both Django and the database/user models. These tests are useful for checking that Discord accounts and OpenID Connect \cite{OpenID} Aber accounts link up properly and that webpage urls are correct and render the appropriate content. All of the following tests can be found in the file located in this path \verb|src\AberLinkAuthentication\login\tests.py|. 
 
-I've created two testing classes here; one called TestUrls and one called TestModels. These are responsible for testing that the urls are correctly found and that adding new users to the database works as intended. Included below is an example of each test:
+Below are two testing classes; one called TestUrls and one called TestModels. These are responsible for testing that the urls are correctly found and that adding new users to the database works as intended. Included below is an example of each test:
 
 \begin{figure}[H]
 \begin{lstlisting}[language=Python]
@@ -71,7 +69,7 @@ To test the websites capacity to deal with 100s of requests ApacheBenchmark \cit
 
 \verb|ab -n 1000 -c 100 https://mmp-joa38.dcs.aber.ac.uk/privacy-policy|
 
-This command generates the following report which shows that the website is capable at easily handling this many requests simultaneously. The longest response time for serving the requests was 642ms which is still adequately fast for the average user and shows that Django handles requests reasonable well. It can also serve on average 174 requests per second and I expect that the website will never be receiving more that 300 requests at the exact same time which can definitely be handled as seen from these results.
+This command generates the following report which shows that the website is capable at easily handling this many requests simultaneously. The longest response time for serving the requests was 642ms which is still adequately fast for the average user and shows that Django handles requests reasonable well. It can also serve on average 174 requests per second and I expect that the website will never be receiving more that 300 requests at the exact same time which can definitely be handled as seen from these results. Another factor to consider is that this development build is currently running on a small container that only has access to a small amount of resources whereas in the final build it will have access to far more resources so could serve requests up even quicker.
 
 %\begin{figure}[hbt!]
 \begin{verbatim}
@@ -151,4 +149,4 @@ above along with the corrected module_code
 \section{Functional Requirements}\label{sec4:fr}
 The final testing was conducted using a list of functional requirements set out in section \ref{sec1:fr} and the testing table can be found in Appendix \ref{tab:fr-test}. Most of the tests passed correctly however some of them have not.
 
-The Functional requirements FR3.4 \& FR4.7 have only been partially fulfilled. This was a design choice as it would mean that the website would require that Discord servers are added to database and that they would have to be updated when any issues occurred. This was also bad because this list would have to be maintained and could not be automatically updated which would lead to it breaking down the line.
+The Functional requirements FR3.4 \& FR4.7 have only been partially fulfilled. This was a purposeful design choice as it would mean that the website would require that Discord servers are added to database and that they would have to be updated when any issues occurred. This was also bad because this list would have to be maintained and could not be automatically updated which would lead to it breaking down the line.
