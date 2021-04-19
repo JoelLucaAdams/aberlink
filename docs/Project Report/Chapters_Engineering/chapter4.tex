@@ -12,22 +12,22 @@
 
 %The following sections indicate some areas you might include. Other sections may be more appropriate to your project.   
 
-As previously mentioned in section \ref{sec1:pro} I have used a Feature Driven Development (FDD). I worked in one week iteration windows to build and test the software as I went; this included all of the testing sections mentioned below apart from automated testing. This was completed at the end of the project instead.
+As previously mentioned in section \ref{sec1:pro} a Feature Driven Development (FDD) approach was used for this project, working in one week iteration windows to build and test the software. This included all of the testing sections mentioned below apart from automated testing which was completed at the end of the project instead.
 
-The Discord.py Python framework doesn't contain any unit testing and there are no third party libraries which sufficiently perform this job. For the Django framework however there are some unit tests built into it so I have tried to use some of these and they are detailed further on this section. Django tests are used to cover both the website and the database. 
+The Discord.py Python framework does not contain any unit testing and there are no third party libraries which sufficiently perform this job. For the Django framework however there are some unit tests built in so they have been used in this project and are detailed further on in section \ref{sec4:unit-web}. These Django tests are used to cover both the website and the database as the website cannot be tested by itself. 
 
 %Testing has been difficult as many of the systems that I have used are very tricky to test automatically as half of my code is just API calls. 
 
 \section{Sample Data}
-I have considered using sample data for my project however this is very difficult because the OpenID Connect \cite{OpenID} system used to authenticate and log users in relies on a proper database. This would mean I would have to mock the database which would take considerable work to create. The only workaround that I have found for this system has been to rely on automated and user testing.
+Sample data was considered for this project however it would be very difficult to implement because the OpenID Connect \cite{OpenID} system used to authenticate and log users in relies on a proper database to pull user data from. The university was not comfortable with creating and supplying fake user accounts that would authenticate with this system as the database where these would be used is currently live. This would mean that they could be stolen and used to access live systems such as Student Record or blackboard. The alternative to this would mean that a mock database would be needed which would take up a considerable work to create. The workaround for this system is far simpler and involved asking both staff and students to try out the system and test it until it breaks. The outcomes of this are detailed in section \ref{sec4:user-tesing}.
 
 \section{Automated Testing}
-Automated testing has been difficult for this project as mentioned above. I was originally planning on including automated testing and building DevOps frameworks in Git, however as I ended up using the universities GitLab then there was no access to dedicated pipelines/kubernite clusters to build and run the code.  
+Automated testing has been difficult for this project as mentioned above. Originally there was a plan to include automated testing by using the DevOps frameworks in Git, however as the universities GitLab instance was used then there was no access to dedicated pipelines/kubernite clusters to build and run the code.  
 
 \subsection{Unit Tests}
 
-\subsubsection{Website \& Database}
-Django provides some useful documentation (\href{https://docs.djangoproject.com/en/3.1/topics/testing/}{https://docs.djangoproject.com/en/3.1/topics/testing/}) for creating unit tests and I have used these tests where I deemed most appropriate. All of the following tests can be found here \verb|src\AberLinkAuthentication\login\tests.py|. 
+\subsubsection{Website \& Database}\label{sec4:unit-web}
+Django provides some useful documentation (\href{https://docs.djangoproject.com/en/3.1/topics/testing/}{https://docs.djangoproject.com/en/3.1/topics/testing/}) for creating unit tests for both Django and the database/user models. These tests are useful for checking that Discord accounts and OpenID Connect \cite{OpenID} Aber accounts link up properly and that webpage urls are correct and render the appropriate content. All of the following tests can be found in the file located in this path \verb|src\AberLinkAuthentication\login\tests.py|. 
 
 I've created two testing classes here; one called TestUrls and one called TestModels. These are responsible for testing that the urls are correctly found and that adding new users to the database works as intended. Included below is an example of each test:
 
@@ -67,11 +67,11 @@ This function creates a new user object and then checks to make sure that the us
 Unit testing in Discord.py is impossible as there is no included framework for it and there are no external libraries capable of testing to check that it works.
 
 \subsection{Stress Testing}
-To test the websites capacity to deal with 100s of requests I used ApacheBenchmark \cite{apacheBenchmark} which is a built in Apache2 \cite{apache2} library used to request a webpage and measure response time. To test this I temporarily disabled the OpenID Connect \cite{OpenID} authentication system so that HTML gets served to tge incoming requests. Due to the nature of my websites implementation I cannot query the main page because the user is not authenticated however I can query one of the subpages that doesn't require authentication. I used the following line of code to complete the request and uses 1000 requests with 100 concurrent threads to attempt to tank website performance:
+To test the websites capacity to deal with 100s of requests ApacheBenchmark \cite{apacheBenchmark} is used which is a built into the Apache2 \cite{apache2} and is a module used to request a webpage and measure response time. To test this the OpenID Connect \cite{OpenID} authentication system  was temporarily disabled so that HTML gets served to the incoming requests instead of being redirected to the login page. Due to the nature of the websites implementation you cannot query the main page because the user is not authenticated and the page can't display information on the user, however it can query one of the subpages that does not require authentication. The following line of code was used to complete the request with 1000 requests and 100 concurrent threads to attempt to tank the website's performance.
 
 \verb|ab -n 1000 -c 100 https://mmp-joa38.dcs.aber.ac.uk/privacy-policy|
 
-From this command I received the following output which shows that the website is capable at easily handling this many requests simultaneously. The longest response time for serving the requests was 642ms which is still adequately fast for the average user and shows that Django handles requests reasonable well. It can also serve on average 174 requests per second and with the department I can't see more than 300 requests happening at the exact same time.
+This command generates the following report which shows that the website is capable at easily handling this many requests simultaneously. The longest response time for serving the requests was 642ms which is still adequately fast for the average user and shows that Django handles requests reasonable well. It can also serve on average 174 requests per second and I expect that the website will never be receiving more that 300 requests at the exact same time which can definitely be handled as seen from these results.
 
 %\begin{figure}[hbt!]
 \begin{verbatim}
@@ -121,9 +121,9 @@ Percentage of the requests served within a certain time (ms)
 \section{User Interface Testing}
 Testing the user interface for the AberLink is mostly straight forward as Discord has full control over the UI so I've had no testing to do on that front.
 
-When building the UI of the website I decided to rely on the CSS library Bootstrap \cite{bootstrap} as it is built from the ground up with responsive design in mind. This meant that website would scale very nicely and uniformly depending on screen size. I have however conducted testing and scaling of all the website pages on mobile devices, iPads and laptops with screens ranging from 11in to 40in using Safari, Chrome, Edge and Firefox. I have also tested the website on HTML validation website \href{https://validator.w3.org/}{https://validator.w3.org/} and fixed the warnings and errors where possible.
+The UI of the website uses the library Bootstrap \cite{bootstrap} as it is built from the ground up with responsive design in mind and saves a lot of time that would be required to re-learn CSS fully. This meant that website would scale very nicely and uniformly depending on screen size. To ensure that the website scales and performs well the website and all of its content have been tested on multiple devices. It has been tested on mobile devices, iPads and laptops with screens ranging from 11in to 40in using Safari, Chrome, Edge and Firefox. The website has also been tested on HTML the validation website \href{https://validator.w3.org/}{https://validator.w3.org/} to ensure that there are no large errors that may cause the website to not load on certain machines.
 
-\section{User Testing}
+\section{User Testing}\label{sec4:user-tesing}
 Throughout this project I have worked with the mindset that you develop small sections of code and then review what effect they have on the system. This helps to catch errors as it is much easier to backtrack through small sections of code.
 
 For user testing I asked in the comp sci server if students could try and login to the website and break it. This turned out to work very well and helped to find a few edge cases that I had previously missed in the code.
@@ -151,4 +151,4 @@ above along with the corrected module_code
 \section{Functional Requirements}\label{sec4:fr}
 The final testing was conducted using a list of functional requirements set out in section \ref{sec1:fr} and the testing table can be found in Appendix \ref{tab:fr-test}. Most of the tests passed correctly however some of them have not.
 
-The Functional requirements FR3.4 \& FR4.7 have only been partially fulfilled. This was a design choice that I made because I realised that this would require that Discord servers are added to database and that they would have to be updated when any issues occurred. This was also bad because this list would have to be maintained and couldn't be automatically updated which would lead to it breaking down the line.
+The Functional requirements FR3.4 \& FR4.7 have only been partially fulfilled. This was a design choice as it would mean that the website would require that Discord servers are added to database and that they would have to be updated when any issues occurred. This was also bad because this list would have to be maintained and could not be automatically updated which would lead to it breaking down the line.
