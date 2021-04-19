@@ -2,20 +2,20 @@
 
 \section{Background}
 
-This project required a substantial amount of discussion with IS and CS-support due to the sensitivity of this project and the data that it interacts with/stores. As meetings can sometimes take weeks to organise and further weeks to decide what can be used I began work on the background and spike work as soon as possible. By the end of the first week I had already had completed most of the spike work required to form the Project Outline and send it out to IS and CS-support. This blog post also has some details about the first week of research here \href{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}.
+This project required a substantial amount of discussion with IS and CS-support due to the sensitivity of this project and the data that it interacts with/stores. As meetings can sometimes take weeks to organise the background and spike work for this project was completed relatively quickly. By the end of the first week most of the spike work required to form the Project Outline was collected so an early version of the document was sent out to IS and CS-support to help get the ball rolling. This blog post also has some details about the first week of research here \href{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}{https://cs39440blog.wordpress.com/2021/02/01/week-1-25-01/}.
 
-\textbf{Note:} The dev folder of the technical submission also contains spike work that may not be listed below and I encourage that you have a look there too when reviewing this section.
+\textbf{Note:} The dev folder of the technical submission also contains spike work that may not be listed below.
 
 \subsection{Research}\label{sec1:Research}
 \textbf{Web Hosting \& Containers} - This was definitely one of the sections that I had the least experience working with but thanks to help from CS-support they guided me through the process and setup a Debian 10 (Buster) \cite{debian} container. Debian is definitely the best OS for this project as it is flexible and has many useful libraries for my project. This came preloaded with Apache2 \cite{apache2} which is used to host websites so was the logical choice for me to work with. NGINX \cite{nginx} was also considered for this project but was scrapped in favour of Apache2 due to the assistance available from CS-support and online documentation. 
 
-\textbf{Coding Languages} -  Over the summer I worked on the DemoHelper \cite{demohelper} project and learnt how to create my own Discord bots in Python. This spawned many Discord bot projects that can be seen in the comp sci server. From these projects I gained a solid foundation of Python and is the reason behind me choosing this as my primary coding language this project. It also had a knock on effect for choosing the database and web framework that worked well or used Python. I also used HTML, CSS and some Javascript to develop the website pages.
+\textbf{Coding Languages} -  Over the summer I worked on the DemoHelper \cite{demohelper} project and learnt how to create my own Discord bots in Python. This spawned many Discord bot projects that can be seen in the comp sci server. From these projects I gained a solid foundation of Python and is the reason behind me choosing this as my primary coding language this project. It also had a knock on effect for choosing the database and web framework that worked well or used Python. HTML, CSS and some Javascript was also used to develop the website pages.
 
-\textbf{Databases} - Early on I decided that a relational database was best suited for the data as I am only storing simple user information. The data would be split up into two tables; one for Aberystwyth user information and one for storing Discord account information. These would then be linked using a primary key in the Aberystwyth user table and then a foreign key in the Discord user table. The system would also be designed to allow users to have multiple Discord accounts so the database used a one-to-many relationship. 
+\textbf{Databases} - Early on it was decided that a relational database was best suited for the data as it is only storing simple user information. The data would be split up into two tables; one for Aberystwyth user information and one for storing Discord account information. These would then be linked using a primary key in the Aberystwyth user table and then a foreign key in the Discord user table. The system would also be designed to allow users to have multiple Discord accounts so the database used a one-to-many relationship. 
 
-There are a few databases out there that support these features but PostgreSQL (PSQL) \cite{psql} was used as I am already familiar with using it in a second year project and it has native support for the web framework that I will discuss later.
+There are a few databases out there that support these features but PostgreSQL (PSQL) \cite{psql} was used as I am already familiar with using it in a second year project and it has native support for the web framework.
 
-\textbf{Website Frameworks} - For the website framework I wanted to use something that would scale easily, have lots of documentation and preferably be written in Python. There are lots of frameworks that fit this category such as Flask and web2py but I settled on Django. I chose this because it came with integrated features such as custom user models, pre-made admin pages and authentication support. It also came with built in features to write data to and read from PSQL \cite{psql} so that was a big bonus too.
+\textbf{Website Frameworks} - For the website framework I wanted to use something that would scale easily, have lots of documentation and preferably be written in Python. There are lots of frameworks that fit this category such as Flask and web2py but settled on Django. This was chosen because it came with integrated features such as custom user models, pre-made admin pages and authentication support. It also came with built in features to write data to and read from PSQL \cite{psql} so that was a big bonus too. Many other web frameworks were also considered for this project such as Node.js \cite{node.js}, React.js \cite{react.js} or Angular.js \cite{angular.js} but were not used as I have little to no experience working in JavaScript and might be far more work than using a Python library.
 
 
 \section{Analysis}
@@ -64,7 +64,7 @@ After completing the spike work and prior research the next step was breaking th
 	
 	\item \textbf{Interface for lecturers and students on website.}
 	\begin{itemize}
-		\item Create webpages for users to add Discord accounts, view the module servers they are in and the one's that they aren't. 
+		\item Create webpages for users to add Discord accounts, view the module servers they are in and the one's that they are not. 
 		\item Create Admin pages only visible to staff to view all the connected students, remove them and configure their roles in servers for which they have administrative privileges.
 	\end{itemize}
 %	 Allows students to view which servers they are in and links to join module servers they are not in. Lecturers can view servers for which they have administrative privileges and can configure student's roles online by creating a new table that links students to roles in the server.
@@ -73,7 +73,7 @@ After completing the spike work and prior research the next step was breaking th
 	\begin{itemize}
 		\item Create a Discord bot function to get information such as the Aber account that is linked to the Discord account.
 		\item Discord bot function to display other useful discord bots that can be added to the server. e.g. DemoHelper \cite {demohelper}
-		\item Create webpages to display information such as the 'privacy policy', 'ethics form', 'blog' and 'about this project'.
+		\item Create webpages to display information such as the `privacy policy', `ethics form', `blog' and `about this project'.
 		\item Have a sort of search function for getting useful aber resources such as student record and aber su website.
 	\end{itemize}
 %	If there is remaining time in the project more features will be added to the bot including links to resources in the department and across the university (e.g. link to blackboard, student record, abersu, etc.). The bot may also contain a command to display users' Discord usernames and Aber usernames to confirm that the link has worked correctly (this would only display the current users' information and not other users' identities).
@@ -86,13 +86,13 @@ After completing the spike work and prior research the next step was breaking th
 \end{itemize}
 
 \subsection{Possible Security Issues}
-Throughout this project I have attempted to minimise the amount of security risks that can occur. The main identified weakpoints are as follows:
+Throughout this project I have attempted to minimise the amount of security risks that can occur. The main identified weak points are as follows:
 
 \begin{itemize}
 	\item \textbf{Direct Database Access} - This is the first point of attack that could be used to get access to Discord and Aber account details. This has been secured by using a PostgreSQL \cite{psql} database that is located in Departments servers so it is already behind a very secure and up to date firewall. To access the database you also need to have a registered Aber account and be using the campus WiFi or the uni's VPN so that adds another layer of security. If the user however has access to both of these then brute forcing the PSQL login system is difficult as it has many security levels and incoming connections are monitored by the university.
 	\item \textbf{Unauthorized Admin Access} - This is the possibility that the user will try and brute force access to the admin page of the website. Before they attempt this they would need to get past the website's OpenID Connect \cite{OpenID} authentication system that requires an Aberystwyth account to authenticate. The website also has another layer of security as it requires the user to be connected to the campus' internet or be logged in on the VPN. If they get past both methods there is no easy way to spoof the system to gain access to the administrator panel as the backend uses cookies to keep the user authenticated.
 	\item \textbf{Accessing Database Credentials through Back-end Code} - All database credentials have been hidden in files that are not stored in the git repository and are loaded from JSON and .env files. This is good practice and creates a simple way for maintainers to setup and change variables such as database passwords easily instead of going through source code and manually editing it.
-	\item \textbf{Accessing Data through AberLink Discord Bot} - The Discord bot doesn't contain any sensitive data, it merely queries the database using generic queries that are changed depending on the input variable. It can however be used to gain an understanding of the database model that is used.
+	\item \textbf{Accessing Data through AberLink Discord Bot} - The Discord bot does not contain any sensitive data, it merely queries the database using generic queries that are changed depending on the input variable. It can however be used to gain an understanding of the database model that is used.
 	\item \textbf{Worst Case Scenario} - If the user somehow gains unauthorized access to the data they will only be collecting a list of emails and linked Discord accounts. No password data is ever stored in the database because  OpenID Connect \cite{OpenID} is used to authenticate Aber accounts and Discord accounts are linked using OAuth2 \cite{oauth2}. This means that no password data is ever exchanged from the authentication systems to the website or database.
 \end{itemize}
 
@@ -117,7 +117,7 @@ For this project I found that Extreme Programming (XP) would best fit my project
 	\item \textbf{Project iterations} - These usually last around one week, however sometimes last longer due to unforeseen issues.
 	\item \textbf{Pair Programming} - Due to the nature of this project being independent pair programming was not a viable approach. To compensate for this every morning after code was written I would go back through and review the code adding comments or refactoring the code.
 	\item \textbf{TDD vs BDD vs FDD} - My style of coding usually revolves around writing code to pass some specific goal that has been set followed by user testing and finally unit testing (when applicable). Feature Driven Development (FDD) definitely fits my style best for this project.
-	\item \textbf{When do iterations run?} - These run usually from Monday to Friday as I try to keep my weekends free to work on other projects and think over the next project iteration.
+	\item \textbf{When do iterations run?} - These usually ran from Monday to Friday so as to keep my weekends free to work on other projects and think over the next project iteration.
 	\item \textbf{Where are requirements recorded?} - The project requirements can be found in the above section \ref{sec1:obj} and in the next section of this document \ref{sec1:fr}. There is also a board of issues on the GitLab page that can be used to review the timestamps for when work was completed.
 \end{itemize}
 
@@ -151,9 +151,9 @@ For this project I found that Extreme Programming (XP) would best fit my project
 		\item \textbf{FR4.1} - Webpage only allows accounts which have the "is\_admin" permission to view.
 		\item \textbf{FR4.2} - Webpage displays a list of Aber user accounts.
 		\item \textbf{FR4.3} - Webpage displays a list of Discord user accounts that are linked to Aber accounts.
-		\item \textbf{FR4.4} - Webpage doesn't allow admins to change any of the accounts data apart from their admin access.
+		\item \textbf{FR4.4} - Webpage does not allow admins to change any of the accounts data apart from their admin access.
 		\item \textbf{FR4.5} - Webpage allows admins to delete a user or Discord account entry.
-		\item \textbf{FR4.6} - Website doesn't allow admins to add new Discord or Aber accounts.
+		\item \textbf{FR4.6} - Website does not allow admins to add new Discord or Aber accounts.
 		\item \textbf{FR4.7} - Webpage that allows admins to monitor their Discord module servers and configure them.
 	\end{itemize}
 
@@ -178,7 +178,7 @@ For this project I found that Extreme Programming (XP) would best fit my project
 		\item \textbf{FR7.3} - Bot can clear all messages from a channel.
 		\item \textbf{FR7.4} - Bot displays a source command showing where source code can be found.
 		\item \textbf{FR7.5} - Bot displays a list of other useful bots that should be added to the server e.g. DemoHelper \cite{demohelper}.
-		\item \textbf{FR7.6} - Bot can be pinged to get latency and check wether databse connection is working correctly.
+		\item \textbf{FR7.6} - Bot can be pinged to get latency and check wether database connection is working correctly.
 		\item \textbf{FR7.7} - Bot has a search tool to get information on Aber uni resources such as student record, blackboard and abersu website. 
 	\end{itemize}
 
