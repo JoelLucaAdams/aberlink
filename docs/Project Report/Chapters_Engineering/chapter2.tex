@@ -158,16 +158,16 @@ Below is a sequence diagram explaining how AberLink connects to the database and
 \end{figure}
 
 \subsection{Discord Commands Interactions}
-Discord has two main methods for interacting with Discord bots. The first is by simply typing the command along with the prefix e.g. \verb|!help| would display the information for the help command. This option has been around since the beginning of Discord bots and is a reliable and simple to use method however the end user needs to remember what the commands are to use them. 
+Discord has two main methods for interacting with Discord bots. The first is by simply typing the command along with the prefix e.g. if the prefix is \verb|!| and the command that's being invoked is called \verb|help| then the user would type \verb|!help|. This option has been around since the beginning of Discord bots and is a reliable and simple to use method. The only caveat is that the end user needs to remember what the commands are to use them as there is no autocompletion of commands. 
 
-The new workaround for this system is to use `slash commands' which are a new feature in Discord that allow the user to type a `/' and Discord then displays a list of available commands that can be used. This feature is incredible and would be very useful to implement if it was not for the current lack of support in relevant libraries. Discord.py \cite{discord.py} does not support the feature at all as it would require an entire library re-write so external libraries have emerged to support this feature such as discord-py-slash-command \cite{discord.py-slash}. These libraries however are currently very early in development and therefore subject to change and restructuring. As this project will be deployed after its creation then we want it to be robust and not break after a new update to the slash commands library.
+The new option for for this system is to use `slash commands' which are a new feature in Discord that allow the user to type a `/' in Discord which then displays a list of available commands that can be used. This feature is incredible and would be very useful to implement if it was not for the current lack of support. Discord.py \cite{discord.py} does not support the feature at all as it would require an entire library re-write so external libraries have emerged such as discord-py-slash-command \cite{discord.py-slash}. These libraries however are currently very early in development and therefore subject to change and restructuring. As this project will be deployed after its creation then we want it to be robust and not break after a new update to the slash commands library. The Discord API for slash commands is also still in beta and new features are coming out all the time that drastically change it's implementation.
 
-Despite its infancy, there is basic support for slash commands in AberLink but are commented out. Below is a screenshot to show a working example of the AberLink source command appearing as a Discord `/' command.
+Despite its infancy, I have created a proof of concept. Below is a screenshot to show a working example of the AberLink source command appearing as a Discord `/' command.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/discord-slash.png}
 	\caption{Sequence diagram for Discord bot to database}
-	\label{fig:architecture-dis-seq}
+	\label{fig:architecture-dis-slash}
 \end{figure}
 
 \subsection{Complicated Behaviours}\label{sec2:comp-behaviour}
