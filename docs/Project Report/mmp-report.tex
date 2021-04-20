@@ -30,13 +30,14 @@
 \definecolor{codepurple}{rgb}{0.58,0,0.82}
 \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
 \definecolor{ForestGreen}{RGB}{34,139,34}
+\definecolor{mylightgray}{gray}{0.95}
 
 \lstdefinestyle{mystyle}{
-    backgroundcolor=\color{backcolour},   
+    backgroundcolor=\color{mylightgray},   
     commentstyle=\color{codegreen},
     keywordstyle=\color{magenta},
     numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
+    stringstyle=\color{codegreen},
     basicstyle=\ttfamily,
     breakatwhitespace=false,         
     breaklines=true,                 
@@ -48,6 +49,21 @@
     showstringspaces=false,
     showtabs=false,                  
     tabsize=2
+}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={JSON, getElementById, let, avatar, username, discriminator, textContent, src},
+  keywordstyle=\color{red},
+  ndkeywords={parse, document},
+  ndkeywordstyle=\color{blue},
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{codegreen}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
 }
 
 \lstset{style=mystyle}
@@ -169,6 +185,7 @@
 \include{Appendices/appendixB}
 %\include{Appendices/appendixC}
 \include{Appendices/appendixD}
+\include{Appendices/appendixE}
 
 \fancypagestyle{plain}{%
    \fancyhead{} %[C]{Annotated Bibliography}
