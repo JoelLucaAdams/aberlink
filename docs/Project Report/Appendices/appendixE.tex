@@ -1,0 +1,287 @@
+\chapter{REAMDME.md Configuration File}
+
+\section{Building the project}\label{building-the-project}
+
+This directory contains some sample config files that can be used a
+reference for setting up the project. Feel free to use them and change
+the variables accordingly.
+
+\subsection{Setting up Apache2}\label{setting-up-apache2}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{sudo apt install apache2 -y} - Install apache2
+\item
+  \texttt{sudo apt install libapache2-mod-auth-openidc} - Installs
+  library for running openid
+\item
+  Enable the following mods: \texttt{ssl}, \texttt{auth\_openidc},
+  \texttt{wsgi}, \texttt{rewrite}
+\item
+  \texttt{sudo nano /etc/apache2/auth\_openidc.conf} and copy the
+  following to the file
+\end{enumerate}
+
+\begin{lstlisting}
+OIDCProviderMetadataURL https://openidc.dcs.aber.ac.uk/auth/realms/MMP-IMPACS/.well-known/openid-configuration
+OIDCClientID MMP-IMPACS 
+OIDCRedirectURI /oauth2callback #Replace with link to website e.g. "discord.dcs.aber.ac.uk/oauth2callback"
+OIDCCryptoPassphrase some-random-string-for-encrypting-cookies
+OIDCScope "openid basic"
+OIDCRemoteUserClaim preferred_username
+OIDCSessionInactivityTimeout 86400
+\end{lstlisting}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\item
+  \texttt{sudo cp \textasciitilde{}/aberlink/config/aberlink.conf /etc/apache2/sites-available/}
+  - copy the config file to the directory
+\item
+  Edit the file to match the file structure, below is an example of what
+  to change the settings to:
+\end{enumerate}
+
+\begin{lstlisting}
+<VirtualHost *:80>
+        ServerName discord.dcs.aber.ac.uk
+        ServerAlias discord.dcs.aber.ac.uk
+        ServerAdmin cs-support@aber.ac.uk
+        DocumentRoot /home/joel/aberlink/src/
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+\end{lstlisting}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\item
+  \texttt{sudo a2ensite aberlink} - Enable the website
+\item
+  Go to \texttt{sudo nano /etc/apache2/apache2.conf} and add the
+  following:
+\end{enumerate}
+
+\begin{lstlisting}
+<Directory /home/joa38/aberlink/src/>
+        Options Indexes FollowSymLinks
+        AllowOverride None
+        Require all granted
+</Directory>
+\end{lstlisting}
+
+\subsection{Setting up SSL}\label{setting-up-ssl}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Install the certbot package: \texttt{sudo apt intall certbot}
+\item
+  Run this command to create the SSL certificates:
+  \texttt{sudo certbot certonly -{}-webroot -w \textasciitilde{}/aberink -d discord.dcs.aber.ac.uk}
+\item
+  \texttt{sudo a2enmod rewrite} - Enable the rewrite mod for website
+  redirect
+\item
+  \texttt{sudo a2enmod ssl} - Enable the ssl mod for SSL to work on the
+  website
+\item
+  \texttt{source /etc/apache2/envvars} - fixes errors in apache2
+\item
+  Open the conf file again (e.g. \texttt{aberlink.conf}) and change it
+  match the domain name:
+\end{enumerate}
+
+\begin{lstlisting}
+<VirtualHost *:443>
+        ServerAdmin cs-support@aber.ac.uk
+        serverName discord.dcs.aber.ac.uk
+        ServerAlias discord.dcs.aber.ac.uk
+        DocumentRoot /home/joa38/aberlink/src/AberLinkAuthentication
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        Alias /static /home/joa38/aberlink/src/AberLinkAuthentication/static
+        <Directory /home/joa38/aberlink/src/AberLinkAuthent/static>
+                Require all granted
+        </Directory>
+
+        <Directory /home/joa38/aberlink/src/AberLinkAuthentication/AberLinkAuthentication>
+                <Files wsgi.py>
+                        Require all granted
+                </Files>
+        </Directory>
+
+        <Directory /home/joa38/aberlink/src/AberLinkAuthentication>
+                Options Indexes FollowSymLinks
+                AllowOverride None
+                Require all granted
+                Allow from all
+        </Directory>
+
+        <Location />
+                AuthType openid-connect
+                Require valid-user
+        </Location>
+
+        WSGIScriptAlias / /home/joa38/aberlink/src/AberLinkAuthentication/AberLinkAuthentication/wsgi.py
+        WSGIDaemonProcess django_app python-path=/home/joa38/aberlink/src/AberLinkAuthentication python-home=/home/joa38/aberlink/src/AberLinkAuthentication/venv
+        WSGIProcessGroup django_app
+
+        SSLEngine on
+        SSLCertificateFile /etc/letsencrypt/live/discord.dcs.aber.ac.uk/fullchain.pem
+        SSLCertificateKeyFile /etc/letsencrypt/live/discord.dcs.aber.ac.uk/privkey.pem
+        SSLProtocol all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
+</VirtualHost>
+\end{lstlisting}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{6}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \texttt{sudo apachectl restart} - Restart Apache2 to enable the new
+  mods
+\end{enumerate}
+
+\subsection{installing the dependencies for the
+bot}\label{installing-the-dependencies-for-the-bot}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{sudo apt install libpq-dev python-dev} - needed to install
+  \texttt{psycopg2-binary}
+\item
+  Navigate to the folder \texttt{aberlink/src/AberLinkDiscord} and type
+  \texttt{pipenv install}
+\item
+  Create a discord bot token by visitng
+  \url{https://discord.com/developers/applications} and creating a new
+  bot called AberLink along with the supplied photo
+  \texttt{/img/AberLink\_logo\_cropped.png}. Then head on over to the
+  Bot panel and create a new bot with the same information as above.
+  Finally copy the token underneath the bots name for the next section.
+\item
+  While inside the folder \texttt{/aberlink/src/AberLinkDiscord} create
+  a new file using \texttt{nano .env} and add the following (or copy the
+  example provided in this folder):
+\end{enumerate}
+
+\begin{lstlisting}
+DISCORD_TOKEN= # Discord token found on bot's page
+DATABASE_NAME= # Postgres database name
+USER= # Postgres user
+PASSWORD= # Postgres password
+HOST= # Postgres host
+PORT=5432 # This is the default port
+WEBSITE_URL= # The website for AberLinkAuthentication e.g. https://joa38-mmp.dcs.aber.ac.uk/ 
+\end{lstlisting}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{4}
+\item
+  Check that the .env file has been configured correctly by typing in
+  the command \texttt{pipenv run python3 -m AberLink}.
+\item
+  Invite the bot to one of your servers by creating an invite link in
+  the tab OAuth2 and selecting \texttt{bot} in the \texttt{scopes}
+  section and then in the \texttt{bot permissions} tick
+  \texttt{Administrator}. Copy the link generated by it and paste it
+  into the browser and invite the bot to your server.
+\item
+  In the OAuth2 tab \texttt{Redirects} section add your website uri e.g.
+  \url{https://discord.dcs.aber.ac.uk/oauth2/login/redirect}.
+\item
+  On the same page scroll down to the \texttt{OAuth2 URL Generator} and
+  select the web address you entered in the \texttt{Redirects} section.
+\item
+  Scroll down again and in the \texttt{scopes} section select
+  \texttt{identify} and copy the url. Then head on over to the file
+  \texttt{/aberlink/src/AberLinkAuthentication/login/views.py} and find
+  the \texttt{discord\_oauth2} function and replace the redirect URL
+  with your own.
+\end{enumerate}
+
+\subsection{Installing and running the
+webserver}\label{installing-and-running-the-webserver}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  navigate to the folder \texttt{aberlink/src/AberLinkAuthentication}
+  and type \texttt{virtualenv venv} to create a virtual enviornment
+  folder for the data.
+\item
+  \texttt{source venv/bin/activate} - activates the virtuanenv
+\item
+  \texttt{pipenv install} installs dependencies from the project into
+  the file
+\item
+  Make sure that that the venv file path is correct inside of the
+  \texttt{aberlink.conf} file.
+\end{enumerate}
+
+\subsection{Django setup}\label{django-setup}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\itemsep1pt\parskip0pt\parsep0pt
+\item
+  \texttt{sudo cp config/config.json /etc/config.json} - copy the
+  template file for the django config and fill out the details below
+  (email joa38@aber.ac.uk for \texttt{SECRET\_KEY}):
+\end{enumerate}
+
+\begin{lstlisting}
+{
+    "SECRET_KEY": "",
+    "DATABASE_NAME": "",
+    "USER": "",
+    "PASSWORD": "",
+    "HOST": "",
+    "PORT": "",
+    "DISCORD_CLIENT_SECRET": "",
+    "DISCORD_TOKEN": "",
+    "WEBSITE_URL": ""
+}
+\end{lstlisting}
+Note: The \texttt{WEBSITE\_URL} is the name of the website that is going
+to be used. e.g. \texttt{https://joa38-mmp.dcs.aber.ac.uk}
+
+The \texttt{DISCORD\_CLIENT\_SECRET} and \texttt{DISCORD\_TOKEN} can be
+found by visitng the page created earlier for the discord bot.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Navigate to the \texttt{General Information} tab and copy the client
+  secret which is located below the Description on the right hand side.
+  Copy and save this variable to the \texttt{DISCORD\_TOKEN}
+\item
+  Naviage to the \texttt{Bot} tab and copy the name token located below
+  the username and save it to the \texttt{DISCORD\_CLIENT\_SECRET}
+\end{enumerate}
+
+After setting up the config file open the command shell and type the
+following commands to configure the database for Django:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \texttt{python3 manage.py makemigrations}
+\item
+  \texttt{python3 manage.py sqlmigrate}
+\item
+  \texttt{python3 manage.py migrate}
+\end{enumerate}
+
+Finally once everything has been ensured to be fully functioning open
+the file \\\verb|src/AberLinkAuthentication/AberLinkAuthentication/settings.py| and find the line \texttt{DEBUG = True} and set the variable to
+\texttt{False}
