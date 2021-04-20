@@ -9,7 +9,7 @@
 \section{Code Implementation \& Third-Party libraries}
 As seen below the Website and Discord bot have been split up into two separate sections because during implementation to help keep the systems separate. This helps with code maintainability, readability and allows the administrator who sets up this project to deploy the website and bot services on different containers or networks. For more information of third party libraries please see appendix A.
 
-\subsection{Website Building and Final Design}
+\section{Website Building and Final Design}
 To create and run the website a set of libraries and Linux packages are used to perform certain tasks. Firstly, the Linux package Apache2 \cite{apache2} is used as the web hosting framework got the website along with the library libapache2-mod-auth-openidc to reroute all incoming traffic to OpenID Connect \cite{OpenID} for user authentication. On top of these the linux tool certbot \cite{certbot} is used to create a Let's Encrypt certificate for the website to enable HTTPS. 
 
 As discussed previously in this document in section \ref{sec1:Research} there were many libraries that were considered when deciding on the website framework. Django \cite{Django} was the framework of choice and it is open-source and free to use on personal projects. It is also very useful as it generates the majority of the code required to create and run a website so most of the code used will be picked up by the system for UAP. Apart from the generated template, a "Django Application" called login that contains the files and code which is used to run the website. I can confirm that the folder, login, is all my own code and should not fall under UAP.
@@ -21,46 +21,159 @@ The website pages also use a third party library called bootstrap \cite{bootstra
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/website-acc-0.png}
-	\caption{Final website with 0 linked Discord accounts}
+	\caption{Final website with 0 linked Discord accounts \\\centering\href{https://mmp-joa38.dcs.aber.ac.uk}{https://mmp-joa38.dcs.aber.ac.uk}}
 	\label{fig:final-web-acc-0}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/website-acc-1.png}
-	\caption{Final website with 1 linked Discord accounts}
+	\caption{Final website with 1 linked Discord accounts \\\centering\href{https://mmp-joa38.dcs.aber.ac.uk}{https://mmp-joa38.dcs.aber.ac.uk}}
 	\label{fig:final-web-acc-1}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/website-acc-2.png}
-	\caption{Final website with 2 linked Discord accounts}
+	\caption{Final website with 2 linked Discord accounts \\\centering\href{https://mmp-joa38.dcs.aber.ac.uk}{https://mmp-joa38.dcs.aber.ac.uk}}
 	\label{fig:final-web-acc-2}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/website-admin-openidc.png}
-	\caption{Final website Admin page for Aber accounts}
+	\caption{Final website Admin page for Aber accounts \\\centering\href{https://mmp-joa38.dcs.aber.ac.uk/admin/login/openidcuser/}{https://mmp-joa38.dcs.aber.ac.uk/admin/login/openidcuser/}}
 	\label{fig:final-web-admin-openidc}
 \end{figure}
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=1\linewidth]{Figures/website-admin-discord.png}
-	\caption{Final website Admin page for Discord accounts}
+	\caption{Final website Admin page for Discord accounts \\\centering\href{https://mmp-joa38.dcs.aber.ac.uk/admin/login/discorduser/}{https://mmp-joa38.dcs.aber.ac.uk/admin/login/discorduser/}}
 	\label{fig:final-web-admin-dis}
 \end{figure}
 
-\subsection{Discord Bot}
-The Discord bot (AberLink) implementation is exactly as described in the section \ref{sec2:discord} of the design. AberLink uses the Python library Discord.py \cite{discord.py} to make calls to and from the Discord API and to interact with the database it uses the Python library Psycopg2 \cite{psycopg2}. Both of these pieces of software are open-source and free to use in personal projects. 
-
-\subsubsection{Setup and Configuration}\label{sec3:discord-setup}
-The bot contains a main file called AberLink.py that configures the bot giving it all the required permissions/settings to run. It loads the sensitive credentials from a .env file using the Python library dotenv \cite{dotenv}. This file contains key-value pairs that hold the Discord bot token that is accessible from the Discord developer portal \href{https://discord.com/developers/applications}{https://discord.com/developers/applications} and information required for the bot to connect to the database.
+Most of the users visiting this website will have not have a clue about this project or any of its policies so included below are the other two webpages created for this project. These pages display information about the project and privacy policy respectively.
 
 \begin{figure}[H]
-	\begin{lstlisting}[language=Python]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/website-mmp.png}
+	\caption{Webpage for information on what the project is about \\\centering\href{https://mmp-joa38.dcs.aber.ac.uk/major-project}{https://mmp-joa38.dcs.aber.ac.uk/major-project}}
+	\label{fig:final-web-mmp}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\linewidth]{Figures/website-privacy-policy.png}
+	\caption{Webpage displaying agreement form and Ethics form \\\centering\href{https://mmp-joa38.dcs.aber.ac.uk/privacy-policy}{https://mmp-joa38.dcs.aber.ac.uk/privacy-policy}}
+	\label{fig:final-web-privacy-policy}
+\end{figure}
+
+\subsection{Complicated Behaviours}
+
+\subsubsection{Retrieving and Displaying Discord Information}
+The main complicated behaviour occurs when the user logs into the website and gets redirected to the homepage after they have authenticated one Discord account. When this happens the now logged in Discord account is linked to the OpenID Connect account and their information is saved to the database. As seen in table \ref{tab:dis-table} the only information that gets saved to the database is their Discord ID and time of login, notice how their profile image or name are not saved to the database. This is because this information is subject to change and is not required to be stored in the database. This was done to ensure that the table is normalised to the 3rd normal form. It does however create an issue where the website does not know any information on the connected Discord account account apart from their ID. 
+
+To get around this a function is used that creates an API request to Discord querying information on the connected account. As seen below the function takes in a \verb|QuerySet| that contains a list of connected Discord accounts and then makes an API request to the url \verb|https://discord.com/api/v8/users/{discord_user.id}| with each Discord ID. After it has looped through all the connected accounts it returns an array of JSON objects that contain information on the connected accounts.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=Python]
+def get_discord_users(discord_users: QuerySet):
+"""
+uses bot authorisation to get Discord users' info
+Returns list of Discord users
+"""
+json_response = {}
+for discord_user in discord_users:
+	response = requests.get(f'https://discord.com/api/v8/users/{discord_user.id}', 
+	headers={'Authorization': f'Bot {config["DISCORD_TOKEN"]}'
+	})
+	user = response.json()
+	user = {user["id"] : response.json()}
+	json_response.update(user)
+return json_response
+\end{lstlisting}
+\caption{Python function to make an API request about connected Discord account}
+\label{fig:django-js-json}
+\end{figure}
+
+The HTML webpage is then passed this content where it turns the JSON information into a JavaScript function and therefore making it a selectable document element. The document then loops over each Discord account and executes the following JavaScript function to extract information from the JSON object. Once it has extracted the information it replaces the profile picture and name of connected Discord account in the document.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=JavaScript]
+let json_data = JSON.parse(document.getElementById("discord_user_info").textContent)
+let discordAvatar = json_data["{{user.id}}"].avatar
+let discordUsername = json_data["{{user.id}}"].username + "#" + json_data["{{user.id}}"].discriminator
+document.getElementById("discordAvatar{{forloop.counter}}").src = `https://cdn.discordapp.com/avatars/{{user.id}}/${discordAvatar}.png?size=256`
+document.getElementById("discordUsername{{forloop.counter}}").textContent = `${discordUsername}`
+\end{lstlisting}
+\caption{JavaScript script to extract information from the Discord users JSON object}
+\label{fig:django-api-dis}
+\end{figure}
+
+\subsubsection{Deleting Account or Unlinking Discord accounts}
+This project respects the GDPR regulations and gives users the right to delete their data from the database or unlink a Discord account. This feature was simple to implement but became difficult when I wanted to include popups that would appear when the user tried to delete their account as pictured below. The difficult part about this comes when trying to get information on which account is going to be deleted and ensuring that the correct one is selected.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=1\textwidth]{Figures/website-discord-modal.png}
+	\caption{Example of a popup that appears when a user tried to unlink a Discord account}
+	\label{fig:django-modal}
+\end{figure}
+
+Implementing this feature was relatively straight forward however getting it to display information on the specific account that would be unlinked was harder than expected. Getting the HTML document to parse information on which button had been pressed in the document was as simple as adding an extra attribute to the button. As seen in the figure below the button contains the attribute \verb|value| that is assigned to the Discord account.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=HTML]
+<button type="button" id="discordDeleteButton" class="btn btn-danger btn-sm" data-bs-toggle="modal"
+	data-bs-target="#discordDeleteButtonModal" value="{{ user.id }}" style="margin-top: 5px;">
+\end{lstlisting}
+\caption{HTML button to delete a Discord account containing value attribute with the Discord ID}
+\label{fig:django-dis-delete-button}
+\end{figure}
+
+When the button is pressed it calls a JavaScript script and displays the popup/modal. It then uses the function \verb|event.relatedTarget.getAttribute| to get the information from the button on the account that is linked to it.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=JavaScript]
+let deleteDiscordAccountModal = document.getElementById('discordDeleteButtonModal')
+deleteDiscordAccountModal.addEventListener('show.bs.modal', function (event) {
+	// Gets the button and it's data attribute and prints it out in the .modal-body
+	let recipient = event.relatedTarget.getAttribute('value')
+	deleteDiscordAccountModal.querySelector('.modal-body').textContent = 'Are you sure you want to delete the link to the Discord account \'' + recipient + '\'?'
+	document.getElementById('discordIdText').value = recipient
+})
+\end{lstlisting}
+\caption{JavaScript script to get context on the button that has been pressed and edit the popup to include this information}
+\label{fig:django-js-modal}
+\end{figure}
+
+Once the confirmation button in \ref{fig:django-modal} is pressed the webpage will send a form containing the Discord id via a post request to the same webpage. The Python function for this webpage then detects that a post request has been made and it attempts to find the linked account and remove it from the database.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=python]
+def openidc_response(request):
+	...
+	if request.method == 'POST':
+	try:
+		discord_id = request.POST.get("discord_id")
+		DiscordUser.objects.filter(id=discord_id).delete()
+	except KeyError:
+		pass
+	...
+\end{lstlisting}
+\caption{Extract from Django Python function to display the home page and handle post requests to remove Discord accounts}
+\label{fig:django-view-post}
+\end{figure}
+
+\section{Discord Bot}
+The Discord bots (AberLink) implementation uses many of the design principles discussed in section \ref{sec2:discord} of this document.
+
+\subsection{Setup and Configuration}\label{sec3:discord-setup}
+The bot contains a main file called AberLink.py that configures the bot giving it all the required permissions/settings to run. It loads the sensitive credentials from a .env file using the Python library dotenv \cite{dotenv}. This file contains key-value pairs that hold the Discord bot token that is accessible from the Discord developer portal \url{https://discord.com/developers/applications} and information required for the bot to connect to the database.
+
+\begin{figure}[H]
+\begin{lstlisting}[language=Python]
 # load the private discord token from .env file.
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -84,9 +197,9 @@ bot.run(TOKEN)
 \label{fig:discord-main-file}
 \end{figure}
 
-As seen in the figure above the key value pair for the \verb|DISCORD_TOKEN| is loaded in from the file and then used at the end of the code extract to run the bot. In the middle we see in important section called \verb|commands.Bot| that tells the bot key information such as which prefix to use that determines how a command is called. E.g. \verb|!| means that a command is invoked using \verb|!<command_name>|, by changing this then the command is invoked using that prefix. It is also not limited to a single character so can be \verb|AberLink| and then command would be invoked using \verb|AberLink<command_name>|.
+As seen in the figure above the key value pair for the \verb|DISCORD_TOKEN| is loaded in from the file and then used at the end of the code extract to run the bot. In the middle we see an important section called \verb|commands.Bot| that configures the bot with key information such as which prefix to use to call commands. E.g. if the prefix is set to \verb|!| then a command is invoked using \verb|!<command_name>|, by changing the prefix to \verb|!test| then the command is invoked using \verb|!test<command_name>|. As seen above the prefix is not limited to a single character so it can be as long as needed.
 
-\subsubsection{Discord Command Example}
+\subsection{Discord Command Example}
 
 The bot creates commands that can be used in a Discord server using the Discord.py \cite{discord.py} library. Below is an example of the ping command that is used as a way to check that the bot is alive. Discord.py turns this Python function into a Discord command when the decorator \verb|@commands.command(aliases=['p'])| is used where the \verb|aliases=['p']| parameter indicates an alias that can be used to call the command. The function then starts a timer using time() and stops after the first message is sent, then the message is edited to include the latency taken to edit and modify the message. Included in this response is also information on the database such as the latency, polling status and response time.
 
@@ -120,7 +233,7 @@ The commands response is then sent to the Discord channel with a response that l
 	\label{fig:discord-command-ping}
 \end{figure}
 
-\subsubsection{How do I access a list of the commands in AberLink?}
+\subsection{How do I access a list of the commands in AberLink?}
 The Discord.py library contains a useful function called \verb|DefaultHelpCommand()| that will generate an automatic list of commands available in your program by analysing each function that has the command decorator \verb|@commands.command()|. The list of commands is then accessible through Discord using the command prefix plus the keyword help which in this case would be !help. Below is an example of the current output from the help command at time of this screenshot.  
 
 \begin{figure}[H]
@@ -130,7 +243,7 @@ The Discord.py library contains a useful function called \verb|DefaultHelpComman
 	\label{fig:discord-help}
 \end{figure}
 
-\subsubsection{Database}
+\subsection{Database}
 The Discord bot uses the Python library psycopg2 \cite{psycopg2} to connect remotely to the PostgreSQL \cite{psql} database using a file located inside of the \verb|AberLinkDiscord/cogs| folder called \verb|db.py|.
 
 \begin{figure}[H]
@@ -160,9 +273,9 @@ except psycopg2.OperationalError as err:
 \label{fig:discord-database}
 \end{figure}
 
-As seen in the code extract above it uses the same functions as described in section \ref{sec3:discord-setup} for loading data from the \verb|.env|. Once it has loaded in the correct key value pairs it then attempts to connect to the database using the function \verb|connect()| and then print the output to the command line. If this is not the case e.g. database is down then then the try except statement catches the error and prints it out to the command line. If the database connection is successful however the information about that connection is then stored in a global variable called CONN which stands for connection.
+As seen in the code extract above it uses the same functions as described in section \ref{sec3:discord-setup} for loading data from the \verb|.env|. Once it has loaded in the correct key value pairs it then attempts to connect to the database using the function \verb|connect()| and print the output to the command line. If this is not the case e.g. database is down then then the try except statement catches the error and prints it out to the command line. If the database connection is successful however the information about that connection is then stored in a global variable called \verb|CONN| which stands for connection.
 
-To ensure that the connection will always be restored if there is a catastrophic failure a function was added that attempts to get a cursor on the database and if it fails then it calls the function above \ref{fig:discord-database}. This function \verb|try_connection()| is called by any piece of code that relies on extracting information from the database to ensure that there will never be a database error.
+To ensure that the connection will always be restored if there is a catastrophic failure a function was added that attempts to get a cursor on the database and if it fails then it calls the function above in figure \ref{fig:discord-database}. This function \verb|try_connection()| is called by any piece of code that relies on extracting information from the database to ensure that there will never be a database error.
 
 \begin{figure}[H]
 \begin{lstlisting}[language=Python]
@@ -201,7 +314,7 @@ if row is not None:
 
 As seen above a parameter of the Discord ID is passed to the function which then gets a database connection using the \verb|try_connect()| as previously described in the last section and executes an SQL statement on the database. The first record is then fetched from the database and is then returned as a JSON object to allow for it to be easily accessed. If there are no records that match then None is returned.
 
-\subsubsection{Verification}
+\subsection{Verification}
 This command is used to verify users accounts. It begins by trying to find the verified role on the server, then using the function above in figure \ref{fig:discord-database-sql-statement} to get the users information. The function then checks that the user exists and then uses another SQL lookup to get information on the OpenID Connect \cite{OpenID} Aber account. Once these requests have been completed the user is given the role of \verb|verified| followed by the message "You are now verified with AberLink". If the feature discussed in section \ref{sec3:server-config} to allow automatic nicknames is enabled then the bot will also change the users nickname.
 
 \begin{figure}[H]
@@ -229,7 +342,8 @@ async def verify(self, ctx: Context):
 \label{fig:discord-verify-cmd}
 \end{figure}
 
-\subsubsection{Attendance}
+\subsection{Attendance}
+Attendance is recorded using the Discord function \verb|here|. Once the command has been typed then the Discord bot will delete the message and open a DM or Direct Message with the user. It then sends a query to the database and if the user exists then a query is made to retrieve their aber account. After this is completed a request is made to the API endpoint along with the data object \verb|{'username': <aber_email>}| which updates student record. The response from this request is then evaluated and an appropriate response is sent via the DM channel that was opened earlier.
 
 \begin{figure}[H]
 \begin{lstlisting}[language=Python]
@@ -265,7 +379,7 @@ async def here(self, ctx: Context):
 \label{fig:discord-here-cmd}
 \end{figure}
 
-\subsubsection{Error handling}
+\subsection{Error handling}
 Discord.py includes a decorator called \verb|@Bot.event()| that goes inside of the AberLink.py file for dealing with bot events. This paired with a function called \verb|on_command_error()| deals with error messages. Below is an example of some of the if statements that deal with bot errors. The final else if command to check if the command is not found is extremely important as it tells the bot to ignore any commands that does not exist in the case where two Discord bots use the same command prefix but have different commands.
 
 \begin{figure}[H]
@@ -281,12 +395,12 @@ elif isinstance(error, commands.errors.CommandNotFound):
 \label{fig:discord-error-checking}
 \end{figure}
 
-\subsubsection{Server Configurations}\label{sec3:server-config}
+\subsection{Server Configurations}\label{sec3:server-config}
 AberLink contains a feature called autoSetNickname that will automatically assign nicknames to users when they join or verify on the server by appending their aber username to the end of their name. e.g. JoelinRome\#4893 becomes JoelinRome [joa38]. This was added to help lecturers easily identify which student is which and if the student is uncomfortable with this they can always manually change it back. 
 
 Some lecturers might not enjoy this feature and prefer to turn it off so included is a micro database using the python module \cite{shelve} that creates a file stored in the same directory as the Python file. This basically creates a file that can be accessed at any time and acts as persistent storage. It contains key value pairs e.g. \verb|{server_id : true}| that store a boolean on whether the automatic naming feature is enabled or disabled. 
 
-\subsection{Database}\label{sec3:database}
+\section{Database}\label{sec3:database}
 The Database implementation was relatively straight forward as Django \cite{Django} generates all of the required tables for the project to function once you define the models. I've included the model used to generate OpenID Connect \cite{OpenID} aber user model below. In this figure you can see that there are two classes; OpenIDCUserManager to create a new database object and OpenIDCUser to make the database model. 
 
 The OpenIDCUserManager class has three main parameters; one to call itself, a user which is a JSON object and password which is defaulted to None as no password data is stored. The information from the user object is passed throughout the code and is used to decide if the user should have admin permissions. The user is then saved to the database.
@@ -405,7 +519,7 @@ Below are examples of the records that are stored in the database tables.
 \end{table}
 
 \section{Configuration and Setup}
-After completion of this project there is a plan to setup this service permanently for the department so a folder was created called \textit{config} containing information on how to set up this project. This folder contains a README.md file that explains how and what is needed to be configured to get the system up and running properly. it also contains a bash script called setup.sh that installs and the relevant dependencies and sets up the virtual environments for the projects. Also included are a few example configuration files for Apache2 \cite{apache2}, Django \cite{Django}, OpenID Connect authentication \cite{OpenID} and Discord.py \cite{discord.py}.
+After completion of this project there is a plan to setup this service permanently for the department so a folder was created called \verb|config| containing information on how to set up this project. This folder contains a \verb|README.md| file located in Appendix D that explains how and what is needed to be configured to get the system up and running properly. it also contains a bash script called \verb|setup.sh| that installs and the relevant dependencies and sets up the virtual environments for the projects. Also included are a few example configuration files for Apache2 \cite{apache2}, Django \cite{Django}, OpenID Connect authentication \cite{OpenID} and Discord.py \cite{discord.py}.
 
 \section{Unforeseen Issues}\label{sec3:unforeseen}
 An issue that was encountered was with creating the custom user model in Django that would have been used to model the database. The documentation and videos found online about implementing user models were rather cryptic and difficult to understand, however after much research a video explaining how to implement a good custom user model was found that resolved the issues. Once this was completed I realised that Django is not happy with modelling the primary key of a table using a char so switched over to using an int. This turned out to be a good idea as Aberystwyth university tends to recycle old emails so over the next 5 years there could be an issue where the database would try and create a new entry in the database with the same email.
@@ -425,7 +539,7 @@ In the final section of section \ref{sec1:obj} \textbf{Further potential work} I
 \subsection{Review Against Project Process}\label{sec3:pp}
 
 Below is included a table describing the iterations and what was completed each one. These iterations were based on the list of objectives created in section \ref{sec1:obj} and span over the course of two months. For more detail please see the wordpress blog here \href{https://cs39440blog.wordpress.com/}{https://cs39440blog.wordpress.com/}.
-
+\newpage
 \begin{longtable}[H]{| c | c | p{9cm} |}
 \hline
 Iteration & Time taken (days) & What happened? \\
@@ -456,7 +570,7 @@ Iteration & Time taken (days) & What happened? \\
 \label{tab:project-iterations}
 \end{longtable}
 
-Included is a graph of my GitLab commits over time below to help backup my table described above. 
+Included is a graph of GitLab commits over time below to reflect the tables results as described above. 
 
 \begin{figure}[H]
 	\centering
