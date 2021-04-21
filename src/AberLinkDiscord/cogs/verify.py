@@ -2,7 +2,7 @@ import discord
 from discord import Embed
 from discord.ext import commands
 from discord.ext.commands import Context
-from discord.ext.commands.errors import CommandInvokeError
+from discord.ext.commands.errors import CommandInvokeError, BadArgument, MissingAnyRole, BotMissingPermissions
 from discord.utils import get
 from AberLink import WEBSITE
 
@@ -17,7 +17,7 @@ def setup(bot):
     bot.add_cog(Verify(bot))
 
 
-def check_shelve_file(serverName: str):
+def check_shelve_file(serverName: int):
     """
     Checks if the server has set the auto roles to false
     """
@@ -80,7 +80,7 @@ class Verify(commands.Cog):
         email = db_openid_user["username"]
         await member.add_roles(verified, reason='Assigning user the verified role')
 
-        if check_shelve_file(member.guild):
+        if check_shelve_file(member.guild.id):
             await member.edit(nick=f'{member.name} [{email}]', reason="Changing users\'s nickname")
         
 
@@ -100,13 +100,20 @@ class Verify(commands.Cog):
         await user.add_roles(verified, reason='Assigning user the verified role')
         await ctx.send("You are now verified with AberLink")
          
-        if check_shelve_file(ctx.guild):
+        if check_shelve_file(ctx.guild.id):
             await user.edit(nick=f'{user.name} [{email}]', reason="Changing users\'s nickname")
 
     @verify.error
     async def verify_error(self, ctx, error):
         if isinstance(error, CommandInvokeError):
-            await ctx.send(f"{ctx.author.mention} You have been verified with AberLink but I can\'t change your name because you have higher permissions than me")
+            # Gets the preious message and if it is from the bot then it knows user has been verified so sends second error
+            prev_message = await ctx.channel.history(limit=1).flatten()
+            if prev_message[0].author.id != 807609453972422676:
+                await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} My role permissions aren\'t working correctly. Please open the `server settings`, navigate to the `Roles` panel and drag the `AberLink role` to the top of the list.')
+            else:
+                await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} I can\'t change your nickname because you have higher permissions than me (e.g you are the server owner)')
+        else:
+            await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} {error}')
 
 
     @commands.command(aliases=['va'])
@@ -190,7 +197,11 @@ class Verify(commands.Cog):
     @build.error
     async def build_error(self, ctx, error):
         if isinstance(error, CommandInvokeError):
-            await ctx.send(f"{ctx.author.mention} My role permissions aren't working correctly. Please open the `server settings`, navigate to the `Roles` panel and drag the AberLink role to the top of the list")
+            await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} My role permissions aren\'t working correctly. Please open the `server settings`, navigate to the `Roles` panel and drag the `AberLink` role to the top of the list')
+        elif isinstance(error, MissingAnyRole):
+            await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} {error}. Please create and assign one of these roles to yourself')
+        else:
+            await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} {error}')
 
     @commands.command(aliases=['go'])
     async def getOpenID(self, ctx: Context):
