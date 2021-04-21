@@ -113,7 +113,7 @@ class Utilities(commands.Cog):
         """
         #logging.info('{0}: #{1} setAddMessage to "{2}" by {3}'.format(ctx.guild, ctx.channel.name, message, ctx.message.author))
         with shelve.open(shelve_file) as db:
-            db[str(ctx.guild)] = state
+            db[str(ctx.guild.id)] = state
             embed = Embed(description=f'Auto set user nickanmes has been set to `{state}`')
         if state:
             embed.colour = discord.Colour.green()
@@ -127,12 +127,13 @@ class Utilities(commands.Cog):
         """
         Displays the bots configurations in this server
         """
-        serverName = ctx.guild
-        data = True  # Default value in case data doesn't exist
+        serverID = str(ctx.guild.id)
         with shelve.open(shelve_file) as db:
-            if str(serverName) in db:
-                data = db[str(serverName)]
-                pass
+            if serverID in db:
+                data = db[serverID]
+            else:
+                db[serverID] = True
+                data = db[serverID]
         embed = Embed(description='Below is a list of configurations available in the bot', colour=discord.Colour.orange())
         embed.add_field(name='Set Auto Nicknames:', value=f'`{data}`')
         await ctx.send(embed=embed)
