@@ -49,7 +49,7 @@ class Utilities(commands.Cog):
         embed.add_field(name=f'{emojis["aberlink"]} Repository (closed source):', 
                         value='https://github.com/JoelLucaAdams/aberlink', inline=False)
         embed.add_field(name=f'{emojis["discord"]} Discord server (suggestions or feedback):', 
-                        value='https://discord.gg/b3EdxVK', inline=False)
+                        value='https://discord.gg/XKtfya9NHF', inline=False)
         await ctx.send(embed=embed)
         #await ctx.send(content='Created and maintained by `Joel Adams` for a major project\n'
                                 #f'{emojis["aberlink"]} Repository (closed source): <https://github.com/JoelLucaAdams/aberlink>\n'
