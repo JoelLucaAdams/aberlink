@@ -43,7 +43,7 @@ async def check_discord_user(ctx: Context):
     """
     user = PostgreSQL.get_discord_user(ctx.message.author.id)
     if user is None:
-        await ctx.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified')
+        await ctx.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified (VPN is required)')
         return
     return user
 
@@ -73,7 +73,7 @@ class Verify(commands.Cog):
         # Checks if the user exists in the database, if it doesn't a DM is sent to the user to tell them to get verified
         if db_discord_user is None:
             dm_channel = await member.create_dm()
-            await dm_channel.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified')
+            await dm_channel.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified (VPN is required)')
             return
             
         db_openid_user = PostgreSQL.get_openid_user(db_discord_user["openidc_id"])
@@ -106,7 +106,7 @@ class Verify(commands.Cog):
     @verify.error
     async def verify_error(self, ctx, error):
         if isinstance(error, CommandInvokeError):
-            await ctx.send(f"{ctx.author.mention} I can\'t change your name because you have higher permissions than me")
+            await ctx.send(f"{ctx.author.mention} You have been verified with AberLink but I can\'t change your name because you have higher permissions than me")
 
 
     @commands.command(aliases=['va'])
@@ -131,6 +131,7 @@ class Verify(commands.Cog):
             description= f'{emojis["discord"]} Configuring `{ctx.guild.name}` for verification...\n'
 
             guild = ctx.message.guild
+            bot_role = get(ctx.guild.roles, name='AberLink')
             everyone_role = get(ctx.guild.roles, name='@everyone')
             verified_role = get(ctx.guild.roles, name='verified')
             verify_channel = get(guild.channels, name='verify')
@@ -141,6 +142,9 @@ class Verify(commands.Cog):
                 add_reactions=True, external_emojis=True, 
                 connect=True, speak=True, stream=True, use_voice_activation=True
                 )
+
+            #make sure that the bots position is above that of verification
+            bot_role.edit(position=2)
 
             # Change permissions on @everyone role
             await everyone_role.edit(reason='Configuring everyone role for verify', permissions=discord.Permissions())
@@ -153,6 +157,7 @@ class Verify(commands.Cog):
                 description += f'{int((time() - start_time) * 1000)}ms: `verified` role already exists, updating to match permissions...\n'
             else:
                 verified_role = await guild.create_role(reason='Creating verified role', name='verified', permissions=verified_role_perms)
+                verified_role.edit(position=1)
                 description += f'{int((time() - start_time) * 1000)}ms: `verified` role created\n'
             
             # Gives the bot the verified role
@@ -162,6 +167,8 @@ class Verify(commands.Cog):
             # Create or modify verify channel
             if verify_channel is not None:
                 description += f'{int((time() - start_time) * 1000)}ms: `verify` channel already exists, updating to match permissions...\n'
+                message = await verify_channel.send(f'Welcome to `{guild.name}`! If you are seeing this message then please type `!verify`')
+                await message.pin()
             else:
                 verify_channel = await guild.create_text_channel('verify')
                 description += f'{int((time() - start_time) * 1000)}ms: `verify` channel created\n'
@@ -180,9 +187,13 @@ class Verify(commands.Cog):
             embed = Embed(description=description, colour=discord.Colour.green())
             await ctx.send(embed=embed)
 
+    @build.error
+    async def build_error(self, ctx, error):
+        if isinstance(error, CommandInvokeError):
+            await ctx.send(f"{ctx.author.mention} My role permissions aren't working correctly. Please open the `server settings`, navigate to the `Roles` panel and drag the AberLink role to the top of the list")
 
     @commands.command(aliases=['go'])
-    async def getOpenid(self, ctx: Context):
+    async def getOpenID(self, ctx: Context):
         """
         Returns the users' aber username
         """
