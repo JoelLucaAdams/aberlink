@@ -1,4 +1,4 @@
-admin_roles = ['Admin role', 'ADMIN ROLE', 'Admin', 'Devs', 'Dev', 'lecturer', 'LECTURER']
+admin_roles = ['Admin role', 'ADMIN ROLE', 'Admin', 'Devs', 'Dev', 'lecturer', 'Lecturer', 'LECTURER']
 
 # use \:emote: to get
 emojis = {
@@ -11,7 +11,7 @@ emojis = {
     'simple_poll': '<:simple_poll:822074760686600213>'
     }
 
-shelve_file = 'shelve_file.shelve'
+shelve_file = 'shelve_file'
 
 # test server guild
 guild_ids = [802212304216260661]
