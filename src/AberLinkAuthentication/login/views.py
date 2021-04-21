@@ -32,11 +32,18 @@ def openidc_response(request):
     
     # Queries Discord to get users information and then sends to template
     discord_users_info = get_discord_users(discord_users)
+
+    try:
+        previous_url = request.GET.get('account')
+    except KeyError:
+        pass
+
     context = {
         'openidc_user': openidc_user,
         'discord_users': discord_users,
         'title': 'Home',
         'discord_user_info': discord_users_info,
+        'previous_url': previous_url,
     }
     return render(request, 'home.html', context)
 
@@ -94,7 +101,7 @@ def discord_oauth2_redirect(request):
     openidc_user = OpenIDCUser.objects.get(username=request.user.username)
     DiscordAuthenticationBackend().authenticate(request, user=user, openidc_user=openidc_user)
     # TODO: Should probably change to logging
-    return redirect('/')
+    return redirect(f'/?account={user["id"]}')
 
 
 def exchange_code(code: str):

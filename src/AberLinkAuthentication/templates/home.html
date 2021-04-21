@@ -10,6 +10,13 @@
 </head>
 
 {% block content %}
+{% if previous_url is not None %}
+<div class="alert alert-primary alert-dismissible fade show" role="alert" id="discord_alert" style="margin-top: 10px;">
+    The Discord account <strong>{{ previous_url }}</strong> is now linked to your student ID for use in university servers
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+{% endif %}
 <h1 style="padding: 30px 0px 30px 0px; text-align: center;">Welcome {{ openidc_user.name }}!</h1>
 {{ discord_user_info|json_script:"discord_user_info"}}
 <div class="d-flex card-group justify-content-center d-sm-flex" style="margin-left: auto; margin-right: auto;">
@@ -147,5 +154,15 @@
         userAccountModal.querySelector('.modal-body').textContent = 'Are you sure you want to delete all the data for \'' + recipient + '\'?'
         document.getElementById('userIdText').value = recipient
     })
+
+    try {
+        let myAlert = document.getElementById('discord_alert')
+        myAlert.addEventListener('close.bs.alert', function (event) {
+            location.replace('/')
+        })
+    }
+    catch (error) {
+        //ignore the error
+    }
 </script>
 {% endblock content%}
