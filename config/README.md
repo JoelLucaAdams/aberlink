@@ -91,6 +91,7 @@ OIDCSessionInactivityTimeout 86400
                 AllowOverride None
                 Require all granted
                 Allow from all
+                Options -Indexes
         </Directory>
 
         <Location />
