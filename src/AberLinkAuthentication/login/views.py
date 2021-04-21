@@ -33,17 +33,15 @@ def openidc_response(request):
     # Queries Discord to get users information and then sends to template
     discord_users_info = get_discord_users(discord_users)
 
-    try:
-        previous_url = request.GET.get('account')
-    except KeyError:
-        pass
+    # Get account from url if exists
+    new_authenticated_discord_account = request.GET.get('account')
 
     context = {
         'openidc_user': openidc_user,
         'discord_users': discord_users,
         'title': 'Home',
         'discord_user_info': discord_users_info,
-        'previous_url': previous_url,
+        'new_authenticated_account': new_authenticated_discord_account,
     }
     return render(request, 'home.html', context)
 
