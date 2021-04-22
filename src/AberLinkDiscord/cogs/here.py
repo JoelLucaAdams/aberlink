@@ -1,4 +1,5 @@
 import discord
+from discord.errors import Forbidden
 from discord.ext import commands
 from discord.ext.commands import Context
 
@@ -27,13 +28,18 @@ class Here(commands.Cog):
         Marks the student as present in the practical
         """
         await ctx.message.delete()
-        dm_channel = await ctx.author.create_dm()
+        channel = await ctx.author.create_dm()
+        try:
+            await (await channel.send('Testing to see if I can DM you')).delete()
+        except Forbidden:
+            channel = ctx
+            
         discord_user = PostgreSQL.get_discord_user(ctx.author.id)
         url = 'https://integration.aber.ac.uk/joa38/submit.php'
 
         # Gets openid user from Discord id
         if discord_user is None:
-            await dm_channel.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified')
+            await channel.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified')
             return
         openid_user = PostgreSQL.get_openid_user(discord_user["openidc_id"])
 
@@ -45,6 +51,6 @@ class Here(commands.Cog):
         if eval(api_response["status_updated"].title()):
             current_time = datetime.now()
             current_time = current_time.strftime("%d/%m/%Y %H:%M:%S")
-            await dm_channel.send(f'Your attendance in the server `{ctx.guild.name}` has been recorded for the module: `{api_response["module_code"]}` with timestamp: `{current_time}`')
+            await channel.send(f'{ctx.author.mention} Your attendance in the server `{ctx.guild.name}` has been recorded for the module: `{api_response["module_code"]}` with timestamp: `{current_time}`')
         else:
-            await dm_channel.send('Your attendance has not been recorded for this practical. If you believe this is incorrect please contact your module coordinator.')
+            await channel.send(f'{ctx.author.mention} Your attendance has not been recorded for this practical. If you believe this is incorrect please contact your module coordinator.')
