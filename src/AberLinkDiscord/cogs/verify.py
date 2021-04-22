@@ -63,17 +63,16 @@ class Verify(commands.Cog):
         Triggered when a new member joins the guild and gives them the verified role
         """
         verified = get(member.guild.roles, name='verified')
+        verify_channel = get(member.guild.channels, name='verify')
         db_discord_user = PostgreSQL.get_discord_user(member.id)
         # Checks if the verified role exists, if it doesn't a DM is sent to the server owner to configure it
         if verified is None:
-            dm_channel = await member.guild.owner.create_dm()
-            await dm_channel.send(f'The verified role doesn\'t exist in the server `{member.guild.name}`. Please type `!build` in one of the text channels in that server')
+            await verify_channel.send(f'{member.guild.owner.mention} The verified role doesn\'t exist in the server `{member.guild.name}`. Please type `!build` in one of the text channels in that server')
             return
 
         # Checks if the user exists in the database, if it doesn't a DM is sent to the user to tell them to get verified
         if db_discord_user is None:
-            dm_channel = await member.create_dm()
-            await dm_channel.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified (VPN is required)')
+            await verify_channel.send(f'{member.mention} You have not been verified yet. Please visit {WEBSITE} to get verified (VPN is required)')
             return
             
         db_openid_user = PostgreSQL.get_openid_user(db_discord_user["openidc_id"])
