@@ -6,7 +6,7 @@ This project required a substantial amount of discussion with IS and CS-support 
 
 \textbf{Note:} The dev folder of the technical submission also contains spike work that may not be listed below.
 
-\subsection{Research}\label{sec1:Research}
+\subsection{Research Spikework}\label{sec1:Research}
 \textbf{Web Hosting \& Containers} - This was definitely one of the sections that I had the least experience working with but thanks to help from CS-support they guided me through the process and setup a Debian 10 (Buster) \cite{debian} container. Debian is definitely the best OS for this project as it is flexible and has many useful libraries for my project. This came preloaded with Apache2 \cite{apache2} which is used to host websites so was the logical choice for me to work with. NGINX \cite{nginx} was also considered for this project but was scrapped in favour of Apache2 due to the assistance available from CS-support and online documentation. 
 
 \textbf{Coding Languages} -  Over the summer I worked on the DemoHelper \cite{demohelper} project and learnt how to create my own Discord bots in Python. This spawned many Discord bot projects that can be seen in the comp sci server. From these projects I gained a solid foundation of Python and is the reason behind me choosing this as my primary coding language this project. It also had a knock on effect for choosing the database and web framework that worked well or used Python. HTML, CSS and some Javascript was also used to develop the website pages.
@@ -86,7 +86,7 @@ After completing the spike work and prior research the next step was breaking th
 \end{itemize}
 
 \subsection{Possible Security Issues}
-Throughout this project I have attempted to minimise the amount of security risks that can occur. The main identified weak points are as follows:
+Security is an important component of this project as this system deals with federated authentication and controls access to Discord servers. If someone was to hack into the system they could potentially change their details to pose as another user, therefore, we must consider the security risks that this service may have. This section aims to cover risk analysis and robustness of the system against potential attack vectors.
 
 \begin{itemize}
 	\item \textbf{Direct Database Access} - This is the first point of attack that could be used to get access to Discord and Aber account details. This has been secured by using a PostgreSQL \cite{psql} database that is located in Departments servers so it is already behind a very secure and up to date firewall. To access the database you also need to have a registered Aber account and be using the campus WiFi or the university's VPN so that adds another layer of security. If the user however has access to both of these then brute forcing the PSQL login system is difficult as it has many security levels and incoming connections are monitored by the university.
@@ -122,6 +122,8 @@ For this project I found that Extreme Programming (XP) would best fit my project
 \end{itemize}
 
 \section{Functional Requirements}\label{sec1:fr}
+
+The following is a list of functional requirements used to test and evaluate the system. \textbf{FR1} - \textbf{FR2} are focused on testing the websites' back-end authentication and data saving. \textbf{FR3} - \textbf{FR4} are visual tests to check that users can see all their information and ensure that they do not have access to pages they should not. \textbf{FR5} - \textbf{FR8} are tests to ensure that the Discord bot works correctly. 
 
 \begin{itemize}
 	\item \textbf{FR1} - Authenticate Aber User accounts and return useful Metadata
