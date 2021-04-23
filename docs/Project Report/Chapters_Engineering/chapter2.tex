@@ -21,7 +21,7 @@
 	\label{fig:architecture}
 \end{figure}
 
-As seen above here is a brief overview of the main components used in this project which are discussed in more detail later on in this document. Below is a list of the main folders and the files contained within them. The folder structure is based largely off of the second year group project folder structure.
+As seen above here is a brief overview of the main components used in this project which are discussed in more detail later on in this document. Below is a list of the main folders and the files contained within them. The folder structure is based largely off on the second year group project folder structure.
 
 \begin{itemize}
 	\item \textbf{config} - Describes how to setup the project; a bash script for installing the relevant dependencies, a README.md for manual configuration of the project and example configuration files for Apache2 \cite{apache2}, authentication \cite{libapache2-mod-auth-openidc}, Discord bot and Django \cite{Django}.
@@ -80,7 +80,17 @@ As seen above here is a brief overview of the main components used in this proje
 	\label{fig:architecture-web}
 \end{figure}
 
-The website is built using the Python framework Django \cite{Django}. This framework has been used to generate a template of the code required and only requires minimal tweaking to setup. When you visit the website you then get redirected to the OpenID Connect \cite{OpenID} authentication framework which helps to prevent unwanted access by users who are not permitted to view the website. Once authenticated the users data is then saved to the database and they can then add Discord accounts by using the button displayed on the screen. This then redirects them to Discord's OAuth2 authentication page and once they have logged in with a discord account then it redirects them back to the my website and saves that information to the database as well. Included below is a flow chart explaining the process works.
+The website is built using the Python framework Django \cite{Django} that comes with the feature to generate a template project. This feature creates the overall file structure and generates all the code located in the folder \sloppy{\verb|src\AberLinkAuthentication\AberLinkAuthentication|}. This code has been slightly modified to support the use of a PostgreSQL \cite{psql} database instead of the default SQLite. The code has also been modified to work with Apache2 \cite{apache2} using the ASGIref \cite{asgiref} Python library so that Apache2 can update the site when changes are made to the Django code. Apart from this folders code, the rest of the project is written from scratch using online resources and Django documentation.
+
+The back-end of the website uses the HTTP server Apache2 \cite{apache2} along with an SSL certificate provided using the Linux package Certbot \cite{certbot}. An Apache2 mod called libapache2-mod-auth-openidc \cite{libapache2-mod-auth-openidc} is then used to make the website use OpenID Connect \cite{OpenID} authentication forcing the user to sign in when they visit the website. This helps to protect and prevent the site from any external attacks as all users get instantly redirected to the Universities OpenID Connect login page. 
+
+\textit{As a developer I...} modified the Django template and wrote the code for the website.
+
+\textit{As a maintainer I...} am expected to change some code variables and install some packages as described in the README in Appendix D.
+
+\textit{As a server owner (staff) I...} am expected to make sure that all my students have linked their accounts to AberLink.
+
+Once authenticated using OpenID Connect the users' data is then saved to the database and they can then add Discord accounts by using the button displayed on the screen. This then redirects them to Discord's OAuth2 authentication page and once they have logged in with a discord account then it redirects them back to the website and saves that information to the database as well. Included below is a flow chart explaining the process works.
 
 \begin{figure}[H]
 	\centering
@@ -171,7 +181,7 @@ Despite its infancy, I have created a proof of concept. Below is a screenshot to
 \end{figure}
 
 \subsection{Complicated Behaviours}\label{sec2:comp-behaviour}
-Most of the Discord bot code is relatively straight forward however there is one function in particular that needs some explanation called build() located in AberLinkDiscord/cogs/verify.py. This function and Discord command is used to configure a Discord server for verification. Below is a list of steps that the command executes.
+Most of the Discord bot code is relatively straight forward however there is one function in particular that needs some explanation called \verb|build()| located in \verb|AberLinkDiscord/cogs/verify.py|. This command is used to set up the server for authenticated users. This is done by giving authenticated users the verified role and all channels are made accessible only to members with that role. Users without that role (@everyone) are denied read permission. One special channel is visible to everyone to provide a place where they can interact with the bot to become verified. Below is a list of steps that the command executes.
 
 \begin{enumerate}
 	\item Begins by simulating that the bot is typing giving the user visual feedback that the command is running as this function usually takes 500ms to 1s.
@@ -201,29 +211,40 @@ The \textbf{DiscordUser} is simple and contains a unique Discord id that is a sn
 \section{User Interface}\label{sec2:ui}
 
 \subsection{Website}
-Before beginning work on the website, some website mock-ups were designed and used as reference when working on the look and feel of the webpages. These mockups were created using the popular design application Figma \cite{figma} and they are located below.
+This section includes some image mockups of the website. The website itself only has to perform the following tasks: 
+
+\begin{itemize}
+	\item Sign a user in and visually display that they are signed in (see top right of mockups and top centre screen text)
+	\item Allow the user to link one or more discord accounts using the login with Discord button (see bottom middle of the mockup)
+	\item Allow the user to delete their data from the database or unlink a Discord account (see bottom middle of the screen)
+	\item Display admin pages for staff (see top right of mockups)
+	\item About this project page and contact us (see top left)
+\end{itemize}
+
+Below are some mockups created before starting work on the website so as to have a reference guide for the navigation bar and how it looks when a user has 0, 1 or 2 Discord accounts connected. These mockups were created and using the design application Figma \cite{figma}.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-0}
+	\includegraphics[width=0.9\linewidth]{Figures/AberLink-web-0}
 	\caption{Website mock-up for 0 users}
 	\label{fig:web-mock-0}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-1}
+	\includegraphics[width=0.9\linewidth]{Figures/AberLink-web-1}
 	\caption{Website mock-up for 1 user}
 	\label{fig:web-mock-1}
 \end{figure}
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.8\linewidth]{Figures/AberLink-web-2}
+	\includegraphics[width=0.9\linewidth]{Figures/AberLink-web-2}
 	\caption{Website mock-up for 2 users}
 	\label{fig:web-mock-2}
 \end{figure}
 
 
 \subsection{Discord bot}
-Discord provides its own interface for Discord bots and does not vary much from the regular interface provided to users. Discord bots however have the additional feature of being able to use Embeds which contain far better formatting than regular messages and are used extensively throughout AberLink. Below are some examples of the output of bot commands that use Discord Embeds.
+This section discusses the ways in which messages can be formatted in AberLink. Both Discord bots and users can send messages to Discord using the regular plaintext method (see \ref{fig:dis-source-old}), however, the bots have access to a few extra options for customizing messages before sending them. Bots have a feature to send messages using Embeds which contain far better formatting than regular messages and are used extensively throughout AberLink. These Embeds allow you to customize the side bar colour (see \ref{fig:dis-go} and \ref{fig:dis-source}), attach thumbnails and images (see in top right of \ref{fig:dis-go}) and send nicely formatted content. Below are some examples of the output of bot commands that use Discord Embeds and for the second example \ref{fig:dis-source} I have included a plaintext alternative \ref{fig:dis-source-old} to help visually see the difference between these messages.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Figures/test-2}
@@ -235,6 +256,12 @@ Discord provides its own interface for Discord bots and does not vary much from 
 	\includegraphics[width=0.8\textwidth]{Figures/test}
 	\caption{Discord Embed example for source command}
 	\label{fig:dis-source}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Figures/discord-cmd-old-src.pdf}
+	\caption{Discord plaintext example for source command}
+	\label{fig:dis-source-old}
 \end{figure}
 
 \section{Version Control System and IDE}
