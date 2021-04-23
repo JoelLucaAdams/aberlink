@@ -522,7 +522,7 @@ Below are examples of the records that are stored in the database tables.
 After completion of this project there is a plan to setup this service permanently for the department so a folder was created called \verb|config| containing information on how to set up this project. This folder contains a \verb|README.md| file located in Appendix D that explains how and what is needed to be configured to get the system up and running properly. it also contains a bash script called \verb|setup.sh| that installs and the relevant dependencies and sets up the virtual environments for the projects. Also included are a few example configuration files for Apache2 \cite{apache2}, Django \cite{Django}, OpenID Connect authentication \cite{OpenID} and Discord.py \cite{discord.py}.
 
 \section{Unforeseen Issues}\label{sec3:unforeseen}
-An issue that was encountered was with creating the custom user model in Django that would have been used to model the database. The documentation and videos found online about implementing user models were rather cryptic and difficult to understand, however after much research a video explaining how to implement a good custom user model was found that resolved the issues. Once this was completed I realised that Django is not happy with modelling the primary key of a table using a char so switched over to using an int. This turned out to be a good idea as Aberystwyth university tends to recycle old emails so over the next 5 years there could be an issue where the database would try and create a new entry in the database with the same email.
+An issue that was encountered was with creating the custom user model in Django that would have been used to model the database. The documentation and videos found online about implementing user models were rather cryptic and difficult to understand, however after much research a video explaining how to implement a good custom user model was found that resolved the issues. Once this was completed I realised that Django is not happy with modelling the primary key of a table using a char so switched over to using an int. This turned out to be a good idea as Aberystwyth University tends to recycle old emails so over the next 5 years there could be an issue where the database would try and create a new entry in the database with the same email.
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\linewidth]{Figures/database-er-1}
@@ -544,7 +544,7 @@ Below is included a table describing the iterations and what was completed each 
 \hline
 Iteration & Time taken (days) & What happened? \\
 \hline
-1 & 5 & Research into services required to run the project and basic setup of university container. Lots of meetings to discuss what data can be used/stored and began setup of API endpoint for attendance. \\
+1 & 5 & Research into services required to run the project and basic setup of University container. Lots of meetings to discuss what data can be used/stored and began setup of API endpoint for attendance. \\
 \hline
 2 & 5 & Setup HTTPS on container, installed Django \cite{Django} and created basic website using it. Linked up Django to database and created basic Discord login system. \\
 \hline
