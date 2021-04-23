@@ -23,7 +23,7 @@ the variables accordingly.
   following to the file
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=bash]
 OIDCProviderMetadataURL https://openidc.dcs.aber.ac.uk/auth/realms/MMP-IMPACS/.well-known/openid-configuration
 OIDCClientID MMP-IMPACS 
 OIDCRedirectURI /oauth2callback #Replace with link to website e.g. "discord.dcs.aber.ac.uk/oauth2callback"
@@ -44,7 +44,7 @@ OIDCSessionInactivityTimeout 86400
   to change the settings to:
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=bash]
 <VirtualHost *:80>
         ServerName discord.dcs.aber.ac.uk
         ServerAlias discord.dcs.aber.ac.uk
@@ -66,7 +66,7 @@ OIDCSessionInactivityTimeout 86400
   following:
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=bash]
 <Directory /home/joa38/aberlink/src/>
         Options Indexes FollowSymLinks
         AllowOverride None
@@ -96,7 +96,7 @@ OIDCSessionInactivityTimeout 86400
   match the domain name:
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=bash]
 <VirtualHost *:443>
         ServerAdmin cs-support@aber.ac.uk
         serverName discord.dcs.aber.ac.uk
@@ -173,7 +173,7 @@ bot}\label{installing-the-dependencies-for-the-bot}
   example provided in this folder):
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=bash]
 DISCORD_TOKEN= # Discord token found on bot's page
 DATABASE_NAME= # Postgres database name
 USER= # Postgres user
@@ -239,7 +239,7 @@ webserver}\label{installing-and-running-the-webserver}
   (email joa38@aber.ac.uk for \texttt{SECRET\_KEY}):
 \end{enumerate}
 
-\begin{lstlisting}
+\begin{lstlisting}[language=json]
 {
     "SECRET_KEY": "",
     "DATABASE_NAME": "",
