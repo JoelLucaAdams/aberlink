@@ -33,7 +33,7 @@ After completing the spike work and prior research the next step was breaking th
 \begin{itemize}
 	\item \textbf{Research \& Discussion with IS/CS-support.}
 	\begin{itemize}
-		\item Discuss how to access university data and how to login users who are only on the university network using OpenID Connect \cite{OpenID}.
+		\item Discuss how to access University data and how to login users who are only on the University network using OpenID Connect \cite{OpenID}.
 		\item Build the attendance API so that it is secure and only marks students for current practical and not previous practicals.
 		\item Setup PSQL \cite{psql} and make it secure from outside attacks.
 	\end{itemize}
@@ -41,8 +41,8 @@ After completing the spike work and prior research the next step was breaking th
 	
 	\item \textbf{Version control, documentation and setup.}
 	\begin{itemize}
-		\item Create a container on the university network to remain secure and locked under VPN access.
-		\item Documentation and version control using git on the university's GitLab upon the departments request so that it can be easily redeployed as a complete service later on.
+		\item Create a container on the University network to remain secure and locked under VPN access.
+		\item Documentation and version control using git on the University's GitLab upon the departments request so that it can be easily redeployed as a complete service later on.
 		\item A blog (usually bi-weekly) to document the process and progress of this project.
 	\end{itemize}
 %	 A container called \url{http://mmp-joa38.dcs.aber.ac.uk/} was set up to build and run the project. This is a good idea as the container is now secured underneath the Aber DCS network and requires the VPN to access. Documentation and version control is done on DCS' GitLab as the goal of this project is to make it easily available for the uni to redeploy on it. I then setup a Wordpress website to host my blog on that can be found here \url{https://cs39440blog.wordpress.com/} and is updated on average once every few days.
@@ -58,7 +58,7 @@ After completing the spike work and prior research the next step was breaking th
 	\begin{itemize}
 		\item Recreate the two mentioned bots in Python instead of JavaScript.
 		\item Make the bot use a Discord users information to lookup their Aber ID in the database using relational keys.
-		\item Make the bot update attendance using the university provided API endpoint.
+		\item Make the bot update attendance using the University provided API endpoint.
 	\end{itemize}
 %	 The bot will perform the previously stated tasks of verification using the login system with PSQL and it will update attendance by sending and receiving responses from the university.
 	
@@ -89,7 +89,7 @@ After completing the spike work and prior research the next step was breaking th
 Security is an important component of this project as this system deals with federated authentication and controls access to Discord servers. If someone was to hack into the system they could potentially change their details to pose as another user, therefore, we must consider the security risks that this service may have. This section aims to cover risk analysis and robustness of the system against potential attack vectors.
 
 \begin{itemize}
-	\item \textbf{Direct Database Access} - This is the first point of attack that could be used to get access to Discord and Aber account details. This has been secured by using a PostgreSQL \cite{psql} database that is located in Departments servers so it is already behind a very secure and up to date firewall. To access the database you also need to have a registered Aber account and be using the campus WiFi or the university's VPN so that adds another layer of security. If the user however has access to both of these then brute forcing the PSQL login system is difficult as it has many security levels and incoming connections are monitored by the university.
+	\item \textbf{Direct Database Access} - This is the first point of attack that could be used to get access to Discord and Aber account details. This has been secured by using a PostgreSQL \cite{psql} database that is located in Departments servers so it is already behind a very secure and up to date firewall. To access the database you also need to have a registered Aber account and be using the campus WiFi or the University's VPN so that adds another layer of security. If the user however has access to both of these then brute forcing the PSQL login system is difficult as it has many security levels and incoming connections are monitored by the University.
 	\item \textbf{Unauthorized Admin Access} - This is the possibility that the user will try and brute force access to the admin page of the website. Before they attempt this they would need to get past the website's OpenID Connect \cite{OpenID} authentication system that requires an Aberystwyth account to authenticate. The website also has another layer of security as it requires the user to be connected to the campus' internet or be logged in on the VPN. If they get past both methods there is no easy way to spoof the system to gain access to the administrator panel as the backend uses cookies to keep the user authenticated.
 	\item \textbf{Accessing Database Credentials through Back-end Code} - All database credentials have been hidden in files that are not stored in the git repository and are loaded from JSON and .env files. This is good practice and creates a simple way for maintainers to setup and change variables such as database passwords easily instead of going through source code and manually editing it.
 	\item \textbf{Accessing Data through AberLink Discord Bot} - The Discord bot does not contain any sensitive data, it merely queries the database using generic queries that are changed depending on the input variable. It can however be used to gain an understanding of the database model that is used.
@@ -181,7 +181,7 @@ The following is a list of functional requirements used to test and evaluate the
 		\item \textbf{FR7.4} - Bot displays a source command showing where source code can be found.
 		\item \textbf{FR7.5} - Bot displays a list of other useful bots that should be added to the server e.g. DemoHelper \cite{demohelper}.
 		\item \textbf{FR7.6} - Bot can be pinged to get latency and check wether database connection is working correctly.
-		\item \textbf{FR7.7} - Bot has a search tool to get information on Aber university resources such as student record, blackboard and abersu website. 
+		\item \textbf{FR7.7} - Bot has a search tool to get information on Aber University resources such as student record, blackboard and abersu website. 
 	\end{itemize}
 
 	\item \textbf{FR8} - Discord bot database connections

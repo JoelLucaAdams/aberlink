@@ -17,7 +17,7 @@ As previously mentioned in section \ref{sec1:pro} a Feature Driven Development (
 The Discord.py Python framework does not contain any unit testing and there are no third party libraries which sufficiently perform this job. For the Django framework however there are some unit tests built in so they have been used in this project and are detailed further on in section \ref{sec4:unit-web}. These Django tests are used to cover both the website and the database as the website cannot be tested by itself. 
 
 \section{Sample Data}
-Sample data was considered for this project however it would be very difficult to implement because the OpenID Connect \cite{OpenID} system used to authenticate and log users in relies on a proper database to pull user data from. The university was not comfortable with creating and supplying fake user accounts that would authenticate with this system as the database where these would be used is currently live. This would mean that they could be stolen and used to access live systems such as Student Record or blackboard. The alternative to this would mean that a mock database would be needed which would take up a considerable work to create. The workaround for this system is far simpler and involved asking both staff and students to try out the system and test it until it breaks. The outcomes of this are detailed in section \ref{sec4:user-tesing}.
+Sample data was considered for this project however it would be very difficult to implement because the OpenID Connect \cite{OpenID} system used to authenticate and log users in relies on a proper database to pull user data from. The University was not comfortable with creating and supplying fake user accounts that would authenticate with this system as the database where these would be used is currently live. This would mean that they could be stolen and used to access live systems such as Student Record or blackboard. The alternative to this would mean that a mock database would be needed which would take up a considerable work to create. The workaround for this system is far simpler and involved asking both staff and students to try out the system and test it until it breaks. The outcomes of this are detailed in section \ref{sec4:user-tesing}.
 
 \section{Automated Testing}
 Automated testing has been difficult for this project as mentioned above. Originally there was a plan to include automated testing by using the DevOps frameworks in Git, however as the universities GitLab instance was used then there was no access to dedicated pipelines/kubernite clusters to build and run the code.  
@@ -127,7 +127,7 @@ Throughout this project I have worked with the mindset that you develop small se
 For user testing I asked in the comp sci server if students could try and login to the website and break it. This turned out to work very well and helped to find a few edge cases that I had previously missed in the code.
 
 \subsection{Attendance API Endpoint Testing}
-The supplied API for attendance has been tested using user testing and the university provided me with 3 different endpoints to test. They are listed below along their responses.
+The supplied API for attendance has been tested using user testing and the University provided me with 3 different endpoints to test. They are listed below along their responses.
 
 \begin{verbatim}
 https://integration.aber.ac.uk/joa38/good.php
