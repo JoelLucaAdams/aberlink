@@ -62,7 +62,7 @@ def test_model_openidc_user_staff(self):
 This function creates a new user object and then checks to make sure that the user has been given the admin and has the usertype of staff.
 
 \subsubsection{Discord}
-Unit testing in Discord.py is impossible as there is no included framework for it and there are no external libraries capable of testing to check that it works.
+Unit testing in Discord.py is impossible as there is no included framework for it and there are no external libraries capable of testing to check that it works. Please see section \ref{sec4:user-tesing} for more info on testing.
 
 \subsection{Stress Testing}
 To test the websites capacity to deal with 100s of requests ApacheBenchmark \cite{apacheBenchmark} is used which is a built into the Apache2 \cite{apache2} and is a module used to request a webpage and measure response time. To test this the OpenID Connect \cite{OpenID} authentication system  was temporarily disabled so that HTML gets served to the incoming requests instead of being redirected to the login page. Due to the nature of the websites implementation you cannot query the main page because the user is not authenticated and the page cannot display information on the user, however it can query one of the subpages that does not require authentication. The following line of code was used to complete the request with 1000 requests and 100 concurrent threads to attempt to tank the website's performance.
@@ -122,9 +122,58 @@ Testing the user interface for the AberLink is mostly straight forward as Discor
 The UI of the website uses the library Bootstrap \cite{bootstrap} as it is built from the ground up with responsive design in mind and saves a lot of time that would be required to re-learn CSS fully. This meant that website would scale very nicely and uniformly depending on screen size. To ensure that the website scales and performs well the website and all of its content have been tested on multiple devices. It has been tested on mobile devices, iPads and laptops with screens ranging from 11in to 40in using Safari, Chrome, Edge and Firefox. The website has also been tested on HTML the validation website \href{https://validator.w3.org/}{https://validator.w3.org/} to ensure that there are no large errors that may cause the website to not load on certain machines.
 
 \section{User Testing}\label{sec4:user-tesing}
-Throughout this project I have worked with the mindset that you develop small sections of code and then review what effect they have on the system. This helps to catch errors as it is much easier to backtrack through small sections of code.
+Due to the nature of Feature Driven Development every time a new feature was implemented it would be tested to ensure that it passed the bare minimum of requirements. I used the testing table located in Appendix D as a guide while working on this project. This gave me the mindset that you develop small sections of code and then review what effect they have on the system. This helps to catch errors and it is much easier to backtrack through small changes made to code.
 
-For user testing I asked in the comp sci server if students could try and login to the website and break it. This turned out to work very well and helped to find a few edge cases that I had previously missed in the code.
+At the end of this project during the final week some user testing was conducted. Through my project supervisor I reached out to the lecturers (document that can be found in Appendix E) so that they could test the AberLink service and Discord bot to see if it was intuitive and met their standards. This also helped as I had other staff that could test the administration panels of the website and inform me if there were any additional features that could be added to the project.
+
+Through the Comp Sci Community Hub Discord server I asked users if they could try out the login system on the website and Discord bot to see how intuitive they were to use. Feedback from students was extremely helpful as some of them attempted to break the bot and test edge cases that I had previously not thought of. 
+
+Early on there were many requests to fix certain issues or add new features so I used GitLab issues to track these request. I have included the list of issues and requests that students made to improve their experience of the service below.
+
+\begin{itemize}
+    \item Privacy policy is lackluster and needs more detail - \textit{Michael West \& Ben Ackerley}
+    \item Make the webpage \href{https://mmp-joa38.dcs.aber.ac.uk/privacy-policy}{\nolinkurl{https://mmp-joa38.dcs.aber.ac.uk/privacy-policy}} readable without signing in so that users can read privacy policy before hand - \textit{Michael Antony West \& Ben Ackerley}
+    \item Remove case sensitivity for Discord commands - \textit{Michael West}
+    \item Add VPN information to message that contain link to website - \textit{Joel Adams}
+    \item Automatically setting nicknames when the bot joins a new server was not working - \textit{Michael West}
+    \item Add a small alert to the website when a user registers their account stating that it is now linked for use in Aberystwyth module servers - \textit{Joseph Metcalfe}
+    \item Add command to tell the user to configure the bot on join to a new server - \textit{Michael West \& Sivert Hellvik Havso}
+    \item User cannot be sent a direct messages on Discord because they have feature disabled - \textit{Nathan Williams \& Ben Ackerley}
+    \item Better error messages when commands do not work so that they are more informative - \textit{Neal Snooke \& Joel Adams}
+\end{itemize}
+
+Users were also asked to provide a rating on their experience using AberLink. Below is a table of the gathered user data.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{2cm}|p{2cm}|p{10cm}|}
+        \hline
+        Name & Satisfied? & Comments \\
+        \hline
+        Joseph Metcalfe & \color{ForestGreen}Yes & \textit{I found as a student user that this system is much more user friendly than previous verification bots and reduces any potential user confusion to a good degree, which had previously been a problem. The system had no unexpected steps or bloat that I wasn't expecting and does its job well and reliably.  This system also appears to be easier for module coordinators to use compared to previous bots with more guidance given by the bot itself on setting up a server with it which should be helpful for some modules} \\
+        \hline
+        Michael West & \textcolor{red}{No} (after changes \textcolor{ForestGreen}{Yes}) & \textit{I didn't like how I was send into a channel that I didn't have permissions to access upon joining this server, it was rather disorienting. When I added AberLink to a new server and ran the build command, it told me I didn't have the correct role. It would be helpful if the bot could either create the role and add me to it or tell me I need to make the role myself.} \\
+        \hline
+        Sivert Hellvik Havso & \color{ForestGreen}Yes & \textit{I will second what Michael said earlier that it would be nice if it straight away told you that you have to give yourself a certain role and run the !build command. Other than that I found the bot to be intuitive to use both as a user and when adding it to my own server.} \\
+        \hline
+        Sam Lewis & \color{ForestGreen}Yes & \textit{it doesn't dispense a cheese and onion pasty out of the monitor for when I link my aber account... I rate 0/10 points... please fix as soon as possible} \\
+        \hline
+        Nathan Williams & \color{ForestGreen}Yes & \textit{N/A} \\
+        \hline
+        Phil Mottershead & \color{ForestGreen}Yes & \textit{N/A} \\
+        \hline
+        Jenny Thyer & \color{ForestGreen}Yes & \textit{10/10 the system is easy to set up for someone with little experience of managing discord servers. 3/10 the seagull logo should be fatter and angry to better represent the average seagull in Aber} \\
+        \hline
+        Ben Ackerley & \color{ForestGreen}Yes & \textit{N/A} \\
+        \hline
+        Alex Baldwin & \color{ForestGreen}Yes & \textit{Couldn't even use it because I didn't have the VPN - Highly recommended} \\
+        \hline
+    \end{tabular}
+    \caption{Table displaying users feedback on using AberLink}
+    \label{tab:service-response}
+\end{table}
+
+The comments received from these users show that the system is straight forward and easy to use. Wherever users had issues to raise they were addressed and fixed before final deployment. The feedback supplied by Alex Baldwin is very interesting as it highlights where the limits of this service are as he could not actively test the system. This does help to indicate to the department that this service should be available without access to the VPN as many students are still studying remotely.
 
 \subsection{Attendance API Endpoint Testing}
 The supplied API for attendance has been tested using user testing and the University provided me with 3 different endpoints to test. They are listed below along their responses.
