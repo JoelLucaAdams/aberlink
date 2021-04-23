@@ -38,7 +38,7 @@ def test_url_discord_redirect(self):
 \caption{Django URL render test}
 \label{fig:django-url}
 \end{figure}
-As seen above the test function simply gets the name of the url 'Discord-response' and then checks that it returns the correct Python function (view) to render that page
+As seen above the test function simply gets the name of the url `Discord-response' and then checks that it returns the correct Python function (view) to render that page
 
 \begin{figure}[H]
 \begin{lstlisting}[language=Python]
@@ -65,7 +65,7 @@ This function creates a new user object and then checks to make sure that the us
 Unit testing in Discord.py is impossible as there is no included framework for it and there are no external libraries capable of testing to check that it works.
 
 \subsection{Stress Testing}
-To test the websites capacity to deal with 100s of requests ApacheBenchmark \cite{apacheBenchmark} is used which is a built into the Apache2 \cite{apache2} and is a module used to request a webpage and measure response time. To test this the OpenID Connect \cite{OpenID} authentication system  was temporarily disabled so that HTML gets served to the incoming requests instead of being redirected to the login page. Due to the nature of the websites implementation you cannot query the main page because the user is not authenticated and the page can't display information on the user, however it can query one of the subpages that does not require authentication. The following line of code was used to complete the request with 1000 requests and 100 concurrent threads to attempt to tank the website's performance.
+To test the websites capacity to deal with 100s of requests ApacheBenchmark \cite{apacheBenchmark} is used which is a built into the Apache2 \cite{apache2} and is a module used to request a webpage and measure response time. To test this the OpenID Connect \cite{OpenID} authentication system  was temporarily disabled so that HTML gets served to the incoming requests instead of being redirected to the login page. Due to the nature of the websites implementation you cannot query the main page because the user is not authenticated and the page cannot display information on the user, however it can query one of the subpages that does not require authentication. The following line of code was used to complete the request with 1000 requests and 100 concurrent threads to attempt to tank the website's performance.
 
 \verb|ab -n 1000 -c 100 https://mmp-joa38.dcs.aber.ac.uk/privacy-policy|
 
@@ -117,7 +117,7 @@ Percentage of the requests served within a certain time (ms)
 %\end{figure}
 
 \section{User Interface Testing}
-Testing the user interface for the AberLink is mostly straight forward as Discord has full control over the UI so I've had no testing to do on that front.
+Testing the user interface for the AberLink is mostly straight forward as Discord has full control over the UI so I have had no testing to do on that front.
 
 The UI of the website uses the library Bootstrap \cite{bootstrap} as it is built from the ground up with responsive design in mind and saves a lot of time that would be required to re-learn CSS fully. This meant that website would scale very nicely and uniformly depending on screen size. To ensure that the website scales and performs well the website and all of its content have been tested on multiple devices. It has been tested on mobile devices, iPads and laptops with screens ranging from 11in to 40in using Safari, Chrome, Edge and Firefox. The website has also been tested on HTML the validation website \href{https://validator.w3.org/}{https://validator.w3.org/} to ensure that there are no large errors that may cause the website to not load on certain machines.
 
