@@ -62,6 +62,9 @@ class OpenIDCUser(AbstractBaseUser):
     def __str__(self):
         return "{} {}".format(self.__class__.__name__, self.username)
 
+    class Meta:
+        verbose_name = 'Aberystwyth user'
+
 '''class StaffManager(models.Manager):
         def get_queryset(self, *args, **kwargs):
             return super().get_queryset(*args, **kwargs).filter(usertype=OpenIDCUser.usertypes.STAFF)
