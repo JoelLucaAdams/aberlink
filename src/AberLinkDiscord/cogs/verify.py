@@ -1,3 +1,4 @@
+import functools
 import discord
 from discord import Embed
 from discord.ext import commands
@@ -237,4 +238,5 @@ class Verify(commands.Cog):
             await ctx.bot.wait_for('reaction_add', check=check, timeout=60.0)
             await msg.delete()
         except asyncio.TimeoutError:
+            await msg.clear_reaction('🗑️')
             pass
