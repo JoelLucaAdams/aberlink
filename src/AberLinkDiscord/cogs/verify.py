@@ -223,7 +223,7 @@ class Verify(commands.Cog):
     @commands.command(aliases=['go'])
     async def getOpenID(self, ctx: Context):
         """
-        Returns the users' aber username
+        Displays the linked Aberystwyth and Discord accounts
         """
         discord_user = await check_discord_user(ctx)
         if discord_user is None:
