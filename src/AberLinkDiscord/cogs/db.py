@@ -16,7 +16,7 @@ __email__ = "joa38@aber.ac.uk"
 __version__ = "2.0"
 __status__ = "Production"
 __system__ = "Discord bot"
-__depricated__ = False
+__deprecated__ = False
 
 import os
 import psycopg2

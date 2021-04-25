@@ -1,6 +1,6 @@
 """Custom help command
 
-**CURRENTLY DEPRICATED**
+**CURRENTLY DEPRECATED**
 """
 
 __author__ = "Joel Adams"
@@ -9,7 +9,7 @@ __email__ = "joa38@aber.ac.uk"
 __version__ = "2.0"
 __status__ = "Development"
 __system__ = "Discord bot"
-__depricated__ = True
+__deprecated__ = True
 
 import discord
 from discord import Embed
