@@ -1,4 +1,20 @@
-import functools
+"""Provides verification for users in servers and builds server for verification
+
+on_member_join() checks if user is verified when they join the server, otherwise sends message to verify
+verify() manual version on previous function but manually checks if user is verified
+verifyAlumni() sends message telling alumni to message aft about getting verified
+build() modifies the server for verification, creating new text channels and roles
+getOpenID() gets database information on OpenID account and linked Discord accounts for current user
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Discord bot"
+__depricated__ = False
+
 import discord
 from discord import Embed
 from discord.ext import commands

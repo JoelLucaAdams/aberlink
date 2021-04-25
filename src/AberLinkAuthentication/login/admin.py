@@ -1,3 +1,20 @@
+"""Responsible for displaying information on Admin pages such as tables on 
+   linked accounts and what data can be added or deleted
+
+DiscordUserChangeForm() which information to display in Discord users table
+DiscordAdmin() which information can be displayed in Discord users table and what can be edited/changed
+UserChangeForm() which information to display in table OpenID Connect (Aberystwyth) users
+OpenIDCAdmin() which information can be edited/changed on OpenID Connect (Aberystwyth) users table
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Django website"
+__depricated__ = False
+
 from django.contrib import admin
 from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin

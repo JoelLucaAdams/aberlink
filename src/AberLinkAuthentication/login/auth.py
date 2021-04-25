@@ -1,3 +1,17 @@
+"""Responsible for authentication and login of Discord and OpenID Connect (Aberystwyth) accounts
+
+DiscordAuthenticationBackend() trys to authenticate Discord accounts against database or creates new account
+OpenIDCAuthenticationBackend() trys to authenticate OpenID Connect (Aberystwyth) accounts against database or creates new account
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Django website"
+__depricated__ = False
+
 from django.contrib.auth.backends import BaseBackend
 from .models import DiscordUser, OpenIDCUser
 from django.utils import timezone 

@@ -1,3 +1,19 @@
+"""Deals with user models in the database
+
+OpenIDCUserManager() manages how a OpenID Connect (Aberystwyth) user is created and added to the database
+OpenIDCUser() database model for OpenID Connect (Aberystwyth) users
+DiscordUserOAuth2Manager() manages how a Discord user is created and added to the database
+DiscordUser() database model for Discord users
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Django website"
+__depricated__ = False
+
 from django.db import models
 from django.contrib.auth import models as authModels
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager

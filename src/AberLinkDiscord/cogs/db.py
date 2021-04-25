@@ -1,3 +1,23 @@
+"""Provides functions to connect to PostgreSQL database
+
+connect() connects to database
+try_connection() attempts to get cursor otherwise calls database connection again
+get_discord_user() gets discord user information
+get_openid_user() gets openID Connect (Aberystwyth) user data
+get_discord_accounts() returns JSON array of all linked Discord accounts to an OpenID Connect account
+get_connection_status() gets connection status on database. e.g. is working or is free
+get_polling_status() gets polling information on database
+get_connection_latency() gets the database latency
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Discord bot"
+__depricated__ = False
+
 import os
 import psycopg2
 from psycopg2 import extensions
@@ -37,7 +57,7 @@ class PostgreSQL():
         Attempts to get a cursor from the database otherwise it restarts the database connection
         """
         try:
-            cur = CONN.cursor()
+            CONN.cursor()
         except psycopg2.InterfaceError:
             PostgreSQL.connect()
 

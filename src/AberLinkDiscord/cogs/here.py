@@ -1,4 +1,16 @@
-import discord
+"""Provides attendance marking for students in Discord practicals
+
+here() Does database lookup to get Aberystwyth email and sends attendance to APi endpoint
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Discord bot"
+__depricated__ = False
+
 from discord.errors import Forbidden
 from discord.ext import commands
 from discord.ext.commands import Context

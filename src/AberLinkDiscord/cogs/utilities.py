@@ -1,3 +1,20 @@
+"""Provides basic utilities to check status of Discord bot
+
+ping() pings the bot and checks Discord latency, message latency and database latency
+source() gets information on where to find source files and feedback server
+clearMessages() deletes messages from the last 14 days from a channel
+setAutoNicknames() true or false to set function to automatically change users nicnknames on joining
+configurations() displays servers' configuration such as autoNickname
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Discord bot"
+__depricated__ = False
+
 import discord
 from discord import Embed
 from discord.ext import commands

@@ -1,16 +1,35 @@
+"""Responsible for displaying webpages and dealing with requests in Django
+
+openidc_response() authenticates user accounts and default home page
+discord_oauth2() redirects users to Discord login portal
+get_authenticated_user() returns JSON object containing information on user account and linked Discord accounts
+discord_oauth2_redirect() gets information from discord login page and authenticates user
+exchange_code() makes request to Discord to get a users information
+get_discord_users() returns json array of linked Discord accounts based on queryset
+deleted_user() deletes user data and displays webpage confirming it
+privacy_policy_view() displays privacy policy page
+about_major_project_view() displays about this project page
+error_400_view(), error_403_view(), error_404_view() and error_500_view() display error webpages
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Django website"
+__depricated__ = False
+
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 from django.contrib.auth import login
-from django.contrib.auth.decorators import login_required
 from django.db.models.query import QuerySet
 from AberLinkAuthentication.settings import config
 from .auth import DiscordAuthenticationBackend, OpenIDCAuthenticationBackend
 from .models import OpenIDCUser, DiscordUser
 import requests
-import json
 
 
 def openidc_response(request):

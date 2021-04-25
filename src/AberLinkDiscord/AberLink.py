@@ -1,3 +1,22 @@
+"""Initialise and setup Discord bot in server
+
+1. Connects to the PostgreSQL database
+2. Initialises the Discord bot
+3. Loads all commands from cogs files
+
+on_ready() displays message when the bot has joined the server
+on_command_error() handles error messages for all files
+on_guild_join() called when the bot joins a new Discord server
+"""
+
+__author__ = "Joel Adams"
+__maintainer__ = "Joel Adams"
+__email__ = "joa38@aber.ac.uk"
+__version__ = "2.0"
+__status__ = "Production"
+__system__ = "Discord bot"
+__depricated__ = False
+
 import os
 import logging
 import shelve
