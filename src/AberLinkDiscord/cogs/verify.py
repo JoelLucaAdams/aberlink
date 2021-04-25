@@ -12,6 +12,7 @@ from .db import PostgreSQL
 
 from time import time
 import shelve
+import asyncio
 
 def setup(bot):
     bot.add_cog(Verify(bot))
@@ -225,4 +226,15 @@ class Verify(commands.Cog):
             users += f'<@{accounts[index]["id"]}> - last login: {accounts[index]["last_login"].strftime("%G-%m-%d %X")}\n'
         embed.add_field(name='Linked Discord accounts', value=f'{users}', inline=False)
 
-        await ctx.send(embed=embed)
+        msg = await ctx.send(embed=embed)
+
+        await msg.add_reaction('🗑️')
+
+        def check(reaction, user):
+            return user == ctx.message.author and str(reaction.emoji) == '🗑️'
+
+        try:
+            await ctx.bot.wait_for('reaction_add', check=check, timeout=60.0)
+            await msg.delete()
+        except asyncio.TimeoutError:
+            pass
