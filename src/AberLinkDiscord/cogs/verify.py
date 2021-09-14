@@ -61,7 +61,7 @@ async def check_discord_user(ctx: Context):
     """
     user = PostgreSQL.get_discord_user(ctx.message.author.id)
     if user is None:
-        await ctx.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified (VPN is required)')
+        await ctx.send(f'You have not been verified yet. Please visit {WEBSITE} to get verified (Aber VPN is required off campus)')
         return
     return user
 
