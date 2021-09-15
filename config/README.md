@@ -8,9 +8,11 @@ This directory contains some sample config files that can be used a reference fo
 
 2. `sudo apt install libapache2-mod-auth-openidc` - Installs library for running openid
 
-3. Enable the following mods: `ssl`, `auth_openidc`, `wsgi`, `rewrite`
+3. `sudo apt install libapache2-mod-wsgi-py3` - Installs WSGI Apache module
 
-4. `sudo nano /etc/apache2/auth_openidc.conf` and copy the following to the file
+4. Enable the following mods: `ssl`, `auth_openidc`, `wsgi`, `rewrite`
+
+5. `sudo nano /etc/apache2/auth_openidc.conf` and copy the following to the file
 
 ```shell
 OIDCProviderMetadataURL https://openidc.dcs.aber.ac.uk/auth/realms/MMP-IMPACS/.well-known/openid-configuration
@@ -25,7 +27,9 @@ OIDCSessionInactivityTimeout 86400
 
 5. `sudo cp ~/aberlink/config/aberlink.conf /etc/apache2/sites-available/` - copy the config file to the directory
 
-6. Edit the file to match the file structure, below is an example of what to change the settings to:
+6. Edit the file to match the file structure, below is an example of what to change the settings to. 
+   *N.B.*: The application expects to install at the top level of a virtual host (e.g. https://discord.dcs.aber.ac.uk/).
+   Putting it at a lower level (e.g. https://discord.dcs.aber.ac.uk/aberlink) won't work.
 
 ```shell
 <VirtualHost *:80>
@@ -115,15 +119,16 @@ OIDCSessionInactivityTimeout 86400
 
 ## installing the dependencies for the bot
 
-1. `sudo apt install libpq-dev python-dev` - needed to install `psycopg2-binary`
+1. `sudo apt install pipenv libpq-dev python3-dev` - needed to install `psycopg2-binary`
 
 2. Navigate to the folder `aberlink/src/AberLinkDiscord` and type `pipenv install`
 
-3. Create a discord bot token by visitng <https://discord.com/developers/applications> and creating a new bot called AberLink along with the supplied photo `/img/AberLink_logo_cropped.png`. Then head on over to the Bot panel and create a new bot with the same information as above. Finally copy the token underneath the bots name for the next section.
+3. Create a discord bot token by visiting <https://discord.com/developers/applications> and creating a new bot called AberLink along with the supplied photo `/img/AberLink_logo_cropped.png`. Then head on over to the Bot panel and create a new bot with the same information as above. Finally copy the token underneath the bots name for the next section.
 
 4. While inside the folder `/aberlink/src/AberLinkDiscord` create a new file using `nano .env` and add the following (or copy the example provided in this folder):
 
 ```shell
+DISCORD_CLIENT_ID= # Discord Client ID found on bot's page
 DISCORD_TOKEN= # Discord token found on bot's page
 DATABASE_NAME= # Postgres database name
 USER= # Postgres user
@@ -155,7 +160,7 @@ WEBSITE_URL= # The website for AberLinkAuthentication e.g. https://joa38-mmp.dcs
 
 ## Django setup
 
-1. `sudo cp config/config.json /etc/config.json` - copy the template file for the django config and fill out the details below (email joa38@aber.ac.uk for `SECRET_KEY`):
+1. `sudo cp config/config.json /etc/config.json` - copy the template file for the django config and fill out the details below (`SECRET_KEY` is used to secure Django, should be a random string and shouldn't be changed once the application has been initialised):
 
 ```json
 {
@@ -165,6 +170,7 @@ WEBSITE_URL= # The website for AberLinkAuthentication e.g. https://joa38-mmp.dcs
     "PASSWORD": "",
     "HOST": "",
     "PORT": "",
+    "DISCORD_CLIENT_ID": "",
     "DISCORD_CLIENT_SECRET": "",
     "DISCORD_TOKEN": "",
     "WEBSITE_URL": ""
@@ -173,11 +179,11 @@ WEBSITE_URL= # The website for AberLinkAuthentication e.g. https://joa38-mmp.dcs
 
 Note: The `WEBSITE_URL` is the name of the website that is going to be used. e.g. `https://joa38-mmp.dcs.aber.ac.uk`
 
-The `DISCORD_CLIENT_SECRET` and `DISCORD_TOKEN` can be found by visitng the page created earlier for the discord bot.
+The `DISCORD_CLIENT_ID`, `DISCORD_CLIENT_SECRET` and `DISCORD_TOKEN` can be found by visitng the page created earlier for the discord bot.
 
 1. Navigate to the `General Information` tab and copy the client secret which is located below the Description on the right hand side. Copy and save this variable to the `DISCORD_TOKEN`
 
-2. Naviage to the `Bot` tab and copy the name token located below the username and save it to the `DISCORD_CLIENT_SECRET`
+2. Navigate to the `Bot` tab and copy the name token located below the username and save it to the `DISCORD_CLIENT_SECRET`
 
 After setting up the config file open the command shell and type the following commands to configure the database for Django:
 

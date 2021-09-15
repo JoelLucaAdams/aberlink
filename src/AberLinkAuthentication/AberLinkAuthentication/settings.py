@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import json
+import re
 from pathlib import Path
 
 with open('/etc/config.json') as config_file:
@@ -30,7 +31,7 @@ DEBUG = False
 
 # Change this host here to the website url e.g. "mmp-joa38.dcs.aber.ac.uk"
 # Loading the website url from the config file and stripping it of the https:// and / characters
-WEBSITE_URL = (config["WEBSITE_URL"].replace("https://", "")).replace("/", "")
+WEBSITE_URL = re.match("^https?://(.+?)(:\d+)?(/|$)", config["WEBSITE_URL"]).group(1)
 ALLOWED_HOSTS = [WEBSITE_URL]
 
 

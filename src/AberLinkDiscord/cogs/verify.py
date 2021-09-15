@@ -24,7 +24,7 @@ from discord.utils import get
 from AberLink import WEBSITE
 
 from cogs import admin_roles, emojis, shelve_file
-from AberLink import logger as logging, TOKEN
+from AberLink import logger as logging
 from .db import PostgreSQL
 
 from time import time
@@ -125,7 +125,7 @@ class Verify(commands.Cog):
         if isinstance(error, CommandInvokeError):
             # Gets the preious message and if it is from the bot then it knows user has been verified so sends second error
             prev_message = await ctx.channel.history(limit=1).flatten()
-            if prev_message[0].author.id != 807609453972422676:
+            if prev_message[0].author.id != os.getenv('DISCORD_CLIENT_ID'):
                 await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} My role permissions aren\'t working correctly. Please open the `server settings`, navigate to the `Roles` panel and drag the `AberLink role` to the top of the list. It may also be because I can\'t change your nickname because you have higher permissions than me (e.g you are the server owner)')
             else:
                 await ctx.send(f'{emojis["aberlink_error"]}{ctx.author.mention} I can\'t change your nickname because you have higher permissions than me (e.g you are the server owner)')

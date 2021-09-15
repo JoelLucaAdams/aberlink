@@ -29,6 +29,7 @@ from django.db.models.query import QuerySet
 from AberLinkAuthentication.settings import config
 from .auth import DiscordAuthenticationBackend, OpenIDCAuthenticationBackend
 from .models import OpenIDCUser, DiscordUser
+from urllib.parse import quote_plus
 import requests
 
 
@@ -68,7 +69,7 @@ def discord_oauth2(request):
     """
     Returns redirect to discord login page
     """
-    return redirect('https://discord.com/api/oauth2/authorize?client_id=807609453972422676&redirect_uri=https%3A%2F%2Fmmp-joa38.dcs.aber.ac.uk%2Foauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
+    return redirect(f'https://discord.com/api/oauth2/authorize?client_id={config["DISCORD_CLIENT_ID"]}&redirect_uri={quote_plus(config["WEBSITE_URL"])}oauth2%2Flogin%2Fredirect&response_type=code&scope=identify')
 
 
 def get_authenticated_user(request):
@@ -129,7 +130,7 @@ def exchange_code(code: str):
     # Send request code to get access token 
     # https://discord.com/developers/docs/topics/oauth2#authorization-code-grant-redirect-url-example
     data = {
-        'client_id': '807609453972422676',
+        'client_id': config['DISCORD_CLIENT_ID'],
         'client_secret': config['DISCORD_CLIENT_SECRET'],
         'grant_type': 'authorization_code',
         'code': code,

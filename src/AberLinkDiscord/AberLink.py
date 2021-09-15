@@ -25,7 +25,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import DefaultHelpCommand
 from dotenv import load_dotenv
-from pretty_help import PrettyHelp, Navigation
+#from pretty_help import PrettyHelp, Navigation
 #from discord_slash import SlashCommand
 from cogs import emojis, shelve_file
 from cogs.db import PostgreSQL
