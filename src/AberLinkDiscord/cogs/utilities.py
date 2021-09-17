@@ -142,7 +142,7 @@ class Utilities(commands.Cog):
     @commands.has_any_role(*admin_roles)
     async def configurations(self, ctx: Context):
         """
-        Displays the bots configurations in this server
+        Displays the bot's configuration in this server
         """
         serverID = str(ctx.guild.id)
         with shelve.open(shelve_file) as db:
