@@ -1,6 +1,6 @@
 # AberLink
 
-AberLink is a software service that connects Discord accounts to Aberystwyth University accounts using OpenID Connect. There is currently a website hosted on <http://mmp-joa38.dcs.aber.ac.uk/> that acts as the temporary webite for the login system. From the website users can monitor which university servers they are in and join those which they aren't in.
+AberLink is a software service that connects Discord accounts to Aberystwyth University accounts using OpenID Connect. There is currently a website hosted on <http://mmp-joa38.dcs.aber.ac.uk/> that acts as the temporary website for the login system. From the website users can monitor which university servers they are in and join those which they aren't in.
 
 This project will also contain a front-end Discord bot to verify users and monitor attendance. These features are a rewrite of the Discord bots `AberVerify` and `I am here` (Neal Snooke [nns], the bots owner, has already approved this).
 
